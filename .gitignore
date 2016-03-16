@@ -9,3 +9,5 @@
 /LaundryButler/LaundryButlerClient/dist/
 /LaundryButler/dist/
 *.xml
+
+LaundryButler/LaundryButler-ejb/setup/glassfish-resources.xml
