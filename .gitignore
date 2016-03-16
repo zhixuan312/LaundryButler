@@ -14,3 +14,15 @@ EtailerSystem/build/META-INF/MANIFEST.MF
 *.class
 
 *.properties
+/LaundryButler/LaundryButlerClient/nbproject/private/
+/LaundryButler/LaundryButlerClassLibrary/nbproject/private/
+/LaundryButler/LaundryButler-ejb/build/
+/LaundryButler/LaundryButler-ejb/dist/
+/LaundryButler/build/
+/LaundryButler/dist/
+/LaundryButler/LaundryButlerClient/build/
+/LaundryButler/LaundryButlerClient/dist/
+/LaundryButler/LaundryButler-war/build/
+/LaundryButler/LaundryButler-war/dist/
+/LaundryButler/LaundryButlerClassLibrary/build/
+/LaundryButler/LaundryButlerClassLibrary/dist/
