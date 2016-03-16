@@ -1,3 +1,16 @@
 /LaundryButler/nbproject/private/
 /LaundryButler/LaundryButler-war/nbproject/private/
 /LaundryButler/LaundryButler-ejb/nbproject/private/
+*.jar
+
+EtailerSystem/build/META-INF/MANIFEST.MF
+
+*.ear
+
+*.xml
+
+*.MF
+
+*.class
+
+*.properties
