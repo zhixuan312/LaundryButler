@@ -1,2 +1,10 @@
 /LaundryButler/LaundryButlerClassLibrary/build/
 /LaundryButler/LaundryButlerClassLibrary/dist/
+/LaundryButler/LaundryButler-ejb/dist/
+/LaundryButler/LaundryButler-ejb/build/
+/LaundryButler/build/
+/LaundryButler/LaundryButler-war/dist/
+/LaundryButler/LaundryButler-war/build/
+/LaundryButler/LaundryButlerClient/build/
+/LaundryButler/LaundryButlerClient/dist/
+/LaundryButler/dist/
