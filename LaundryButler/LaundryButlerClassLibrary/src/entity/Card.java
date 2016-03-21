@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class CreditCard implements Serializable {
+public class Card implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class CreditCard implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Customer customer;
 
-    public CreditCard() {
+    public Card() {
     }
 
     public Long getCardID() {
@@ -99,10 +99,10 @@ public class CreditCard implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the cardId fields are not set
-        if (!(object instanceof CreditCard)) {
+        if (!(object instanceof Card)) {
             return false;
         }
-        CreditCard other = (CreditCard) object;
+        Card other = (Card) object;
         if ((this.cardId == null && other.cardId != null) || (this.cardId != null && !this.cardId.equals(other.cardId))) {
             return false;
         }

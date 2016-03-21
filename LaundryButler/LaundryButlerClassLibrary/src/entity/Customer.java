@@ -32,19 +32,31 @@ public class Customer implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
-    private List<CreditCard> creditCards;
+    private List<Card> creditCards;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Transaction> transactions;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Address> addresses;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<CartLineItem> cartLineItems;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    private List<Box> boxes;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "payer")
+    private List<Box> payingBoxes;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    private List<SharedBoxPermission> customerShareOuts;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "neighbour")
+    private List<SharedBoxPermission> neighbourShareIns;
 
     public Customer() {
         this.creditCards = new ArrayList<>();
         this.transactions = new ArrayList<>();
         this.addresses = new ArrayList<>();
         this.cartLineItems = new ArrayList<>();
+        this.boxes = new ArrayList<>();
+        this.payingBoxes = new ArrayList<>();
+        this.customerShareOuts = new ArrayList<>();
+        this.neighbourShareIns = new ArrayList<>();
     }
 
     public Long getCustomerId() {
@@ -135,11 +147,11 @@ public class Customer implements Serializable {
         this.dateRegistered = dateRegistered;
     }
 
-    public List<CreditCard> getCreditCards() {
+    public List<Card> getCreditCards() {
         return creditCards;
     }
 
-    public void setCreditCards(List<CreditCard> creditCards) {
+    public void setCreditCards(List<Card> creditCards) {
         this.creditCards = creditCards;
     }
 
@@ -165,6 +177,38 @@ public class Customer implements Serializable {
 
     public void setCartLineItems(List<CartLineItem> cartLineItems) {
         this.cartLineItems = cartLineItems;
+    }
+
+    public List<Box> getBoxes() {
+        return boxes;
+    }
+
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
+    }
+
+    public List<Box> getPayingBoxes() {
+        return payingBoxes;
+    }
+
+    public void setPayingBoxes(List<Box> payingBoxes) {
+        this.payingBoxes = payingBoxes;
+    }
+
+    public List<SharedBoxPermission> getCustomerShareOuts() {
+        return customerShareOuts;
+    }
+
+    public void setCustomerShareOuts(List<SharedBoxPermission> customerShareOuts) {
+        this.customerShareOuts = customerShareOuts;
+    }
+
+    public List<SharedBoxPermission> getNeighbourShareIns() {
+        return neighbourShareIns;
+    }
+
+    public void setNeighbourShareIns(List<SharedBoxPermission> neighbourShareIns) {
+        this.neighbourShareIns = neighbourShareIns;
     }
 
     @Override

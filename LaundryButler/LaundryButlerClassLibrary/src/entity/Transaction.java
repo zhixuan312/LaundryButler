@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Transaction implements Serializable {
@@ -18,6 +20,7 @@ public class Transaction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date transactionDateTime;
     private Double totalCharge;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -59,6 +62,14 @@ public class Transaction implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<TransactionLineItem> getTransactionLineItems() {
+        return transactionLineItems;
+    }
+
+    public void setTransactionLineItems(List<TransactionLineItem> transactionLineItems) {
+        this.transactionLineItems = transactionLineItems;
     }
 
     @Override
