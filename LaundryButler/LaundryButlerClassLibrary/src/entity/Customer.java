@@ -13,10 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author HoRenSen
- */
 @Entity
 public class Customer implements Serializable {
 

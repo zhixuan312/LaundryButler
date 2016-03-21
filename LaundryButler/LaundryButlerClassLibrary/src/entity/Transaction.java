@@ -1,18 +1,17 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-/**
- *
- * @author HoRenSen
- */
 @Entity
 public class Transaction implements Serializable {
 
@@ -23,8 +22,11 @@ public class Transaction implements Serializable {
     private Double totalCharge;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Customer customer;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transaction")
+    private List<TransactionLineItem> transactionLineItems;
 
     public Transaction() {
+        this.transactionLineItems = new ArrayList<>();
     }
 
     public Long getTransactionId() {
