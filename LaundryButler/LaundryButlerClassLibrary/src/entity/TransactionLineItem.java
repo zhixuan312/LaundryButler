@@ -50,6 +50,30 @@ public class TransactionLineItem implements Serializable {
         this.transaction = transaction;
     }
 
+    public Double getUnitCharge() {
+        return unitCharge;
+    }
+
+    public void setUnitCharge(Double unitCharge) {
+        this.unitCharge = unitCharge;
+    }
+
+    public Double getTotalCharge() {
+        return totalCharge;
+    }
+
+    public void setTotalCharge(Double totalCharge) {
+        this.totalCharge = totalCharge;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

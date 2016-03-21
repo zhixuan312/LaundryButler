@@ -37,11 +37,14 @@ public class Customer implements Serializable {
     private List<Transaction> transactions;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Address> addresses;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    private List<CartLineItem> cartLineItems;
 
     public Customer() {
         this.creditCards = new ArrayList<>();
         this.transactions = new ArrayList<>();
         this.addresses = new ArrayList<>();
+        this.cartLineItems = new ArrayList<>();
     }
 
     public Long getCustomerId() {
@@ -154,6 +157,14 @@ public class Customer implements Serializable {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public List<CartLineItem> getCartLineItems() {
+        return cartLineItems;
+    }
+
+    public void setCartLineItems(List<CartLineItem> cartLineItems) {
+        this.cartLineItems = cartLineItems;
     }
 
     @Override

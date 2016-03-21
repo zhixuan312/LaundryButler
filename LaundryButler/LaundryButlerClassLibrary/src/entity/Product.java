@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +22,13 @@ public class Product implements Serializable {
     private Integer numberOfWeeks;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
     private List<TransactionLineItem> transactionLineItems;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    private List<CartLineItem> cartLineItems;
+
+    public Product() {
+        this.transactionLineItems = new ArrayList<>();
+        this.cartLineItems = new ArrayList<>();
+    }
 
     public Long getProductId() {
         return productId;
@@ -28,6 +36,54 @@ public class Product implements Serializable {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Integer getNumberOfWeeks() {
+        return numberOfWeeks;
+    }
+
+    public void setNumberOfWeeks(Integer numberOfWeeks) {
+        this.numberOfWeeks = numberOfWeeks;
+    }
+
+    public List<TransactionLineItem> getTransactionLineItems() {
+        return transactionLineItems;
+    }
+
+    public void setTransactionLineItems(List<TransactionLineItem> transactionLineItems) {
+        this.transactionLineItems = transactionLineItems;
+    }
+
+    public List<CartLineItem> getCartLineItems() {
+        return cartLineItems;
+    }
+
+    public void setCartLineItems(List<CartLineItem> cartLineItems) {
+        this.cartLineItems = cartLineItems;
     }
 
     @Override
