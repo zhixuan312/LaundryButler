@@ -1,7 +1,7 @@
 package laundrybutlerclient;
 
 import javax.ejb.EJB;
-import session.customer.AccountManagementRemote;
+import AccountManagement.AccountManagementRemote;
 
 public class Main {
 

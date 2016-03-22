@@ -1,6 +1,6 @@
 package laundrybutlerclient;
 
-import session.customer.AccountManagementRemote;
+import AccountManagement.AccountManagementRemote;
 
 /**
  *
