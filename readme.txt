@@ -7,3 +7,14 @@ Members:	A0105484H Jin Wenqian
 
 VIEWING INSTRUCTIONS
 -------------------------------------------
+
+
+
+
+
+
+
+
+-------------------------------------------
+Note to self:
+Rename "LaundryButler" to "src" before uploading to IVLE.
