@@ -1,0 +1,87 @@
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package ProductManagement;
+
+import entity.Product;
+import java.util.List;
+import javax.ejb.Local;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author XUAN
+ */
+@Stateless
+@Local(ProductManagementLocal.class)
+@Remote(ProductManagementRemote.class)
+public class ProductManagement implements ProductManagementRemote, ProductManagementLocal {
+    
+    @PersistenceContext
+    private EntityManager em;
+    
+    @Override
+    public Long createProduct (Product product) {
+        try {
+            em.persist(product);
+            em.flush();
+            return product.getProductId();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public Boolean updateProduct (Product product){
+        try {
+            em.merge(product);
+            em.flush();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    @Override
+    public List<Product> viewAllProduct (){
+        List<Product> products = null;
+        try{
+            String jpql = "SELECT p FROM Product p";
+            Query query = em.createQuery(jpql);
+            products = query.getResultList();
+        } catch(NoResultException ex) {
+            ex.printStackTrace();
+        }
+        if (products.isEmpty()){
+            return null;
+        } else {
+            return products;
+        }
+    }
+    
+    @Override
+    public Boolean deleteProduct (Long productId){
+        try {
+            Product product = em.find(Product.class, productId);
+            em.remove(product);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean deleteProducts (List<Product> products){
+        for (Product product:products){
+            deleteProduct(product.getProductId());
+        }
+        return true;
+    }
+}
