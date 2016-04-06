@@ -6,6 +6,8 @@
 package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
+import LaundryOrderManagement.LaundryOrderManagementRemote;
+import entity.Box;
 import entity.Employee;
 import java.io.IOException;
 import javax.inject.Named;
@@ -30,15 +32,19 @@ public class AdminEmployeeManagedBean implements Serializable {
     
     @EJB
     private AccountManagementRemote accountManagementRemote;
+    @EJB
+    private LaundryOrderManagementRemote laundryOrderManagementRemote;
     
     private Employee admin;
     private Employee selectedEmployee;
     private List<Employee> employees;
+    private List<Box> boxes;
     
     public AdminEmployeeManagedBean() {
         admin = new Employee();
         selectedEmployee = new Employee();
         employees = new ArrayList<>();
+        boxes = new ArrayList<>();
     }
     
     @PostConstruct
@@ -66,6 +72,7 @@ public class AdminEmployeeManagedBean implements Serializable {
         }
         admin = accountManagementRemote.getEmployee();
         employees = accountManagementRemote.viewAllRecordedEmployee();
+        boxes = laundryOrderManagementRemote.viewAllBoxByEmployeeId(admin.getEmployeeId());
     }
     
     public void updateEmployee(ActionEvent event){
@@ -92,6 +99,7 @@ public class AdminEmployeeManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please login with admin account!","Please login with admin account!"));
         }
     }
+    
     public Employee getAdmin() {
         return admin;
     }
@@ -115,4 +123,13 @@ public class AdminEmployeeManagedBean implements Serializable {
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
+
+    public List<Box> getBoxes() {
+        return boxes;
+    }
+
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
+    }
+    
 }
