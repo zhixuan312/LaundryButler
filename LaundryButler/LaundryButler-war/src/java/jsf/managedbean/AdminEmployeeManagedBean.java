@@ -102,8 +102,19 @@ public class AdminEmployeeManagedBean implements Serializable {
         }
     }
     
-    public void upDateBox (ActionEvent event) {
+    public void updateBox (ActionEvent event) {
         if(laundryOrderManagementRemote.updateBox(selectBox)){
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            
+            try
+            {
+                
+                ec.redirect("employee.xhtml?faces-redirect=true#myBox");
+                
+            } catch(IOException ex)
+            {
+                ex.printStackTrace();
+            }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
@@ -141,11 +152,11 @@ public class AdminEmployeeManagedBean implements Serializable {
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
     }
-
+    
     public Box getSelectBox() {
         return selectBox;
     }
-
+    
     public void setSelectBox(Box selectBox) {
         this.selectBox = selectBox;
     }
