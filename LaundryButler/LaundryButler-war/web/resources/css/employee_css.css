@@ -208,14 +208,33 @@ footer .glyphicon {
 }
 .page_button:hover{
     color:#fff;
-    background: #6cb6f5;
+    background-color: transparent;
     border-color: #6cb6f5;
+}
+
+.box_edit_button{
+  text-align: center;
+  background-color: transparent;
+  position: relative;
+  font-size: 18px;
+  height: 32px;
+  width: 64px;
+  margin: 6px;
+  padding: 0px;
 }
 .hide{
     display: none;
 }
 .themeC{
   color:#6cb6f5;
+}
+
+.themeBg{
+  background-color:#6cb6f5;
+}
+
+.subscreen{
+  min-height: 100vh;
 }
 /*.command_button:active,
 .command_button:focus{

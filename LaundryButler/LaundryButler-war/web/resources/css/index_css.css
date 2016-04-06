@@ -226,6 +226,10 @@ footer .glyphicon {
 .control-label{
   color: #818181;
 }
+
+.subscreen{
+  min-height: 100vh;
+}
 /*.command_button:active,
 .command_button:focus{
     color:#3fb0ac;
