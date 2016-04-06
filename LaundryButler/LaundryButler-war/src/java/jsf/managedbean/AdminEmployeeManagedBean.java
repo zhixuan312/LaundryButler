@@ -103,15 +103,13 @@ public class AdminEmployeeManagedBean implements Serializable {
     }
     
     public void updateBox (Box box) {
-        selectBox = box; 
+        selectBox = box;
         if(laundryOrderManagementRemote.updateBox(selectBox)){
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             
             try
             {
-                
-                ec.redirect("employee.xhtml?faces-redirect=true#myBox");
-                
+                ec.redirect("http://localhost:8080/LaundryButler-war/employee.xhtml?faces-redirect=true#mybox");
             } catch(IOException ex)
             {
                 ex.printStackTrace();
