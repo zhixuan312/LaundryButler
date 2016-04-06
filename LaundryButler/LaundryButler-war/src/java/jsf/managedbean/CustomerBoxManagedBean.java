@@ -10,12 +10,13 @@ import LaundryOrderManagement.LaundryOrderManagementRemote;
 import entity.Box;
 import entity.Customer;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -26,8 +27,8 @@ import javax.faces.event.ActionEvent;
  * @author XUAN
  */
 @Named(value = "customerBoxManagedBean")
-@RequestScoped
-public class CustomerBoxManagedBean {
+@SessionScoped
+public class CustomerBoxManagedBean implements Serializable{
     
     @EJB
     private LaundryOrderManagementRemote laundryOrderManagementRemote;

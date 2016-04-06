@@ -6,7 +6,6 @@
 package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
-import entity.Customer;
 import entity.Employee;
 import java.io.IOException;
 import javax.inject.Named;

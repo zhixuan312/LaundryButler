@@ -10,21 +10,22 @@ import ProductManagement.ProductManagementRemote;
 import entity.Employee;
 import entity.Product;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 @Named(value = "pricingManagedBean")
-@RequestScoped
+@SessionScoped
 
-public class PricingManagedBean {
+public class PricingManagedBean implements Serializable{
     
     @EJB
     private ProductManagementRemote productManagmentRemote;

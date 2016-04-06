@@ -3,10 +3,11 @@ package jsf.managedbean;
 import AccountManagement.AccountManagementRemote;
 import entity.Customer;
 import java.io.IOException;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -16,9 +17,9 @@ import javax.servlet.http.HttpSession;
 
 
 @Named(value = "signUpAndLoginManagedBean")
-@RequestScoped
+@SessionScoped
 
-public class SignUpAndLoginManagedBean
+public class SignUpAndLoginManagedBean implements Serializable
 {
     @EJB
     private AccountManagementRemote accountManagementRemote;

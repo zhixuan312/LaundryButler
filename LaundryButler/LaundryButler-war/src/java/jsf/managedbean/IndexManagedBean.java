@@ -5,16 +5,17 @@
 */
 package jsf.managedbean;
 
+import java.io.Serializable;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author XUAN
  */
 @Named(value = "indexManagedBean")
-@RequestScoped
-public class IndexManagedBean {
+@SessionScoped
+public class IndexManagedBean implements Serializable{
     
     public IndexManagedBean() {
     }
