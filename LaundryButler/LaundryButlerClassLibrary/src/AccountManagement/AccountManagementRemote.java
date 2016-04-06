@@ -2,6 +2,7 @@ package AccountManagement;
 
 import entity.Address;
 import entity.Card;
+import entity.CartLineItem;
 import entity.Customer;
 import entity.Employee;
 import entity.Transaction;
@@ -70,5 +71,9 @@ public interface AccountManagementRemote {
     public Customer retrieveCustomerByEmail(String email);
     
     public Employee retrieveEmployeeByEmail(String email);
+    
+    public Boolean addCartLineItemToCart(CartLineItem cartLineItem);
+    
+    public Boolean removeCartLineItemFromCart (CartLineItem cartLineItem);
     
 }
