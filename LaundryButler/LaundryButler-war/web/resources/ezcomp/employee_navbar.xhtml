@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
   <!-- INTERFACE -->
@@ -24,10 +25,11 @@
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#home">HOME</a></li>
-            <li><a href="#mybox">MY SALARY</a></li>
-            <li><a href="#myinvoice">MY INVOICE</a></li>
-            <li><a href="#discover">DISCOVER</a></li>
-            <li><a href="#freedry">FREE DRY</a></li>
+            <li><a href="#mybox">MY BOX</a></li>
+            <ui:fragment rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
+              <li><a href="#management">MANAGEMENT</a></li>
+              <li><a href="#product">PRODUCT</a></li>
+            </ui:fragment>
             <li>
               <h:form class="form" style="display: inline-block">
                 <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}"><f:ajax execute="@form"/></h:commandButton>
