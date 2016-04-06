@@ -39,12 +39,14 @@ public class AdminEmployeeManagedBean implements Serializable {
     private Employee selectedEmployee;
     private List<Employee> employees;
     private List<Box> boxes;
+    private Box selectBox;
     
     public AdminEmployeeManagedBean() {
         admin = new Employee();
         selectedEmployee = new Employee();
         employees = new ArrayList<>();
         boxes = new ArrayList<>();
+        selectBox = new Box();
     }
     
     @PostConstruct
@@ -100,36 +102,52 @@ public class AdminEmployeeManagedBean implements Serializable {
         }
     }
     
+    public void upDateBox (ActionEvent event) {
+        if(laundryOrderManagementRemote.updateBox(selectBox)){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+        }
+    }
+    
     public Employee getAdmin() {
         return admin;
     }
-
+    
     public void setAdmin(Employee admin) {
         this.admin = admin;
     }
-
+    
     public Employee getSelectedEmployee() {
         return selectedEmployee;
     }
-
+    
     public void setSelectedEmployee(Employee selectedEmployee) {
         this.selectedEmployee = selectedEmployee;
     }
-
+    
     public List<Employee> getEmployees() {
         return employees;
     }
-
+    
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
-
+    
     public List<Box> getBoxes() {
         return boxes;
     }
-
+    
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
+    }
+
+    public Box getSelectBox() {
+        return selectBox;
+    }
+
+    public void setSelectBox(Box selectBox) {
+        this.selectBox = selectBox;
     }
     
 }
