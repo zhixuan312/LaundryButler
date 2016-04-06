@@ -69,6 +69,14 @@ public class CustomerProfileManagedBean implements Serializable{
     
     public void updateCustomerProfile (ActionEvent event) {
         if(accountManagementRemote.updateCutomerProfile(customer)){
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+//            customer = accountManagementRemote.getCustomer();
+            try{
+                ec.redirect("home.xhtml?faces-redirect=true");
+                
+            } catch(IOException ex) {
+                ex.printStackTrace();
+            }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
@@ -196,5 +204,5 @@ public class CustomerProfileManagedBean implements Serializable{
     
     public void setCards(List<Card> cards) {
         this.cards = cards;
-    }    
+    }
 }

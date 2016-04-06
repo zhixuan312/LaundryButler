@@ -3,12 +3,12 @@ package AccountManagement;
 import entity.Customer;
 import entity.Address;
 import entity.Card;
+import entity.CartLineItem;
 import entity.Employee;
 import entity.Transaction;
 import java.util.ArrayList;
 import javax.ejb.Local;
 import javax.ejb.Remote;
-import javax.ejb.Stateful;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -133,6 +133,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         try{
             em.merge(customer);
             em.flush();
+            this.customer = customer;
             return true;
         } catch (Exception e) {
             return false;
@@ -234,6 +235,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         try {
             em.merge(employee);
             em.flush();
+            this.employee = employee; 
             return true;
         } catch (Exception e) {
             return false;
@@ -411,6 +413,15 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     }
     
     @Override
+    public void addCartLineItemToCart(CartLineItem cartLineItem){
+        List<CartLineItem> cart = customer.getCartLineItems();
+        cart.add(cartLineItem);
+        customer.setCartLineItems(cart);
+        em.merge(customer);
+        em.flush();
+    }
+    
+    @Override
     public Customer getCustomer () {
         return customer;
     }
@@ -419,4 +430,5 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     public Employee getEmployee(){
         return employee;
     }
+    
 }

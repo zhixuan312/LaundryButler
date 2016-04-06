@@ -5,6 +5,7 @@
  */
 package ProductManagement;
 
+import entity.CartLineItem;
 import entity.Product;
 import java.util.List;
 import javax.ejb.Local;
@@ -25,4 +26,12 @@ public interface ProductManagementLocal {
     public Boolean deleteProduct (Long productId);
     
     public Boolean deleteProducts (List<Product> products);
+    
+    public Long createCartLineItem (CartLineItem cartLineItem);
+    
+    public Boolean updateCartLineItem (CartLineItem cartLineItem);
+    
+    public List<CartLineItem> viewAllCartLineItemByCustomerId (Long customerId);
+    
+    public Boolean deleteCartLineItem (Long cartLineItemId);
 }

@@ -5,6 +5,7 @@
 */
 package ProductManagement;
 
+import entity.CartLineItem;
 import entity.Product;
 import java.util.List;
 import javax.ejb.Local;
@@ -76,12 +77,62 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean deleteProducts (List<Product> products){
         for (Product product:products){
             deleteProduct(product.getProductId());
         }
         return true;
+    }
+    
+    @Override
+    public Long createCartLineItem (CartLineItem cartLineItem) {
+        try {
+            em.persist(cartLineItem);
+            em.flush();
+            return cartLineItem.getCartLineItemId();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public Boolean updateCartLineItem (CartLineItem cartLineItem){
+        try {
+            em.merge(cartLineItem);
+            em.flush();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    @Override
+    public List<CartLineItem> viewAllCartLineItemByCustomerId (Long customerId){
+        List<CartLineItem> cartLineItems = null;
+        try{
+            String jpql = "SELECT cli FROM CartLineItem cli WHERE cli.customer.customerId = '" + customerId + "'";
+            Query query = em.createQuery(jpql);
+            cartLineItems = query.getResultList();
+        } catch(NoResultException ex) {
+            ex.printStackTrace();
+        }
+        if (cartLineItems.isEmpty()){
+            return null;
+        } else {
+            return cartLineItems;
+        }
+    }
+    
+    @Override
+    public Boolean deleteCartLineItem (Long cartLineItemId){
+        try {
+            CartLineItem cartLineItem = em.find(CartLineItem.class, cartLineItemId);
+            em.remove(cartLineItem);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
