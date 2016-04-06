@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <!-- INTERFACE -->
+  <cc:interface>
+  </cc:interface>
+
+  <!-- IMPLEMENTATION -->
+  <cc:implementation>
+    <div class="row">
+      <div class="col-sm-2"/>
+      <div class="col-sm-8">
+        <table class="table table-hover text-center">
+          <thead>
+            <td></td>
+            <td>Pick Up</td>
+            <td>Delivery</td>
+            <td>Dry Clean</td>
+            <td>Status</td>
+            <td></td>
+          </thead>
+          <tbody>
+            <ui:repeat var="box" value="#{customerBoxManagedBean.boxes}">
+              <tr data-toggle="collapse" data-target="#myBoxToggle#{box.boxId}" class="accordion-toggle">
+                <td>#{box.boxId}</td>
+                <td>
+                  <h:outputText class="pTime" value="#{box.pickupDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="HH:mm, MMM dd yyyy, E" /></h:outputText>
+                </td>
+                <td>
+                  <h:outputText class="dTime" value="#{box.deliveryDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="HH:mm, MMM dd yyyy, E" /></h:outputText>
+                </td>
+                <td>#{box.dryCleaning}</td>
+                <td>#{box.status}</td>
+                <td><i class="indicator glyphicon chevron_toggleable glyphicon-chevron-up pull-right"></i></td>
+              </tr>
+              <tr>
+                <td colspan="6" class="hiddenRow">
+                  <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
+                    <div class="row" style="padding-left:20px;padding-right:20px;">
+                      <div class="col-md-4">
+                        <p>Passcode: <h:outputText value="#{box.boxPasscode}"/></p>
+                        <p>Sharing: <h:outputText value="#{box.allowSharing}"/></p>
+                      </div>
+                      <div class="col-md-4">
+                        <p>Collected by: <h:outputText value="#{box.employee.firstName} #{box.employee.lastName}"/> </p>
+                        <p>Contact: <h:outputText value="#{box.employee.mobile}"/> </p>
+                        <p>Rating: <h:outputText value="#{box.rating}"/></p>
+                      </div>
+                      <div class="col-md-4">
+                        <p>Price: <h:outputText value="$#{box.price}"/> </p>
+                        <p>Paid By: <h:outputText value="#{box.payer.firstName} #{box.payer.lastName}"/> </p>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ui:repeat>		
+          </tbody>		
+        </table>
+        <script>
+          $('.chevron_toggleable').on('click', function () {
+            $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+          });
+        </script>
+
+      </div>
+      <div class="col-sm-2"/>
+    </div>
+  </cc:implementation>
+</html>

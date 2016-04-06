@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+  <!-- INTERFACE -->
+  <cc:interface>
+  </cc:interface>
+
+  <!-- IMPLEMENTATION -->
+  <cc:implementation>
+    <div class="row">
+      <div class="col-sm-8">
+        <h2>Hi, <h:outputText value="#{customerProfileManagedBean.customer.firstName}"/>!</h2><br/>
+        <h4>Welcome to Laundry Butler home page.</h4><br/>
+        <p class="hide">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <button class="btn btn-lg page_button" data-toggle="modal" data-target="#myProfile">My Profile</button>
+      </div>
+      <!-- Modal windows-->
+      <div class="modal fade" id="myProfile" role="dialog" style="padding-top:100px;">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header themeBg">
+              <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title text-center">My Profile</h4>
+            </div>
+            <h:form class="form">
+            <div class="modal-body">
+              <h3 class="themeC">Basic</h3>
+              <div class="form-group">
+                <h:outputLabel class="control-label" for="profile_firstName" value="First Name"/>
+                <h:inputText id="profile_firstName"  class="form-control input_text"  value="#{customerProfileManagedBean.customer.firstName}" maxlength="32" required="true" requiredMessage="First Name is required"/>
+              </div>
+              
+              <div class="form-group">
+                <h:outputLabel class="control-label" for="profile_lastName" value="Last Name"/>
+                <h:inputText id="profile_lastName"  class="form-control input_text"  value="#{customerProfileManagedBean.customer.lastName}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+              </div>
+              
+              <h3 class="themeC">Contact</h3>
+              <div class="form-group">
+                <h:outputLabel class="control-label" for="profile_email" value="Email"/>
+                <h:inputText id="profile_email"  class="form-control input_text"  value="#{customerProfileManagedBean.customer.email}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+              </div>
+              <div class="form-group">
+                <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
+                <h:inputText id="profile_mobile"  class="form-control input_text"  value="#{customerProfileManagedBean.customer.mobile}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.updateCustomerProfile}" ><f:ajax execute="@form"/></h:commandButton>
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
+            </div>
+            </h:form>
+          </div>
+          
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <span class="glyphicon glyphicon-signal logo"></span>
+      </div>
+    </div>
+  </cc:implementation>
+</html>
