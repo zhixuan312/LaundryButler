@@ -15,6 +15,7 @@
     <div class="row">
       <div class="col-sm-2"/>
       <div class="col-sm-8">
+        <ui:fragment rendered="#{adminEmployeeManagedBean.boxes.size() &gt; 0}">
         <table class="table table-hover text-center">
           <thead>
             <td></td>
@@ -51,11 +52,42 @@
                         <p>Contact: <h:outputText value="#{box.employee.mobile}"/> </p>
                         <p>Rating: <h:outputText value="#{box.rating}"/></p>
                       </div>
-                      <div class="col-md-4">
-                        <p>Price: <h:outputText value="$#{box.price}"/> </p>
-                        <p>Paid By: <h:outputText value="#{box.payer.firstName} #{box.payer.lastName}"/> </p>
+                      <div class="col-md-4 text-right" style="display: inline-block;">
+                        <button class="btn btn-lg page_button box_edit_button" data-toggle="modal" data-target="#editBox#{box.boxId}" >Edit</button>
                       </div>
                     </div>
+                    <!-- Modal windows-->
+                    <div class="modal fade" id="editBox#{box.boxId}" role="dialog" style="padding-top:100px;">
+                      <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header themeBg">
+                            <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title text-center">Box #{box.boxId}</h4>
+                          </div>
+                          <h:form class="form">
+                            <div class="modal-body text-left">
+                              <h3 class="themeC">Basic</h3>
+                              <div class="form-group">
+                                <h:outputLabel class="control-label" for="editBox_passcode" value="Passcode"/>
+                                <h:inputText id="editBox_passcode"  class="form-control input_text"  value="#{box.boxPasscode}" required="true" requiredMessage="First Name is required"/>
+                              </div>
+
+                              <div class="form-group">
+                                <h:outputLabel class="control-label" for="editBox_status" value="Status"/>
+                                <h:inputText id="editBox_status"  class="form-control input_text"  value="#{box.status}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+                              </div>
+
+                            </div>
+                            <div class="modal-footer">
+                              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{adminEmployeeManagedBean.upDateBox}" ><f:ajax execute="@form"/></h:commandButton>
+                              <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
+                            </div>
+                          </h:form>
+                        </div>
+                      </div>
+                    </div>
+                    
                   </div>
                 </td>
               </tr>
@@ -67,6 +99,10 @@
             $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
           });
         </script>
+        </ui:fragment>
+        <ui:fragment rendered="#{adminEmployeeManagedBean.boxes == null or adminEmployeeManagedBean.boxes.size() &lt; 1}">
+          <p class="text-center">No box currently. Sad~</p>
+        </ui:fragment>
 
       </div>
       <div class="col-sm-2"/>

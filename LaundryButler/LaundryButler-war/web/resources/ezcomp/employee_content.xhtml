@@ -15,46 +15,27 @@
         <div class="jumbotron text-center">
             <h1>Laundry Butler</h1> 
             <p>This is EMPLOYEE page AFTER login</p> 
-
         </div>
 
         <!-- Container (HOME) -->
-        <div id="home" class="container-fluid">
+        <div id="home" class="container-fluid subscreen">
           <ezcomp:employee_profile/>
         </div>
 
         <!-- Container (MY BOX) -->
-        <div id="mybox" class="container-fluid bg-grey">
+        <div id="mybox" class="container-fluid subscreen bg-grey">
           <h2 class="text-center">MY BOX</h2>
           <ezcomp:employee_box/>
         </div>
-        <!--                  <script>
-                              var pTimes = document.getElementsByClassName("pTime");
-                              var len = pTimes.length;
-                              for (i = 0; i &lt; len; i++){
-                                  
-                                  var current = new Date(pTimes[i].innerHTML.replace('-', '//'));
-                                  console.log(current.toDateString());
-                                  var weekday = new Array(7);
-                                    weekday[0]=  "Sun";
-                                    weekday[1] = "Mon";
-                                    weekday[2] = "Tue";
-                                    weekday[3] = "Wed";
-                                    weekday[4] = "Thu";
-                                    weekday[5] = "Fri";
-                                    weekday[6] = "Sat";
-                                  pTimes[i].innerHTML = weekday[current.getDay()] + ", " + current.getDate() + " " + current.getMonth();
-                              }
-                          </script>-->
 
         <!-- Container (Portfolio Section) -->
         <h:body rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
 
-          <div id="management" class="container-fluid text-center">
+          <div id="management" class="container-fluid subscreen text-center">
             <h2>MANAGEMENT</h2>
             <p>Under construction...</p>
           </div>
-          <div id="product" class="container-fluid text-center bg-grey">
+          <div id="product" class="container-fluid subscreen text-center bg-grey">
             <h2>PRODUCT</h2>
             <p>Under construction...</p>
           </div>
