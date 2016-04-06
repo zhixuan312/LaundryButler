@@ -32,22 +32,28 @@ public class CustomerCartManagedBean implements Serializable {
     @EJB
     private AccountManagementRemote accountManagementRemote;
     @EJB
-    private ProductManagementRemote procutManagementRemote;
+    private ProductManagementRemote productManagementRemote;
     
     private Customer customer;
     private List<CartLineItem> cartLineItems;
     private List<CartLineItem> selectedCartLineItems;
     private double totalPrice;
-    private double singleItemTotalPrice; 
+    private double singleItemTotalPrice;
     private CartLineItem selectedCartLineItem;
+    private CartLineItem newCartLineItem;
+    private CartLineItem cartLineItemToRemove;
+    private CartLineItem cartLineItemAfterEdit;
     
     public CustomerCartManagedBean() {
         customer = new Customer();
         cartLineItems = new ArrayList<>();
         selectedCartLineItems = new ArrayList<>();
-        totalPrice = 0; 
+        totalPrice = 0;
         singleItemTotalPrice = 0;
         selectedCartLineItem = new CartLineItem();
+        newCartLineItem = new CartLineItem();
+        cartLineItemToRemove = new CartLineItem();
+        cartLineItemAfterEdit = new CartLineItem();
     }
     
     @PostConstruct
@@ -78,11 +84,24 @@ public class CustomerCartManagedBean implements Serializable {
     }
     
     public void addProductToCart (ActionEvent event){
-        
+        long cartLineItemId = productManagementRemote.createCartLineItem(newCartLineItem);
+        accountManagementRemote.addCartLineItemToCart(newCartLineItem);
+    }
+    
+    public void updateProductInCart (ActionEvent event){
+        accountManagementRemote.removeCartLineItemFromCart(selectedCartLineItem);
+        productManagementRemote.deleteCartLineItem(selectedCartLineItem.getCartLineItemId());
+        long cartLineItemId = productManagementRemote.createCartLineItem(cartLineItemAfterEdit);
+        accountManagementRemote.addCartLineItemToCart(cartLineItemAfterEdit);
+    }
+    
+    public void removeProductFromCart (ActionEvent event){
+        productManagementRemote.deleteCartLineItem(cartLineItemToRemove.getCartLineItemId());
+        accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
     }
     
     public void retireveSingleItemTotalPrice (ActionEvent event){
-       singleItemTotalPrice = selectedCartLineItem.getProduct().getPrice() * selectedCartLineItem.getQuantity();
+        singleItemTotalPrice = selectedCartLineItem.getProduct().getPrice() * selectedCartLineItem.getQuantity();
     }
     
     public void retireveTotalPrice (ActionEvent event){
@@ -114,29 +133,53 @@ public class CustomerCartManagedBean implements Serializable {
     public void setSelectedCartLineItems(List<CartLineItem> selectedCartLineItems) {
         this.selectedCartLineItems = selectedCartLineItems;
     }
-
+    
     public double getTotalPrice() {
         return totalPrice;
     }
-
+    
     public void setTotalPrice(double totalAmount) {
         this.totalPrice = totalAmount;
     }
-
+    
     public double getSingleItemTotalPrice() {
         return singleItemTotalPrice;
     }
-
+    
     public void setSingleItemTotalPrice(double singleItemTotalPrice) {
         this.singleItemTotalPrice = singleItemTotalPrice;
     }
-
+    
     public CartLineItem getSelectedCartLineItem() {
         return selectedCartLineItem;
     }
-
+    
     public void setSelectedCartLineItem(CartLineItem selectedCartLineItem) {
         this.selectedCartLineItem = selectedCartLineItem;
+    }
+    
+    public CartLineItem getNewCartLineItem() {
+        return newCartLineItem;
+    }
+    
+    public void setNewCartLineItem(CartLineItem newCartLineItem) {
+        this.newCartLineItem = newCartLineItem;
+    }
+    
+    public CartLineItem getCartLineItemToRemove() {
+        return cartLineItemToRemove;
+    }
+    
+    public void setCartLineItemToRemove(CartLineItem cartLineItemToRemove) {
+        this.cartLineItemToRemove = cartLineItemToRemove;
+    }
+    
+    public CartLineItem getCartLineItemAfterEdit() {
+        return cartLineItemAfterEdit;
+    }
+    
+    public void setCartLineItemAfterEdit(CartLineItem cartLineItemAfterEdit) {
+        this.cartLineItemAfterEdit = cartLineItemAfterEdit;
     }
     
 }
