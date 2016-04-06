@@ -235,7 +235,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         try {
             em.merge(employee);
             em.flush();
-            this.employee = employee; 
+            this.employee = employee;
             return true;
         } catch (Exception e) {
             return false;
@@ -413,14 +413,33 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     }
     
     @Override
-    public void addCartLineItemToCart(CartLineItem cartLineItem){
-        List<CartLineItem> cart = customer.getCartLineItems();
-        cart.add(cartLineItem);
-        customer.setCartLineItems(cart);
-        em.merge(customer);
-        em.flush();
+    public Boolean addCartLineItemToCart(CartLineItem cartLineItem){
+        try {
+            List<CartLineItem> cart = customer.getCartLineItems();
+            cart.add(cartLineItem);
+            customer.setCartLineItems(cart);
+            em.merge(customer);
+            em.flush();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
     
+    @Override
+    public Boolean removeCartLineItemFromCart (CartLineItem cartLineItem){
+        List<CartLineItem> cart = customer.getCartLineItems();
+        for (int i = 0; i < cart.size(); i ++){
+            if (cart.get(i).getCartLineItemId().equals(cartLineItem.getCartLineItemId())){
+                cart.remove(i);
+                customer.setCartLineItems(cart);
+                em.merge(customer);
+                em.flush();
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public Customer getCustomer () {
         return customer;

@@ -72,5 +72,7 @@ public interface AccountManagementLocal {
     
     public Employee retrieveEmployeeByEmail(String email);
     
-    public void addCartLineItemToCart(CartLineItem cartLineItem);
+    public Boolean addCartLineItemToCart(CartLineItem cartLineItem);
+    
+    public Boolean removeCartLineItemFromCart (CartLineItem cartLineItem);
 }
