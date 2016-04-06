@@ -68,10 +68,6 @@ public class AdminEmployeeManagedBean implements Serializable {
         employees = accountManagementRemote.viewAllRecordedEmployee();
     }
     
-    public boolean isAdmin(ActionEvent event){
-        return admin.getIsAdmin();
-    }
-    
     public void updateEmployee(ActionEvent event){
         if (admin.getIsAdmin()){
             if(accountManagementRemote.updateEmployeeProfile(selectedEmployee)){
