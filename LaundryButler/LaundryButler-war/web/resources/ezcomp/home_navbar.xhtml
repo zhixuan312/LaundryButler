@@ -11,6 +11,7 @@
 
   <!-- IMPLEMENTATION -->
   <cc:implementation>
+
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -30,9 +31,25 @@
             <li><a href="#freedry">FREE DRY</a></li>
             <li><a href="#contact">CONTACT</a></li>
             <li>
-              <h:form class="form" style="display: inline-block">
-                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}"><f:ajax execute="@form"/></h:commandButton>
+
+              <h:form id="fbLogout" class="form hide" style="display: inline-block">
+                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean_test.logout}">
+                  <f:ajax execute="@form"/>
+                </h:commandButton>
               </h:form>
+              <button class="btn navbar-btn command_button" onclick="fbLogoutButtonClick()">LOGOUT</button>
+              <script>
+                function fbLogoutButtonClick() {
+                  FB.getLoginStatus(function (response) {
+                    if(response.status === 'connected'){
+                      customerLogout();
+                    }
+                  });
+                  
+                  document.getElementById('#{cc.clientId}:fbLogout:logoutButton').click();
+                  console.log("finished!");
+                }
+              </script>
             </li>
           </ul>
 
