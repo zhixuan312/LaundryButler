@@ -75,4 +75,8 @@ public interface AccountManagementLocal {
     public Boolean addCartLineItemToCart(CartLineItem cartLineItem);
     
     public Boolean removeCartLineItemFromCart (CartLineItem cartLineItem);
+    
+    public Boolean addCartLineItemForCheckOut(CartLineItem cartLineItem);
+    
+    public Boolean resetCartLineItemForCheckOut();
 }
