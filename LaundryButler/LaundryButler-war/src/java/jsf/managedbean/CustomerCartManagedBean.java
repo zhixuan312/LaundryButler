@@ -80,6 +80,7 @@ public class CustomerCartManagedBean implements Serializable {
             ex.printStackTrace();
         }
         customer = accountManagementRemote.getCustomer();
+        accountManagementRemote.resetCartLineItemForCheckOut();
         cartLineItems = accountManagementRemote.getCustomer().getCartLineItems();
     }
     
@@ -107,6 +108,14 @@ public class CustomerCartManagedBean implements Serializable {
     public void retireveTotalPrice (ActionEvent event){
         for (int i = 0; i < selectedCartLineItems.size(); i ++) {
             totalPrice = totalPrice + selectedCartLineItems.get(i).getProduct().getPrice() * selectedCartLineItems.get(i).getQuantity();
+        }
+    }
+    
+    public void checkOutButton(ActionEvent event){
+        if (!selectedCartLineItems.isEmpty()){
+            for (int i = 0; i < selectedCartLineItems.size(); i ++){
+                accountManagementRemote.addCartLineItemForCheckOut(selectedCartLineItems.get(i));
+            }
         }
     }
     

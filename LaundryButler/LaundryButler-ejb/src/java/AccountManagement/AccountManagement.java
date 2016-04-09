@@ -123,6 +123,9 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     
     @Override
     public Boolean logout() {
+        customer.setSelectedCartLineItems(new ArrayList<>());
+        em.merge(customer);
+        em.flush();
         customer = null;
         employee = null;
         return true;
@@ -440,6 +443,33 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         }
         return false;
     }
+    
+    @Override
+    public Boolean addCartLineItemForCheckOut(CartLineItem cartLineItem){
+        try {
+            List<CartLineItem> cart = customer.getSelectedCartLineItems();
+            cart.add(cartLineItem);
+            customer.setSelectedCartLineItems(cart);
+            em.merge(customer);
+            em.flush();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    @Override
+    public Boolean resetCartLineItemForCheckOut(){
+        try {
+            customer.setSelectedCartLineItems(new ArrayList<>());
+            em.merge(customer);
+            em.flush();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     @Override
     public Customer getCustomer () {
         return customer;
