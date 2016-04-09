@@ -5,6 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
 
   <!-- INTERFACE -->
@@ -23,20 +24,31 @@
           <p><span class="glyphicon glyphicon-envelope"></span> contact@laundrybutler.com</p>	   
         </div>
         <div class="col-sm-7 slideanim">
-          <div class="row">
-            <div class="col-sm-6 form-group">
-              <input class="form-control" id="name" name="name" placeholder="Name" type="text" required="true"/>
+          
+          <h:form>
+            
+            <div class="row">
+              <div class="col-sm-6 form-group">
+                <h:inputText class="form-control" id="contactName" a:placeholder="Name" value="#{mailServiceManagedBean.name}" required="true"/>
+              </div>
+              <div class="col-sm-6 form-group">
+                <h:inputText class="form-control" id="contactEmail" a:placeholder="Email" value="#{mailServiceManagedBean.email}" required="true"/>
+              </div>
             </div>
-            <div class="col-sm-6 form-group">
-              <input class="form-control" id="email" name="email" placeholder="Email" type="email" required="true"/>
+            
+            
+            <h:inputTextarea class="form-control" id="contactComment" a:placeholder="Comments" value="#{mailServiceManagedBean.comments}" rows="5"/><br/>
+            
+            <div class="row">
+              <div class="col-sm-12 form-group">
+                <h:commandButton class="btn btn-default pull-right" type="submit" value="Send" actionListener="#{mailServiceManagedBean.send}">
+                  <f:ajax execute="@form"/>
+                </h:commandButton>
+              </div>
             </div>
-          </div>
-          <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br/>
-          <div class="row">
-            <div class="col-sm-12 form-group">
-              <button class="btn btn-default pull-right" type="submit">Send</button>
-            </div>
-          </div>	
+            
+            </h:form>
+          
         </div>
       </div>
     </div>
