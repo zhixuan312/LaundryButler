@@ -4,23 +4,23 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
 
-    <!-- INTERFACE -->
-    <cc:interface>
-    </cc:interface>
+  <!-- INTERFACE -->
+  <cc:interface>
+  </cc:interface>
 
-    <!-- IMPLEMENTATION -->
-    <cc:implementation>
-            <div id="googleMap" style="height:400px;width:100%;"></div>
+  <!-- IMPLEMENTATION -->
+  <cc:implementation>
+    <div id="googleMap" style="height:400px;width:100%;"></div>
 
     <!-- Add Google Maps -->
     <script src="http://maps.googleapis.com/maps/api/js"></script>
     <script>
-      var myCenter = new google.maps.LatLng(41.878114, -87.629798);
+      var myCenter = new google.maps.LatLng(1.294807, 103.773800);
 
       function initialize() {
         var mapProp = {
           center: myCenter,
-          zoom: 12,
+          zoom: 14,
           scrollwheel: false,
           draggable: false,
           mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -37,5 +37,5 @@
 
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
-    </cc:implementation>
+  </cc:implementation>
 </html>
