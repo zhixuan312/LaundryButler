@@ -205,7 +205,7 @@ footer .glyphicon {
 .page_button, page_button:active:after{
     color: #3fb0ac;
     border-color: #3fb0ac;
-    background-color: #fff;
+    background-color:transparent;
 }
 .page_button:hover{
     color:#fff;
