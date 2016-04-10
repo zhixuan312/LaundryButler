@@ -26,12 +26,6 @@ public class MailService implements MailServiceRemote, MailServiceLocal {
 
   private static Session mailSession;
 
-  private static final String HOST = "smtp.gmail.com";
-  private static final int PORT = 587;
-  private static final String USER = "victorsunlixin@gmail.com";
-  private static final String PASSWORD = "hvqqfrmzjrngvfha";
-  private static final String FROM = "Laundry Butler <service@laundrybutler.com>";
-
   public MailService() {
     
   }
@@ -41,7 +35,7 @@ public class MailService implements MailServiceRemote, MailServiceLocal {
     
     System.out.println("Send email started!");
     
-    final String username = "victorsunlixin@gmail.com";
+    final String username = "";
 		final String password = "hvqqfrmzjrngvfha";
 
 		Properties props = new Properties();
@@ -60,7 +54,7 @@ public class MailService implements MailServiceRemote, MailServiceLocal {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(FROM));
+			message.setFrom(new InternetAddress("Laundry Butler <service@laundrybutler.com>"));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(recipient));
 			message.setSubject(subject);
