@@ -40,7 +40,7 @@ public class CustomerProfileManagedBean implements Serializable{
     private Card card;
     private List<Address> addresses;
     private List<Card> cards;
-    private String message; 
+    private String message;
     
     
     public CustomerProfileManagedBean() {
@@ -127,10 +127,11 @@ public class CustomerProfileManagedBean implements Serializable{
                     message = "";
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
                 } else {
-                    message = "Password is not vaild"; 
+                    
                 }
                 return true;
             } else {
+                message = "Password is not vaild";
                 return false;
             }
         }
@@ -274,11 +275,11 @@ public class CustomerProfileManagedBean implements Serializable{
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
-
+    
     public String getMessage() {
         return message;
     }
-
+    
     public void setMessage(String message) {
         this.message = message;
     }
