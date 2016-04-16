@@ -1,6 +1,7 @@
 var myCenter = new google.maps.LatLng(1.294807, 103.773800);
 
 function initialize() {
+  console.log("google map loaded");
   var mapProp = {
     center: myCenter,
     zoom: 14,
