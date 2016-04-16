@@ -1,9 +1,11 @@
 package AccountManagement;
 
+import ProductManagement.ProductManagementLocal;
 import entity.Customer;
 import entity.Address;
 import entity.CartLineItem;
 import entity.Employee;
+import entity.Product;
 import entity.Transaction;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -26,18 +28,21 @@ import javax.persistence.Query;
 @Local(AccountManagementLocal.class)
 @Remote(AccountManagementRemote.class)
 public class AccountManagement implements AccountManagementRemote, AccountManagementLocal {
-
+    
     @EJB
     private AccountManagementLocal accountManagementLocal;
+    @EJB
+    private ProductManagementLocal productManagementLocal;
+    
     @PersistenceContext
     private EntityManager em;
-
+    
     private Boolean isLoggedIn = false;
     private long currentCustomerId = 0;
     private long currentEmployeeId = 0;
     private Customer customer;
     private Employee employee;
-
+    
     @Override
     public String register(Customer customer) {
         boolean sameEmail = false;
@@ -58,15 +63,25 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             SecureRandom random = new SecureRandom();
             String verificationCode = new BigInteger(130, random).toString(32);
             customer.setVerificationCode(verificationCode);
+            List<CartLineItem> cartLineItems = customer.getCartLineItems();
+            List<Product> produsts = productManagementLocal.viewAllProduct();
+            for(int i = 0; i < 6; i ++) {
+                CartLineItem newItem = new CartLineItem();
+                newItem.setCustomer(customer);
+                newItem.setProduct(produsts.get(i));
+                newItem.setQuantity(0);
+                cartLineItems.add(newItem);
+            }
+            customer.setCartLineItems(cartLineItems);
             em.persist(customer);
             em.flush();
-
+            
             return verificationCode;
         } else {
             return "-1";
         }
     }
-
+    
     @Override
     public Boolean activate(long customerId, long verificationCode) {
         try {
@@ -78,11 +93,11 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean customerLogin(String email, String password) {
         customer = accountManagementLocal.retrieveCustomerByEmail(email);
-
+        
         if (customer != null) {
             if (customer.getPassword().equals(password)) {
                 return true;
@@ -93,7 +108,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean customerLoginByFaceBook(String email) {
         if (accountManagementLocal.retrieveCustomerByEmail(email) == null) {
@@ -103,7 +118,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return true;
         }
     }
-
+    
     @Override
     public Customer retrieveCustomerByEmail(String email) {
         try {
@@ -115,17 +130,17 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return null;
         }
     }
-
+    
     @Override
     public Customer viewAccount() {
         return customer;
     }
-
+    
     @Override
     public Transaction viewTransactionHistory() {
         return null;
     }
-
+    
     @Override
     public Boolean logout() {
         customer.setSelectedCartLineItems(new ArrayList<>());
@@ -135,7 +150,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         employee = null;
         return true;
     }
-
+    
     @Override
     public Boolean updateCutomerProfile(Customer customer) {
         try {
@@ -147,7 +162,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public List<Customer> viewAllRecordedCustomer() {
         List<Customer> customers = null;
@@ -164,7 +179,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return customers;
         }
     }
-
+    
     @Override
     public Long createNewEmployee(Employee employee) {
         boolean sameEmail = false;
@@ -189,7 +204,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return new Long("-1");
         }
     }
-
+    
     @Override
     public Boolean changeIsAdminStatus(Long employeeId) {
         try {
@@ -203,11 +218,11 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean employeeLogin(String email, String password) {
         employee = accountManagementLocal.retrieveEmployeeByEmail(email);
-
+        
         if (employee != null) {
             if (employee.getPassword().equals(password)) {
                 return true;
@@ -218,7 +233,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Employee retrieveEmployeeByEmail(String email) {
         try {
@@ -230,7 +245,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return null;
         }
     }
-
+    
     @Override
     public Boolean updateEmployeeProfile(Employee employee) {
         try {
@@ -242,7 +257,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public List<Employee> viewAllRecordedEmployee() {
         List<Employee> employees = null;
@@ -259,7 +274,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return employees;
         }
     }
-
+    
     @Override
     public Boolean deleteEmployee(Long employeeId) {
         try {
@@ -270,7 +285,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean createAddress(Address address) {
         try {
@@ -281,7 +296,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean updateAddress(Address address) {
         try {
@@ -292,7 +307,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public List<Address> viewAllAddressByCustomerId(Long customerId) {
         List<Address> addresses = null;
@@ -309,7 +324,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return addresses;
         }
     }
-
+    
     @Override
     public List<Address> viewAllRecordedAddress() {
         List<Address> addresses = null;
@@ -326,7 +341,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return addresses;
         }
     }
-
+    
     @Override
     public Boolean deleteAddress(Long addressId) {
         try {
@@ -337,7 +352,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean deleteAddresses(List<Address> addresses) {
         for (Address address : addresses) {
@@ -345,12 +360,18 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         }
         return true;
     }
-
+    
     @Override
     public Boolean addCartLineItemToCart(CartLineItem cartLineItem) {
         try {
             List<CartLineItem> cart = customer.getCartLineItems();
-            cart.add(cartLineItem);
+            for (int i = 0; i < 6; i ++) {
+                if (cart.get(i).getProduct().equals(cartLineItem.getProduct())){
+                    int quantity = cart.get(i).getQuantity();
+                    quantity++;
+                    cart.get(i).setQuantity(quantity);
+                }
+            }
             customer.setCartLineItems(cart);
             em.merge(customer);
             em.flush();
@@ -359,22 +380,27 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean removeCartLineItemFromCart(CartLineItem cartLineItem) {
-        List<CartLineItem> cart = customer.getCartLineItems();
-        for (int i = 0; i < cart.size(); i++) {
-            if (cart.get(i).getCartLineItemId().equals(cartLineItem.getCartLineItemId())) {
-                cart.remove(i);
-                customer.setCartLineItems(cart);
-                em.merge(customer);
-                em.flush();
-                return true;
+        try{
+            List<CartLineItem> cart = customer.getCartLineItems();
+            for (int i = 0; i < 6; i++) {
+                if (cart.get(i).getProduct().equals(cartLineItem.getProduct())){
+                    int quantity = cart.get(i).getQuantity();
+                    quantity--;
+                    cart.get(i).setQuantity(quantity);
+                }
             }
+            customer.setCartLineItems(cart);
+            em.merge(customer);
+            em.flush();
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
-
+    
     @Override
     public Boolean addCartLineItemForCheckOut(CartLineItem cartLineItem) {
         try {
@@ -388,7 +414,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Boolean resetCartLineItemForCheckOut() {
         try {
@@ -400,15 +426,15 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-
+    
     @Override
     public Customer getCustomer() {
         return customer;
     }
-
+    
     @Override
     public Employee getEmployee() {
         return employee;
     }
-
+    
 }
