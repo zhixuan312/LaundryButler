@@ -1,8 +1,8 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
@@ -25,6 +25,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import com.stripe.Stripe;
+import com.stripe.model.Charge;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -33,18 +37,18 @@ import javax.faces.event.ActionEvent;
 @Named(value = "checkOutManagedBean")
 @SessionScoped
 public class CheckOutManagedBean implements Serializable {
-    
+
     @EJB
     private AccountManagementRemote accountManagementRemote;
     @EJB
     private TransactionManagementRemote transactionManagementRemote;
-    
+
     private Customer customer;
     private List<Address> address;
     private Address newAddress;
     private List<TransactionLineItem> readyToPayTransactionLineItems;
     private Transaction transaction;
-    
+
     public CheckOutManagedBean() {
         customer = new Customer();
         address = new ArrayList<>();
@@ -52,101 +56,112 @@ public class CheckOutManagedBean implements Serializable {
         readyToPayTransactionLineItems = new ArrayList<>();
         transaction = new Transaction();
     }
-    
+
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        
-        try
-        {
-            if(ec.getSessionMap().get("login") == null)
-            {
+
+        try {
+            if (ec.getSessionMap().get("login") == null) {
                 ec.redirect("login.xhtml?faces-redirect=true");
-            }
-            else
-            {
-                if(ec.getSessionMap().get("login").equals(false))
-                {
+            } else {
+                if (ec.getSessionMap().get("login").equals(false)) {
                     ec.redirect("login.xhtml?faces-redirect=true");
                 }
             }
-        }
-        catch(IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         customer = accountManagementRemote.getCustomer();
     }
-    
-    public void createAddress (ActionEvent event) {
-        if (accountManagementRemote.createAddress(newAddress)){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+
+    public void createAddress(ActionEvent event) {
+        if (accountManagementRemote.createAddress(newAddress)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create","Fail to create"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create", "Fail to create"));
         }
     }
-    
-    public void checkOut(ActionEvent event){
+
+    public void checkOut(ActionEvent event) {
         transaction.setCustomer(customer);
         Double totalCharge = new Double(0);
-        if (!readyToPayTransactionLineItems.isEmpty()){
-            for (int i = 0; i < readyToPayTransactionLineItems.size(); i ++){
+        if (!readyToPayTransactionLineItems.isEmpty()) {
+            for (int i = 0; i < readyToPayTransactionLineItems.size(); i++) {
                 totalCharge = totalCharge + readyToPayTransactionLineItems.get(i).getTotalCharge();
             }
             transaction.setTotalCharge(totalCharge);
         } else {
-            transaction.setTotalCharge(new Double (0));
+            transaction.setTotalCharge(new Double(0));
         }
         transaction.setTransactionDateTime(new Date());
-        if (transactionManagementRemote.createTransaction(transaction)){
-            if (!readyToPayTransactionLineItems.isEmpty()){
-                for (int j = 0; j < readyToPayTransactionLineItems.size(); j ++) {
+        if (transactionManagementRemote.createTransaction(transaction)) {
+            if (!readyToPayTransactionLineItems.isEmpty()) {
+                for (int j = 0; j < readyToPayTransactionLineItems.size(); j++) {
                     readyToPayTransactionLineItems.get(j).setTransaction(transaction);
                     transactionManagementRemote.updateTransactionLineItem(readyToPayTransactionLineItems.get(j));
                 }
             }
         }
     }
-    
+
+    public void createStripeCharge(String amount, String description) throws Exception {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+
+        String stripeToken = ec.getRequestParameterMap().get("stripeToken");
+
+        if (stripeToken != null && stripeToken.trim().length() > 0) {
+            Stripe.apiKey = ec.getInitParameter("StripeTestSecretKey");
+            Map<String, Object> chargeParams = new HashMap<>();
+            chargeParams.put("amount", amount);
+            chargeParams.put("currency", "SGD");
+            chargeParams.put("source", stripeToken);
+            chargeParams.put("description", description);
+            Charge charge = Charge.create(chargeParams);
+        } else {
+            System.out.println("Invalid credit card details. Payment is declined.");
+        }
+    }
+
     public Customer getCustomer() {
         return customer;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
+
     public List<Address> getAddress() {
         return address;
     }
-    
+
     public void setAddress(List<Address> address) {
         this.address = address;
     }
-    
+
     public Address getNewAddress() {
         return newAddress;
     }
-    
+
     public void setNewAddress(Address newAddress) {
         this.newAddress = newAddress;
     }
-    
+
     public List<TransactionLineItem> getReadyToPayTransactionLineItems() {
         return readyToPayTransactionLineItems;
     }
-    
+
     public void setReadyToPayTransactionLineItems(List<TransactionLineItem> readyToPayTransactionLineItems) {
         this.readyToPayTransactionLineItems = readyToPayTransactionLineItems;
     }
-    
+
     public Transaction getTransaction() {
         return transaction;
     }
-    
+
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
-    
+
 }
