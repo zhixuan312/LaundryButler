@@ -49,8 +49,6 @@ public class CheckOutManagedBean implements Serializable {
     private LaundryOrderManagementRemote laundryOrderManagementRemote;
     
     private Customer customer;
-    private List<Address> address;
-    private Address newAddress;
     private List<TransactionLineItem> readyToPayTransactionLineItems;
     private Transaction transaction;
     private Double totalAmount;
@@ -59,8 +57,6 @@ public class CheckOutManagedBean implements Serializable {
     
     public CheckOutManagedBean() {
         customer = new Customer();
-        address = new ArrayList<>();
-        newAddress = new Address();
         readyToPayTransactionLineItems = new ArrayList<>();
         transaction = new Transaction();
         totalAmount = new Double (0);
@@ -83,14 +79,6 @@ public class CheckOutManagedBean implements Serializable {
             ex.printStackTrace();
         }
         customer = accountManagementRemote.getCustomer();
-    }
-    
-    public void createAddress(ActionEvent event) {
-        if (accountManagementRemote.createAddress(newAddress)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create", "Fail to create"));
-        }
     }
     
     public void checkOut(ActionEvent event) {
@@ -150,22 +138,6 @@ public class CheckOutManagedBean implements Serializable {
     
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-    
-    public List<Address> getAddress() {
-        return address;
-    }
-    
-    public void setAddress(List<Address> address) {
-        this.address = address;
-    }
-    
-    public Address getNewAddress() {
-        return newAddress;
-    }
-    
-    public void setNewAddress(Address newAddress) {
-        this.newAddress = newAddress;
     }
     
     public List<TransactionLineItem> getReadyToPayTransactionLineItems() {
