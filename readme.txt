@@ -5,6 +5,7 @@ A0105484H Jin Wenqian (Designer)
 A0119323M Nguyen Tran Nhat Uyen (Designer)
 A0124493E Zhang Zhixuan (Engineer)
 
+
 VIEWING INSTRUCTIONS
 -----------------------------------------------------
 URL: 
@@ -28,11 +29,11 @@ CUSTOMER USE CASES
 - Email verification code to customer.
 - Enter verification code if manual signup (set account status to Verified and clear verification code).
 - Sign up with Facebook with an optional referring customer ID.
-DONE - Login with LaundryButler account.
-DONE - Login with Facebook account.
-DONE - Link Facebook and LaundryButler account.
+- Login with LaundryButler account.
+- Login with Facebook account.
+- Link Facebook and LaundryButler account.
 - Add Airbnb username in LaundryButler profile.
-DONE - Logout.
+- Logout.
 - View account information i.e. number of dry cleaning, number of express cleaning, number of unscheduled boxes
 - Update account information i.e. first name, last name, mobile number
 - Change password with confirm password.
