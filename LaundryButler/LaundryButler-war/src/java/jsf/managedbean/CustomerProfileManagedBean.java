@@ -36,6 +36,7 @@ public class CustomerProfileManagedBean implements Serializable{
     Customer customer;
     Address address;
     String oldPassword;
+    String newPassword;
     Card card;
     List<Address> addresses;
     List<Card> cards;
@@ -75,6 +76,7 @@ public class CustomerProfileManagedBean implements Serializable{
     public void updateCustomerProfile (ActionEvent event) {
         if (customer.getIsFaceBook()) {
             customer.setIsFaceBook(false);
+            customer.setPassword(newPassword);
             if(accountManagementRemote.updateCutomerProfile(customer)){
                 ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                 try{
@@ -87,9 +89,13 @@ public class CustomerProfileManagedBean implements Serializable{
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
             }
-        } else {
-            if (customer.getPassword().equals(oldPassword)){
-                if(accountManagementRemote.updateCutomerProfile(customer)){
+        }
+    }
+    
+    public Boolean checkPassword(ActionEvent event){
+        if(customer.getPassword().equals(oldPassword)){
+            customer.setPassword(newPassword);
+            if(accountManagementRemote.updateCutomerProfile(customer)){
                     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                     try{
                         ec.redirect("home.xhtml?faces-redirect=true");
@@ -101,7 +107,9 @@ public class CustomerProfileManagedBean implements Serializable{
                 } else {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
                 }
-            }
+            return true;
+        } else {
+            return false; 
         }
     }
     
@@ -234,5 +242,13 @@ public class CustomerProfileManagedBean implements Serializable{
     
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 }

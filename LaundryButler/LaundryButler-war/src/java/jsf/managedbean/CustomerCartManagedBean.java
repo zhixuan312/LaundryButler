@@ -117,6 +117,8 @@ public class CustomerCartManagedBean implements Serializable {
                 accountManagementRemote.addCartLineItemForCheckOut(selectedCartLineItems.get(i));
             }
         }
+        
+        
     }
     
     public Customer getCustomer() {
