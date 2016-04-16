@@ -127,6 +127,15 @@ public class CheckOutManagedBean implements Serializable {
                             box.setIsShared(false);
                             laundryOrderManagementRemote.createBox(box);
                         }
+                        if (items.get(i).getProduct().getProductId() == 5){
+                            // dry cleaning
+                            customer.setDryCleaning(items.get(i).getQuantity());
+                            accountManagementRemote.updateCutomerProfile(customer);
+                        } else if (items.get(i).getProduct().getProductId() == 6){
+                            // express
+                            customer.setExpress(items.get(i).getQuantity());
+                            accountManagementRemote.updateCutomerProfile(customer);
+                        }
                     }
                 }
             }
