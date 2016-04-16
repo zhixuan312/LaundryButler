@@ -100,22 +100,28 @@ public class CustomerCartManagedBean implements Serializable {
     }
     
     public void addProductToCart (Product product){
+        Boolean isThere = false;
         List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         if (carLineItems != null && !carLineItems.isEmpty()){
             for (int i = 0; i < carLineItems.size(); i ++) {
                 if (carLineItems.get(i).getProduct().equals(product)){
-                    CartLineItem cartLineItem = carLineItems.get(i);
-                    int quantity = cartLineItem.getQuantity();
-                    quantity ++;
-                    cartLineItem.setQuantity(quantity);
-                    productManagementRemote.updateCartLineItem(cartLineItem);
+                    CartLineItem newCartLineItem = new CartLineItem();
+                    newCartLineItem.setCartLineItemId(carLineItems.get(i).getCartLineItemId());
+                    newCartLineItem.setCustomer(customer);
+                    newCartLineItem.setProduct(product);
+                    int quantity = carLineItems.get(i).getQuantity()+1;
+                    newCartLineItem.setQuantity(quantity);
+                    productManagementRemote.updateCartLineItem(newCartLineItem);
+                    isThere = true;
                 }
             }
-            newCartLineItem.setProduct(product);
-            newCartLineItem.setCustomer(customer);
-            newCartLineItem.setQuantity(1);
-            productManagementRemote.createCartLineItem(newCartLineItem);
-            cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+            if (!isThere){
+                newCartLineItem.setProduct(product);
+                newCartLineItem.setCustomer(customer);
+                newCartLineItem.setQuantity(1);
+                productManagementRemote.createCartLineItem(newCartLineItem);
+                cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+            }
         } else {
             newCartLineItem.setProduct(product);
             newCartLineItem.setCustomer(customer);
