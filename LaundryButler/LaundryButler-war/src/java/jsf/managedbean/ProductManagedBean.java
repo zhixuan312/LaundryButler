@@ -22,7 +22,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-@Named(value = "pricingManagedBean")
+@Named(value = "productManagedBean")
 @SessionScoped
 
 public class ProductManagedBean implements Serializable{
