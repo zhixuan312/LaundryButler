@@ -6,7 +6,7 @@
 package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
-import TransactionManagement.TransactionManagementLocal;
+import TransactionManagement.TransactionManagementRemote;
 import entity.Employee;
 import entity.Transaction;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class TransactionManagedBean implements Serializable {
     @EJB
     private AccountManagementRemote accountManagementRemote;
     @EJB
-    private TransactionManagementLocal transactionManagementLocal;
+    private TransactionManagementRemote transactionManagementLocal;
     
     private Employee admin;
     private List<Transaction> transactions;
