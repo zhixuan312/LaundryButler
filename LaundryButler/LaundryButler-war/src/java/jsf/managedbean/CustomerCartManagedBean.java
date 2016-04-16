@@ -120,7 +120,7 @@ public class CustomerCartManagedBean implements Serializable {
     
     public boolean isCartEmpty(){
         for (int i = 0; i < cartLineItems.size(); i ++){
-            if (cartLineItems.get(i).getQuantity() == 0){
+            if (cartLineItems.get(i).getQuantity() != 0){
                 return false;
             }
         }
