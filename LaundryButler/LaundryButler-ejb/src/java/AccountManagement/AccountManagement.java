@@ -6,6 +6,8 @@ import entity.Card;
 import entity.CartLineItem;
 import entity.Employee;
 import entity.Transaction;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import javax.ejb.Local;
 import javax.ejb.Remote;
@@ -38,7 +40,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     private Employee employee;
     
     @Override
-    public Long register(Customer customer) {
+    public String register(Customer customer) {
         boolean sameEmail = false;
         List<Customer> list = new ArrayList<>();
         try{
@@ -54,14 +56,15 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             }
         }
         if (!sameEmail) {
-            long verificationCode = (long)(Math.random()* 9999);
+            SecureRandom random = new SecureRandom();
+            String verificationCode = new BigInteger(130, random).toString(32);
             customer.setVerificationCode(verificationCode);
             em.persist(customer);
             em.flush();
             
             return verificationCode;
         } else {
-            return new Long("-1");
+            return "-1";
         }
     }
     
@@ -107,7 +110,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         } else {
             customer = accountManagementLocal.retrieveCustomerByEmail(email);
             return true;
-        }  
+        }
     }
     
     @Override

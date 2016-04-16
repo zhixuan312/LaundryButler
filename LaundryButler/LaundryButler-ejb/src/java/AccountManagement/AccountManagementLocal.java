@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface AccountManagementLocal {
     
-    public Long register(Customer customer);
+    public String register(Customer customer);
     
     public Boolean activate(long customerId, long verificationCode);
     

@@ -29,7 +29,7 @@ public class Customer implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
     private String accountStatus;
-    private long verificationCode;
+    private String verificationCode;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
     private Integer dryCleaning; 
@@ -139,11 +139,11 @@ public class Customer implements Serializable {
         this.accountStatus = accountStatus;
     }
 
-    public long getVerificationCode() {
+    public String getVerificationCode() {
         return verificationCode;
     }
 
-    public void setVerificationCode(long verificationCode) {
+    public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
 
