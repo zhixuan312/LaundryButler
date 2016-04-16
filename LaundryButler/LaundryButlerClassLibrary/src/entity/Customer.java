@@ -33,6 +33,7 @@ public class Customer implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
     private Integer dryCleaning; 
+    private Integer express;
     private List<CartLineItem> selectedCartLineItems;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Card> creditCards;
@@ -56,6 +57,8 @@ public class Customer implements Serializable {
         this.transactions = new ArrayList<>();
         this.addresses = new ArrayList<>();
         this.cartLineItems = new ArrayList<>();
+        this.express = new Integer (0);
+        this.dryCleaning = new Integer (0);
         this.boxes = new ArrayList<>();
         this.payingBoxes = new ArrayList<>();
         this.customerShareOuts = new ArrayList<>();
@@ -238,6 +241,14 @@ public class Customer implements Serializable {
 
     public void setIsFaceBook(Boolean isFaceBook) {
         this.isFaceBook = isFaceBook;
+    }
+
+    public Integer getExpress() {
+        return express;
+    }
+
+    public void setExpress(Integer express) {
+        this.express = express;
     }
 
     @Override

@@ -33,6 +33,7 @@ public class Box implements Serializable {
     private String boxPasscode;
     private Boolean allowSharing;
     private Boolean isShared;
+    private Address address;
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private Employee employee;
     private byte rating;
@@ -162,6 +163,14 @@ public class Box implements Serializable {
 
     public void setSharedBoxPermissions(List<SharedBoxPermission> sharedBoxPermissions) {
         this.sharedBoxPermissions = sharedBoxPermissions;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override
