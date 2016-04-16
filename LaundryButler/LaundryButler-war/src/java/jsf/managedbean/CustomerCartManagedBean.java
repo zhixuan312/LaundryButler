@@ -10,6 +10,7 @@ import ProductManagement.ProductManagementRemote;
 import TransactionManagement.TransactionManagementRemote;
 import entity.CartLineItem;
 import entity.Customer;
+import entity.Product;
 import entity.Transaction;
 import entity.TransactionLineItem;
 import java.io.IOException;
@@ -52,6 +53,7 @@ public class CustomerCartManagedBean implements Serializable {
     private List<CartLineItem> readyToPayCartItems;
     private List<TransactionLineItem> readyToPayTransactionLineItems;
     private Transaction transaction;
+    private Product selectedProduct;
     
     public CustomerCartManagedBean() {
         customer = new Customer();
@@ -66,6 +68,7 @@ public class CustomerCartManagedBean implements Serializable {
         cartLineItemAfterEdit = new CartLineItem();
         readyToPayTransactionLineItems = new ArrayList<>();
         transaction = new Transaction();
+        selectedProduct = new Product();
     }
     
     @PostConstruct
@@ -97,19 +100,16 @@ public class CustomerCartManagedBean implements Serializable {
     }
     
     public void addProductToCart (ActionEvent event){
-        long cartLineItemId = productManagementRemote.createCartLineItem(newCartLineItem);
+        newCartLineItem.setProduct(selectedProduct);
+        newCartLineItem.setCustomer(customer);
+        newCartLineItem.setQuantity(1);
         accountManagementRemote.addCartLineItemToCart(newCartLineItem);
     }
     
-    public void updateProductInCart (ActionEvent event){
-        accountManagementRemote.removeCartLineItemFromCart(selectedCartLineItem);
-        productManagementRemote.deleteCartLineItem(selectedCartLineItem.getCartLineItemId());
-        long cartLineItemId = productManagementRemote.createCartLineItem(cartLineItemAfterEdit);
-        accountManagementRemote.addCartLineItemToCart(cartLineItemAfterEdit);
-    }
-    
     public void removeProductFromCart (ActionEvent event){
-        productManagementRemote.deleteCartLineItem(cartLineItemToRemove.getCartLineItemId());
+        cartLineItemToRemove.setProduct(selectedProduct);
+        cartLineItemToRemove.setCustomer(customer);
+        cartLineItemToRemove.setQuantity(1);
         accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
     }
     
@@ -132,7 +132,7 @@ public class CustomerCartManagedBean implements Serializable {
         
         readyToPayCartItems = customer.getCartLineItems();
         
-        if(readyToPayCartItems.isEmpty()){
+        if(!readyToPayCartItems.isEmpty()){
             for(int i = 0; i < readyToPayCartItems.size(); i ++) {
                 TransactionLineItem transactionLineItem = new TransactionLineItem();
                 transactionLineItem.setQuantity(readyToPayCartItems.get(i).getQuantity());
@@ -163,7 +163,6 @@ public class CustomerCartManagedBean implements Serializable {
                 }
             }
         }
-        
         transactionManagementRemote.setTranscation(transaction);
     }
     
