@@ -118,7 +118,7 @@ public class CustomerCartManagedBean implements Serializable {
         accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
     }
     
-    public Boolean isCartEmpty(){
+    public boolean isCartEmpty(){
         for (int i = 0; i < cartLineItems.size(); i ++){
             if (cartLineItems.get(i).getQuantity() == 0){
                 return false;
