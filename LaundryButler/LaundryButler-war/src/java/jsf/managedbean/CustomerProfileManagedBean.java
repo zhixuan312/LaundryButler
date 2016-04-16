@@ -89,6 +89,19 @@ public class CustomerProfileManagedBean implements Serializable{
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
             }
+        } else {
+            if(accountManagementRemote.updateCutomerProfile(customer)){
+                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                try{
+                    ec.redirect("home.xhtml?faces-redirect=true");
+                    
+                } catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+            }
         }
     }
     
@@ -96,20 +109,20 @@ public class CustomerProfileManagedBean implements Serializable{
         if(customer.getPassword().equals(oldPassword)){
             customer.setPassword(newPassword);
             if(accountManagementRemote.updateCutomerProfile(customer)){
-                    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-                    try{
-                        ec.redirect("home.xhtml?faces-redirect=true");
-                        
-                    } catch(IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
-                } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                try{
+                    ec.redirect("home.xhtml?faces-redirect=true");
+                    
+                } catch(IOException ex) {
+                    ex.printStackTrace();
                 }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+            }
             return true;
         } else {
-            return false; 
+            return false;
         }
     }
     
@@ -243,11 +256,11 @@ public class CustomerProfileManagedBean implements Serializable{
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
-
+    
     public String getNewPassword() {
         return newPassword;
     }
-
+    
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
