@@ -388,7 +388,13 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             for (int i = 0; i < 6; i++) {
                 if (cart.get(i).getProduct().equals(cartLineItem.getProduct())){
                     int quantity = cart.get(i).getQuantity();
-                    quantity--;
+                    if(cartLineItem.getQuantity() == -1){
+                        quantity = 0;
+                    } else{
+                        if (quantity > 0){
+                            quantity--;
+                        }
+                    }
                     cart.get(i).setQuantity(quantity);
                 }
             }

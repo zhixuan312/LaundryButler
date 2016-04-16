@@ -53,7 +53,6 @@ public class CustomerCartManagedBean implements Serializable {
     private List<CartLineItem> readyToPayCartItems;
     private List<TransactionLineItem> readyToPayTransactionLineItems;
     private Transaction transaction;
-    private Product selectedProduct;
     
     public CustomerCartManagedBean() {
         customer = new Customer();
@@ -68,7 +67,6 @@ public class CustomerCartManagedBean implements Serializable {
         cartLineItemAfterEdit = new CartLineItem();
         readyToPayTransactionLineItems = new ArrayList<>();
         transaction = new Transaction();
-        selectedProduct = new Product();
     }
     
     @PostConstruct
@@ -99,17 +97,24 @@ public class CustomerCartManagedBean implements Serializable {
         cartLineItems = accountManagementRemote.getCustomer().getCartLineItems();
     }
     
-    public void addProductToCart (ActionEvent event){
-        newCartLineItem.setProduct(selectedProduct);
+    public void addProductToCart (Product product){
+        newCartLineItem.setProduct(product);
         newCartLineItem.setCustomer(customer);
         newCartLineItem.setQuantity(1);
         accountManagementRemote.addCartLineItemToCart(newCartLineItem);
     }
     
-    public void removeProductFromCart (ActionEvent event){
-        cartLineItemToRemove.setProduct(selectedProduct);
+    public void deductProductFromCart (Product product){
+        cartLineItemToRemove.setProduct(product);
         cartLineItemToRemove.setCustomer(customer);
         cartLineItemToRemove.setQuantity(1);
+        accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
+    }
+    
+    public void removeProductFromCart (Product product){
+        cartLineItemToRemove.setProduct(product);
+        cartLineItemToRemove.setCustomer(customer);
+        cartLineItemToRemove.setQuantity(-1);
         accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
     }
     
