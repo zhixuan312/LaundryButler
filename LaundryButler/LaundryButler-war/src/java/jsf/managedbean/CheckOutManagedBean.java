@@ -48,6 +48,7 @@ public class CheckOutManagedBean implements Serializable {
     private Address newAddress;
     private List<TransactionLineItem> readyToPayTransactionLineItems;
     private Transaction transaction;
+    private Double totalAmount;
 
     public CheckOutManagedBean() {
         customer = new Customer();
@@ -55,6 +56,7 @@ public class CheckOutManagedBean implements Serializable {
         newAddress = new Address();
         readyToPayTransactionLineItems = new ArrayList<>();
         transaction = new Transaction();
+        
     }
 
     @PostConstruct
@@ -84,25 +86,7 @@ public class CheckOutManagedBean implements Serializable {
     }
 
     public void checkOut(ActionEvent event) {
-        transaction.setCustomer(customer);
-        Double totalCharge = new Double(0);
-        if (!readyToPayTransactionLineItems.isEmpty()) {
-            for (int i = 0; i < readyToPayTransactionLineItems.size(); i++) {
-                totalCharge = totalCharge + readyToPayTransactionLineItems.get(i).getTotalCharge();
-            }
-            transaction.setTotalCharge(totalCharge);
-        } else {
-            transaction.setTotalCharge(new Double(0));
-        }
-        transaction.setTransactionDateTime(new Date());
-        if (transactionManagementRemote.createTransaction(transaction)) {
-            if (!readyToPayTransactionLineItems.isEmpty()) {
-                for (int j = 0; j < readyToPayTransactionLineItems.size(); j++) {
-                    readyToPayTransactionLineItems.get(j).setTransaction(transaction);
-                    transactionManagementRemote.updateTransactionLineItem(readyToPayTransactionLineItems.get(j));
-                }
-            }
-        }
+        transactionManagementRemote.getTranscation();
     }
 
     public void createStripeCharge(String amount, String description) throws Exception {

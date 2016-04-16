@@ -33,13 +33,15 @@ public class CustomerProfileManagedBean implements Serializable{
     @EJB
     private AccountManagementRemote accountManagementRemote;
     
-    Customer customer;
-    Address address;
-    String oldPassword;
-    String newPassword;
-    Card card;
-    List<Address> addresses;
-    List<Card> cards;
+    private Customer customer;
+    private Address address;
+    private String oldPassword;
+    private String newPassword;
+    private Card card;
+    private List<Address> addresses;
+    private List<Card> cards;
+    private String message; 
+    
     
     public CustomerProfileManagedBean() {
         customer = new Customer();
@@ -49,6 +51,7 @@ public class CustomerProfileManagedBean implements Serializable{
         cards = new ArrayList<>();
         oldPassword = "";
         newPassword = "";
+        message = "";
     }
     
     @PostConstruct
@@ -123,7 +126,7 @@ public class CustomerProfileManagedBean implements Serializable{
                     }
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
                 } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+                    message = "Password is not vaild"; 
                 }
                 return true;
             } else {
