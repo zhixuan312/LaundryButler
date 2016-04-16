@@ -40,7 +40,7 @@ public class CustomerProfileManagedBean implements Serializable{
     private Card card;
     private List<Address> addresses;
     private List<Card> cards;
-    private String message;
+//    private String message;
     
     
     public CustomerProfileManagedBean() {
@@ -51,7 +51,6 @@ public class CustomerProfileManagedBean implements Serializable{
         cards = new ArrayList<>();
         oldPassword = "";
         newPassword = "";
-        message = "";
     }
     
     @PostConstruct
@@ -76,7 +75,6 @@ public class CustomerProfileManagedBean implements Serializable{
         if (accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId()) != null){
             cards = accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId());
         }
-        message = "";
     }
     
     public void updateCustomerProfile (ActionEvent event) {
@@ -129,17 +127,14 @@ public class CustomerProfileManagedBean implements Serializable{
                 } else {
                     
                 }
-                message = "";
                 return true;
             } else {
-                message = "Password is not vaild";
+              System.out.println("######## old password wrong!");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid old password.","Invalid old password."));
+                
                 return false;
             }
         }
-    }
-    
-    public void resetMessage (){
-        message = "";
     }
     
     public void cancelUpdateCustomerProfile (ActionEvent event){
@@ -279,13 +274,5 @@ public class CustomerProfileManagedBean implements Serializable{
     
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
     }
 }
