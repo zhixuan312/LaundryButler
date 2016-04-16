@@ -63,16 +63,6 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             SecureRandom random = new SecureRandom();
             String verificationCode = new BigInteger(130, random).toString(32);
             customer.setVerificationCode(verificationCode);
-            List<CartLineItem> cartLineItems = customer.getCartLineItems();
-            List<Product> produsts = productManagementLocal.viewAllProduct();
-            for(int i = 0; i < 6; i ++) {
-                CartLineItem newItem = new CartLineItem();
-                newItem.setCustomer(customer);
-                newItem.setProduct(produsts.get(i));
-                newItem.setQuantity(0);
-                cartLineItems.add(newItem);
-            }
-            customer.setCartLineItems(cartLineItems);
             em.persist(customer);
             em.flush();
             
@@ -359,52 +349,6 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             deleteAddress(address.getAddressId());
         }
         return true;
-    }
-    
-    @Override
-    public Boolean addCartLineItemToCart(CartLineItem cartLineItem) {
-        try {
-            List<CartLineItem> cart = customer.getCartLineItems();
-            for (int i = 0; i < 6; i ++) {
-                if (cart.get(i).getProduct().equals(cartLineItem.getProduct())){
-                    int quantity = cart.get(i).getQuantity();
-                    quantity++;
-                    cart.get(i).setQuantity(quantity);
-                }
-            }
-            customer.setCartLineItems(cart);
-            em.merge(customer);
-            em.flush();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    @Override
-    public Boolean removeCartLineItemFromCart(CartLineItem cartLineItem) {
-        try{
-            List<CartLineItem> cart = customer.getCartLineItems();
-            for (int i = 0; i < 6; i++) {
-                if (cart.get(i).getProduct().equals(cartLineItem.getProduct())){
-                    int quantity = cart.get(i).getQuantity();
-                    if(cartLineItem.getQuantity() == -1){
-                        quantity = 0;
-                    } else{
-                        if (quantity > 0){
-                            quantity--;
-                        }
-                    }
-                    cart.get(i).setQuantity(quantity);
-                }
-            }
-            customer.setCartLineItems(cart);
-            em.merge(customer);
-            em.flush();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
     
     @Override

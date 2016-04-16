@@ -94,28 +94,61 @@ public class CustomerCartManagedBean implements Serializable {
         }
         customer = accountManagementRemote.getCustomer();
         accountManagementRemote.resetCartLineItemForCheckOut();
-        cartLineItems = accountManagementRemote.getCustomer().getCartLineItems();
+        if (productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()) != null){
+            cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        }
     }
     
     public void addProductToCart (Product product){
-        newCartLineItem.setProduct(product);
-        newCartLineItem.setCustomer(customer);
-        newCartLineItem.setQuantity(1);
-        accountManagementRemote.addCartLineItemToCart(newCartLineItem);
+        List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        if (!carLineItems.isEmpty()){
+            for (int i = 0; i < carLineItems.size(); i ++) {
+                if (carLineItems.get(i).getProduct().equals(product)){
+                    CartLineItem cartLineItem = carLineItems.get(i);
+                    int quantity = cartLineItem.getQuantity();
+                    quantity ++;
+                    cartLineItem.setQuantity(quantity);
+                    productManagementRemote.updateCartLineItem(cartLineItem);
+                }
+            }
+            newCartLineItem.setProduct(product);
+            newCartLineItem.setCustomer(customer);
+            newCartLineItem.setQuantity(1);
+            productManagementRemote.createCartLineItem(newCartLineItem);
+        } else {
+            newCartLineItem.setProduct(product);
+            newCartLineItem.setCustomer(customer);
+            newCartLineItem.setQuantity(1);
+            productManagementRemote.createCartLineItem(newCartLineItem);
+        }
     }
     
     public void deductProductFromCart (Product product){
-        cartLineItemToRemove.setProduct(product);
-        cartLineItemToRemove.setCustomer(customer);
-        cartLineItemToRemove.setQuantity(1);
-        accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
+        List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        if (!carLineItems.isEmpty()){
+            for (int i = 0; i < carLineItems.size(); i ++) {
+                if (carLineItems.get(i).getProduct().equals(product)){
+                    CartLineItem cartLineItem = carLineItems.get(i);
+                    int quantity = cartLineItem.getQuantity();
+                    quantity --;
+                    cartLineItem.setQuantity(quantity);
+                    productManagementRemote.updateCartLineItem(cartLineItem);
+                }
+            }
+        }
     }
     
     public void removeProductFromCart (Product product){
-        cartLineItemToRemove.setProduct(product);
-        cartLineItemToRemove.setCustomer(customer);
-        cartLineItemToRemove.setQuantity(-1);
-        accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
+        List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        if (!carLineItems.isEmpty()){
+            for (int i = 0; i < carLineItems.size(); i ++) {
+                if (carLineItems.get(i).getProduct().equals(product)){
+                    Long cartLineItemId = carLineItems.get(i).getCartLineItemId();
+                    productManagementRemote.deleteCartLineItem(cartLineItemId);
+                }
+            }
+        }
+        
     }
     
     public boolean isCartEmpty(){
@@ -124,7 +157,7 @@ public class CustomerCartManagedBean implements Serializable {
                 return false;
             }
         }
-        return true; 
+        return true;
     }
     
     public void retireveSingleItemTotalPrice (ActionEvent event){
