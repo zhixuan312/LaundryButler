@@ -118,6 +118,15 @@ public class CustomerCartManagedBean implements Serializable {
         accountManagementRemote.removeCartLineItemFromCart(cartLineItemToRemove);
     }
     
+    public Boolean isCartEmpty(){
+        for (int i = 0; i < cartLineItems.size(); i ++){
+            if (cartLineItems.get(i).getQuantity() == 0){
+                return false;
+            }
+        }
+        return true; 
+    }
+    
     public void retireveSingleItemTotalPrice (ActionEvent event){
         singleItemTotalPrice = selectedCartLineItem.getProduct().getPrice() * selectedCartLineItem.getQuantity();
     }
