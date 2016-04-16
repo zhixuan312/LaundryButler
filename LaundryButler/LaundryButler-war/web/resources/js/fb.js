@@ -42,8 +42,12 @@ window.fbAsyncInit = function () {
 
 function customerLogin() {
   console.log('Welcome!  Fetching your information.... ');
-  FB.api('/me', {fields: ['last_name', 'first_name', 'birthday', 'email', 'gender']}, function (response) {
-    console.log('Successful login for: ' + response.email);
+  FB.api('/me', {fields: ['id','last_name', 'first_name', 'birthday', 'email', 'gender','verified']}, function (response) {
+    console.log('id' + response.id);
+    console.log('last_name' + response.last_name);
+    console.log('first_name' + response.first_name);
+    console.log('birthday' + response.birthday);
+    console.log('email' + response.email);
     fbLoginButtonClick(response);
     console.log('Finish login process.');
   });
