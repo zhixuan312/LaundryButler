@@ -54,7 +54,7 @@
                       <div class="col-md-6">
                         <p>Price: <h:outputText value="$#{box.price}"/> </p>
                         <p>Paid By: <h:outputText value="#{box.payer.firstName} #{box.payer.lastName}"/> </p>
-                        <p>Rating: <h:outputText value="#{box.rating}"/></p>
+                        <p>Rating: <h:outputText value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/></p>
                       </div>
                      
                     </div>
