@@ -74,7 +74,7 @@
             </div>
             <h:form class="form" rendered="#{!customerProfileManagedBean.customer.isFaceBook}">
               <!--<h:messages id="messages"></h:messages>-->
-              <h:outputText id="messages" value="Hehe" rendered="false"/>
+              <!--<h:outputText id="messages" value="Hehe" rendered="false"/>-->
             <div class="modal-body">
               <div class="form-group">
                 <h:outputLabel class="control-label" for="password_old" value="Old Password"/>
@@ -87,7 +87,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.checkPassword}" ><f:ajax render="messages"/></h:commandButton>
+              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.checkPassword}" ><f:ajax execute="@form" render="messages"/></h:commandButton>
               <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
             </div>
             </h:form>
