@@ -125,17 +125,21 @@ public class CustomerProfileManagedBean implements Serializable{
                     } catch(IOException ex) {
                         ex.printStackTrace();
                     }
-                    message = "";
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
                 } else {
                     
                 }
+                message = "";
                 return true;
             } else {
                 message = "Password is not vaild";
                 return false;
             }
         }
+    }
+    
+    public void resetMessage (){
+        message = "";
     }
     
     public void cancelUpdateCustomerProfile (ActionEvent event){
