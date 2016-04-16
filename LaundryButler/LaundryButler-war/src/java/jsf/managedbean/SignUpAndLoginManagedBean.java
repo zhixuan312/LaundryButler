@@ -144,10 +144,11 @@ public class SignUpAndLoginManagedBean implements Serializable
     {
         try
         {
+            accountManagementRemote.logout();
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             
             ((HttpSession)ec.getSession(true)).invalidate();
-            ec.redirect("index.xhtml?faces-redirect=true");
+            ec.redirect("index.xhtml?faces-redirect=true");      
         }
         catch(IOException ex)
         {

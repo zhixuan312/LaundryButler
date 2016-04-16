@@ -35,6 +35,7 @@ public class CustomerProfileManagedBean implements Serializable{
     
     Customer customer;
     Address address;
+    String oldPassword;
     Card card;
     List<Address> addresses;
     List<Card> cards;
@@ -72,18 +73,35 @@ public class CustomerProfileManagedBean implements Serializable{
     }
     
     public void updateCustomerProfile (ActionEvent event) {
-        if(accountManagementRemote.updateCutomerProfile(customer)){
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-//            customer = accountManagementRemote.getCustomer();
-            try{
-                ec.redirect("home.xhtml?faces-redirect=true");
-                
-            } catch(IOException ex) {
-                ex.printStackTrace();
+        if (customer.getIsFaceBook()) {
+            customer.setIsFaceBook(false);
+            if(accountManagementRemote.updateCutomerProfile(customer)){
+                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                try{
+                    ec.redirect("home.xhtml?faces-redirect=true");
+                    
+                } catch(IOException ex) {
+                    ex.printStackTrace();
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+            if (customer.getPassword().equals(oldPassword)){
+                if(accountManagementRemote.updateCutomerProfile(customer)){
+                    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                    try{
+                        ec.redirect("home.xhtml?faces-redirect=true");
+                        
+                    } catch(IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+                }
+            }
         }
     }
     
@@ -208,5 +226,13 @@ public class CustomerProfileManagedBean implements Serializable{
     
     public void setCards(List<Card> cards) {
         this.cards = cards;
+    }
+    
+    public String getOldPassword() {
+        return oldPassword;
+    }
+    
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 }
