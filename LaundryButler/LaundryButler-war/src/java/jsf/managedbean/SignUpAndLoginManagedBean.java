@@ -89,6 +89,7 @@ public class SignUpAndLoginManagedBean implements Serializable
                 this.customer.setLastName(getLast_name());
                 this.customer.setFirstName(getFirst_name());
                 this.customer.setGender(getGender());
+                this.customer.setIsFaceBook(true);
                 this.createCustomer(event);
             }
             

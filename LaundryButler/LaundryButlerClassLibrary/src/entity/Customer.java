@@ -25,6 +25,7 @@ public class Customer implements Serializable {
     private String lastName;
     private String mobile;
     private String gender;
+    private Boolean isFaceBook;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfBirth;
     private String accountStatus;
@@ -60,6 +61,7 @@ public class Customer implements Serializable {
         this.customerShareOuts = new ArrayList<>();
         this.neighbourShareIns = new ArrayList<>();
         this.selectedCartLineItems = new ArrayList<>();
+        this.isFaceBook = true; 
     }
 
     public Long getCustomerId() {
@@ -228,6 +230,14 @@ public class Customer implements Serializable {
 
     public void setSelectedCartLineItems(List<CartLineItem> selectedCartLineItems) {
         this.selectedCartLineItems = selectedCartLineItems;
+    }
+
+    public Boolean getIsFaceBook() {
+        return isFaceBook;
+    }
+
+    public void setIsFaceBook(Boolean isFaceBook) {
+        this.isFaceBook = isFaceBook;
     }
 
     @Override
