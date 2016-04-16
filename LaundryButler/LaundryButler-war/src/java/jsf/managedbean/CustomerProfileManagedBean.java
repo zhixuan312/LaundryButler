@@ -63,8 +63,12 @@ public class CustomerProfileManagedBean implements Serializable{
             ex.printStackTrace();
         }
         customer = accountManagementRemote.getCustomer();
-        addresses = accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId());
-        cards = accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId());
+        if (accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId()) != null) {
+            addresses = accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId());
+        }
+        if (accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId()) != null){
+            cards = accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId());
+        }
     }
     
     public void updateCustomerProfile (ActionEvent event) {
