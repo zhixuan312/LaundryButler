@@ -2,7 +2,6 @@ package AccountManagement;
 
 import entity.Customer;
 import entity.Address;
-import entity.Card;
 import entity.CartLineItem;
 import entity.Employee;
 import entity.Transaction;
@@ -27,31 +26,31 @@ import javax.persistence.Query;
 @Local(AccountManagementLocal.class)
 @Remote(AccountManagementRemote.class)
 public class AccountManagement implements AccountManagementRemote, AccountManagementLocal {
-    
+
     @EJB
     private AccountManagementLocal accountManagementLocal;
     @PersistenceContext
     private EntityManager em;
-    
+
     private Boolean isLoggedIn = false;
     private long currentCustomerId = 0;
     private long currentEmployeeId = 0;
     private Customer customer;
     private Employee employee;
-    
+
     @Override
     public String register(Customer customer) {
         boolean sameEmail = false;
         List<Customer> list = new ArrayList<>();
-        try{
+        try {
             String jpql = "SELECT c FROM Customer c";
             Query query = em.createQuery(jpql);
             list = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
-        for (int i = 0; i < list.size(); i ++) {
-            if (list.get(i).getEmail().equals(customer.getEmail())){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getEmail().equals(customer.getEmail())) {
                 sameEmail = true;
             }
         }
@@ -61,80 +60,72 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             customer.setVerificationCode(verificationCode);
             em.persist(customer);
             em.flush();
-            
+
             return verificationCode;
         } else {
             return "-1";
         }
     }
-    
+
     @Override
     public Boolean activate(long customerId, long verificationCode) {
         try {
             String jpql = "SELECT c FROM Customer c WHERE c.customerId = " + customerId + "AND c.verificationCode = " + verificationCode;
             Query query = em.createQuery(jpql);
-            Customer currentCustomer = (Customer)query.getSingleResult();
+            Customer currentCustomer = (Customer) query.getSingleResult();
             return true;
         } catch (Exception e) {
             return false;
         }
     }
-    
+
     @Override
-    public Boolean customerLogin(String email, String password)
-    {
+    public Boolean customerLogin(String email, String password) {
         customer = accountManagementLocal.retrieveCustomerByEmail(email);
-        
-        if(customer != null)
-        {
-            if(customer.getPassword().equals(password))
-            {
+
+        if (customer != null) {
+            if (customer.getPassword().equals(password)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
-    
+
     @Override
-    public Boolean customerLoginByFaceBook(String email)
-    {
-        if (accountManagementLocal.retrieveCustomerByEmail(email) == null){
+    public Boolean customerLoginByFaceBook(String email) {
+        if (accountManagementLocal.retrieveCustomerByEmail(email) == null) {
             return false;
         } else {
             customer = accountManagementLocal.retrieveCustomerByEmail(email);
             return true;
         }
     }
-    
+
     @Override
     public Customer retrieveCustomerByEmail(String email) {
-        try{
+        try {
             String jpql = "SELECT c FROM Customer c WHERE c.email = " + "'" + email + "'";
             Query query = em.createQuery(jpql);
-            return (Customer)query.getSingleResult();
-        } catch(NoResultException ex) {
+            return (Customer) query.getSingleResult();
+        } catch (NoResultException ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    
+
     @Override
     public Customer viewAccount() {
         return customer;
     }
-    
+
     @Override
     public Transaction viewTransactionHistory() {
         return null;
     }
-    
+
     @Override
     public Boolean logout() {
         customer.setSelectedCartLineItems(new ArrayList<>());
@@ -144,10 +135,10 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         employee = null;
         return true;
     }
-    
+
     @Override
-    public Boolean updateCutomerProfile (Customer customer) {
-        try{
+    public Boolean updateCutomerProfile(Customer customer) {
+        try {
             em.merge(customer);
             em.flush();
             this.customer = customer;
@@ -156,15 +147,15 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public List<Customer> viewAllRecordedCustomer (){
+    public List<Customer> viewAllRecordedCustomer() {
         List<Customer> customers = null;
-        try{
+        try {
             String jpql = "SELECT c FROM Customer c";
             Query query = em.createQuery(jpql);
             customers = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
         if (customers.isEmpty()) {
@@ -173,20 +164,20 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return customers;
         }
     }
-    
+
     @Override
-    public Long createNewEmployee (Employee employee){
+    public Long createNewEmployee(Employee employee) {
         boolean sameEmail = false;
         List<Employee> list = new ArrayList<>();
-        try{
+        try {
             String jpql = "SELECT e FROM Employee e";
             Query query = em.createQuery(jpql);
             list = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
-        for (int i = 0; i < list.size(); i ++) {
-            if (list.get(i).getEmail().equals(employee.getEmail())){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getEmail().equals(employee.getEmail())) {
                 sameEmail = true;
             }
         }
@@ -198,9 +189,9 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return new Long("-1");
         }
     }
-    
+
     @Override
-    public Boolean changeIsAdminStatus (Long employeeId){
+    public Boolean changeIsAdminStatus(Long employeeId) {
         try {
             Employee employee = em.find(Employee.class, employeeId);
             employee.setIsAdmin(true);
@@ -212,43 +203,36 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public Boolean employeeLogin(String email, String password)
-    {
+    public Boolean employeeLogin(String email, String password) {
         employee = accountManagementLocal.retrieveEmployeeByEmail(email);
-        
-        if(employee != null)
-        {
-            if(employee.getPassword().equals(password))
-            {
+
+        if (employee != null) {
+            if (employee.getPassword().equals(password)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
-    
+
     @Override
     public Employee retrieveEmployeeByEmail(String email) {
-        try{
+        try {
             String jpql = "SELECT e FROM Employee e WHERE e.email = " + "'" + email + "'";
             Query query = em.createQuery(jpql);
-            return (Employee)query.getSingleResult();
-        } catch(NoResultException ex) {
+            return (Employee) query.getSingleResult();
+        } catch (NoResultException ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    
+
     @Override
-    public Boolean updateEmployeeProfile (Employee employee) {
+    public Boolean updateEmployeeProfile(Employee employee) {
         try {
             em.merge(employee);
             em.flush();
@@ -258,15 +242,15 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public List<Employee> viewAllRecordedEmployee (){
+    public List<Employee> viewAllRecordedEmployee() {
         List<Employee> employees = null;
-        try{
+        try {
             String jpql = "SELECT e FROM Employee e";
             Query query = em.createQuery(jpql);
             employees = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
         if (employees.isEmpty()) {
@@ -275,9 +259,9 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return employees;
         }
     }
-    
+
     @Override
-    public Boolean deleteEmployee (Long employeeId){
+    public Boolean deleteEmployee(Long employeeId) {
         try {
             Employee employee = em.find(Employee.class, employeeId);
             em.remove(employee);
@@ -286,9 +270,9 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public Boolean createAddress (Address address) {
+    public Boolean createAddress(Address address) {
         try {
             em.persist(address);
             em.flush();
@@ -297,9 +281,9 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public Boolean updateAddress (Address address){
+    public Boolean updateAddress(Address address) {
         try {
             em.merge(address);
             em.flush();
@@ -308,43 +292,43 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public List<Address> viewAllAddressByCustomerId(Long customerId){
+    public List<Address> viewAllAddressByCustomerId(Long customerId) {
         List<Address> addresses = null;
-        try{
+        try {
             String jpql = "SELECT a FROM Address a WHERE a.customer.customerId = " + customerId;
             Query query = em.createQuery(jpql);
             addresses = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
-        if (addresses.isEmpty()){
+        if (addresses.isEmpty()) {
             return null;
         } else {
             return addresses;
         }
     }
-    
+
     @Override
-    public List<Address> viewAllRecordedAddress (){
+    public List<Address> viewAllRecordedAddress() {
         List<Address> addresses = null;
-        try{
+        try {
             String jpql = "SELECT a FROM Address a";
             Query query = em.createQuery(jpql);
             addresses = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
-        if (addresses.isEmpty()){
+        if (addresses.isEmpty()) {
             return null;
         } else {
             return addresses;
         }
     }
-    
+
     @Override
-    public Boolean deleteAddress (Long addressId){
+    public Boolean deleteAddress(Long addressId) {
         try {
             Address address = em.find(Address.class, addressId);
             em.remove(address);
@@ -353,84 +337,17 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public Boolean deleteAddresses (List<Address> addresses){
-        for (Address address:addresses){
+    public Boolean deleteAddresses(List<Address> addresses) {
+        for (Address address : addresses) {
             deleteAddress(address.getAddressId());
         }
         return true;
     }
-    
+
     @Override
-    public Boolean createCard (Card card) {
-        try {
-            em.persist(card);
-            em.flush();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    @Override
-    public Boolean updateCard (Card card){
-        try {
-            em.merge(card);
-            em.flush();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    @Override
-    public List<Card> viewAllCardByCustomerId(Long customerId){
-        List<Card> cards = null;
-        try{
-            String jpql = "SELECT c FROM Card c WHERE c.customer.customerId = " + customerId;
-            Query query = em.createQuery(jpql);
-            cards = query.getResultList();
-        } catch(NoResultException ex) {
-            ex.printStackTrace();
-        }
-        if (cards.isEmpty()) {
-            return null;
-        } else {
-            return cards;
-        }
-    }
-    
-    @Override
-    public List<Card> viewAllRecordedCard (){
-        List<Card> cards = null;
-        try{
-            String jpql = "SELECT c FROM Card c";
-            Query query = em.createQuery(jpql);
-            cards = query.getResultList();
-        } catch(NoResultException ex) {
-            ex.printStackTrace();
-        }
-        if (cards.isEmpty()) {
-            return null;
-        } else {
-            return cards;
-        }
-    }
-    
-    @Override
-    public Boolean deleteCard (Long cardId){
-        try {
-            Card card = em.find(Card.class, cardId);
-            em.remove(card);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    @Override
-    public Boolean addCartLineItemToCart(CartLineItem cartLineItem){
+    public Boolean addCartLineItemToCart(CartLineItem cartLineItem) {
         try {
             List<CartLineItem> cart = customer.getCartLineItems();
             cart.add(cartLineItem);
@@ -442,12 +359,12 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public Boolean removeCartLineItemFromCart (CartLineItem cartLineItem){
+    public Boolean removeCartLineItemFromCart(CartLineItem cartLineItem) {
         List<CartLineItem> cart = customer.getCartLineItems();
-        for (int i = 0; i < cart.size(); i ++){
-            if (cart.get(i).getCartLineItemId().equals(cartLineItem.getCartLineItemId())){
+        for (int i = 0; i < cart.size(); i++) {
+            if (cart.get(i).getCartLineItemId().equals(cartLineItem.getCartLineItemId())) {
                 cart.remove(i);
                 customer.setCartLineItems(cart);
                 em.merge(customer);
@@ -457,9 +374,9 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         }
         return false;
     }
-    
+
     @Override
-    public Boolean addCartLineItemForCheckOut(CartLineItem cartLineItem){
+    public Boolean addCartLineItemForCheckOut(CartLineItem cartLineItem) {
         try {
             List<CartLineItem> cart = customer.getSelectedCartLineItems();
             cart.add(cartLineItem);
@@ -471,9 +388,9 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public Boolean resetCartLineItemForCheckOut(){
+    public Boolean resetCartLineItemForCheckOut() {
         try {
             customer.setSelectedCartLineItems(new ArrayList<>());
             em.merge(customer);
@@ -483,15 +400,15 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             return false;
         }
     }
-    
+
     @Override
-    public Customer getCustomer () {
+    public Customer getCustomer() {
         return customer;
     }
-    
+
     @Override
-    public Employee getEmployee(){
+    public Employee getEmployee() {
         return employee;
     }
-    
+
 }

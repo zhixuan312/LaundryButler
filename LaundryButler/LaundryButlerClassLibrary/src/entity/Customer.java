@@ -36,8 +36,6 @@ public class Customer implements Serializable {
     private Integer express;
     private List<CartLineItem> selectedCartLineItems;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
-    private List<Card> creditCards;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Transaction> transactions;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Address> addresses;
@@ -53,7 +51,6 @@ public class Customer implements Serializable {
     private List<SharedBoxPermission> neighbourShareIns;
 
     public Customer() {
-        this.creditCards = new ArrayList<>();
         this.transactions = new ArrayList<>();
         this.addresses = new ArrayList<>();
         this.cartLineItems = new ArrayList<>();
@@ -153,14 +150,6 @@ public class Customer implements Serializable {
 
     public void setDateRegistered(Date dateRegistered) {
         this.dateRegistered = dateRegistered;
-    }
-
-    public List<Card> getCreditCards() {
-        return creditCards;
-    }
-
-    public void setCreditCards(List<Card> creditCards) {
-        this.creditCards = creditCards;
     }
 
     public List<Transaction> getTransactions() {

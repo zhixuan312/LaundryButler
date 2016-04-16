@@ -1,13 +1,12 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
 import entity.Address;
-import entity.Card;
 import entity.Customer;
 import java.io.IOException;
 import java.io.Serializable;
@@ -28,250 +27,190 @@ import javax.faces.event.ActionEvent;
  */
 @Named(value = "customerProfileManagedBean")
 @SessionScoped
-public class CustomerProfileManagedBean implements Serializable{
-    
+public class CustomerProfileManagedBean implements Serializable {
+
     @EJB
     private AccountManagementRemote accountManagementRemote;
-    
+
     private Customer customer;
     private Address address;
     private String oldPassword;
     private String newPassword;
-    private Card card;
     private List<Address> addresses;
-    private List<Card> cards;
 //    private String message;
-    
-    
+
     public CustomerProfileManagedBean() {
         customer = new Customer();
         address = new Address();
-        card = new Card();
         addresses = new ArrayList<>();
-        cards = new ArrayList<>();
         oldPassword = "";
         newPassword = "";
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        
-        try{
-            if(ec.getSessionMap().get("login") == null){
+
+        try {
+            if (ec.getSessionMap().get("login") == null) {
                 ec.redirect("login.xhtml?faces-redirect=true");
             } else {
-                if(ec.getSessionMap().get("login").equals(false)) {
+                if (ec.getSessionMap().get("login").equals(false)) {
                     ec.redirect("login.xhtml?faces-redirect=true");
                 }
             }
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         customer = accountManagementRemote.getCustomer();
         if (accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId()) != null) {
             addresses = accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId());
         }
-        if (accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId()) != null){
-            cards = accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId());
-        }
     }
-    
-    public void updateCustomerProfile (ActionEvent event) {
-        
-        if(accountManagementRemote.updateCutomerProfile(customer)){
+
+    public void updateCustomerProfile(ActionEvent event) {
+
+        if (accountManagementRemote.updateCutomerProfile(customer)) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            try{
+            try {
                 ec.redirect("home.xhtml?faces-redirect=true");
-                
-            } catch(IOException ex) {
+
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
-        
+
     }
-    
-    public Boolean checkPassword(ActionEvent event){
+
+    public Boolean checkPassword(ActionEvent event) {
         if (customer.getIsFaceBook()) {
             customer.setIsFaceBook(false);
             customer.setPassword(newPassword);
-            if(accountManagementRemote.updateCutomerProfile(customer)){
+            if (accountManagementRemote.updateCutomerProfile(customer)) {
                 ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-                try{
+                try {
                     ec.redirect("home.xhtml?faces-redirect=true");
-                    
-                } catch(IOException ex) {
+
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
                 return true;
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
                 return false;
             }
         } else {
-            if(customer.getPassword().equals(oldPassword)){
+            if (customer.getPassword().equals(oldPassword)) {
                 customer.setPassword(newPassword);
-                if(accountManagementRemote.updateCutomerProfile(customer)){
+                if (accountManagementRemote.updateCutomerProfile(customer)) {
                     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-                    try{
+                    try {
                         ec.redirect("home.xhtml?faces-redirect=true");
-                        
-                    } catch(IOException ex) {
+
+                    } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
                 } else {
-                    
+
                 }
                 return true;
             } else {
-              System.out.println("######## old password wrong!");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid old password.","Invalid old password."));
-                
+                System.out.println("######## old password wrong!");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid old password.", "Invalid old password."));
+
                 return false;
             }
         }
     }
-    
-    public void cancelUpdateCustomerProfile (ActionEvent event){
+
+    public void cancelUpdateCustomerProfile(ActionEvent event) {
         try {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            
+
             ec.redirect("customerProfile.xhtml?faces-redirect=true");
-            
-        } catch(IOException ex) {
+
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
-    public void createAddress (ActionEvent event) {
-        if (accountManagementRemote.createAddress(address)){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+
+    public void createAddress(ActionEvent event) {
+        if (accountManagementRemote.createAddress(address)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create","Fail to create"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create", "Fail to create"));
         }
     }
-    
-    public void cancelCreateAddress(ActionEvent event){
+
+    public void cancelCreateAddress(ActionEvent event) {
         try {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            
+
             ec.redirect("customerProfile.xhtml?faces-redirect=true");
-            
-        } catch(IOException ex) {
+
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
-    public void updateAddress (ActionEvent event) {
-        if(accountManagementRemote.updateAddress(address)){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+
+    public void updateAddress(ActionEvent event) {
+        if (accountManagementRemote.updateAddress(address)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
     }
-    
-    public void deleteAddress (ActionEvent event) {
-        Address addressToDelete = (Address)event.getComponent().getAttributes().get("addressToDelete");
-        if(accountManagementRemote.deleteAddress(addressToDelete.getAddressId())){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+
+    public void deleteAddress(ActionEvent event) {
+        Address addressToDelete = (Address) event.getComponent().getAttributes().get("addressToDelete");
+        if (accountManagementRemote.deleteAddress(addressToDelete.getAddressId())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
     }
-    
-    public void createCard (ActionEvent event) {
-        if (accountManagementRemote.createCard(card)){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create","Fail to create"));
-        }
-    }
-    
-    public void cancelCreateCard(ActionEvent event){
-        try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            
-            ec.redirect("customerProfile.xhtml?faces-redirect=true");
-            
-        } catch(IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    public void updateCard (ActionEvent event) {
-        if(accountManagementRemote.updateCard(card)){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
-        }
-    }
-    
-    public void deleteCard (ActionEvent event) {
-        Card cardToDelete = (Card)event.getComponent().getAttributes().get("cardToDelete");
-        if(accountManagementRemote.deleteAddress(cardToDelete.getCardId())){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
-        }
-    }
-    
+
     public Customer getCustomer() {
         return customer;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
+
     public Address getAddress() {
         return address;
     }
-    
+
     public void setAddress(Address address) {
         this.address = address;
     }
-    
-    public Card getCard() {
-        return card;
-    }
-    
-    public void setCard(Card card) {
-        this.card = card;
-    }
-    
+
     public List<Address> getAddresses() {
         return addresses;
     }
-    
+
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
-    
-    public List<Card> getCards() {
-        return cards;
-    }
-    
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
-    
+
     public String getOldPassword() {
         return oldPassword;
     }
-    
+
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
-    
+
     public String getNewPassword() {
         return newPassword;
     }
-    
+
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }

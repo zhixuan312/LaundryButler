@@ -1,7 +1,6 @@
 package AccountManagement;
 
 import entity.Address;
-import entity.Card;
 import entity.CartLineItem;
 import entity.Customer;
 import entity.Employee;
@@ -53,16 +52,6 @@ public interface AccountManagementRemote {
     public Boolean deleteAddress (Long addressId);
     
     public Boolean deleteAddresses (List<Address> addresses);
-    
-    public Boolean createCard (Card card);
-    
-    public Boolean updateCard (Card card);
-    
-    public List<Card> viewAllCardByCustomerId(Long customerId);
-    
-    public List<Card> viewAllRecordedCard ();
-    
-    public Boolean deleteCard (Long cardId);
     
     public Boolean employeeLogin(String email, String password);
     
