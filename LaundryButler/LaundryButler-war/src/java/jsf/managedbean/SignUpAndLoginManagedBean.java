@@ -4,6 +4,7 @@ import AccountManagement.AccountManagementRemote;
 import entity.Customer;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -27,6 +28,9 @@ public class SignUpAndLoginManagedBean implements Serializable
     private Customer customer;
     private String email;
     private String password;
+    private String last_name;
+    private String first_name;
+    private String gender;
     
     @PostConstruct
     public void init()
@@ -39,6 +43,9 @@ public class SignUpAndLoginManagedBean implements Serializable
         customer = new Customer();
         email = "";
         password = "";
+        last_name="";
+        first_name="";
+        gender="";
     }
     
     public void customerLogin(ActionEvent event)
@@ -64,7 +71,36 @@ public class SignUpAndLoginManagedBean implements Serializable
         }
     }
     
-        public void employeeLogin(ActionEvent event)
+    public void customerLoginByFaceBook(ActionEvent event){
+        try
+        {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            
+            if(accountManagementRemote.customerLoginByFaceBook(email))
+            {
+                ec.getSessionMap().put("login", true);
+                ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
+            }
+            else
+            {
+                this.customer.setEmail(email);
+                Long randomPassword = (long)(Math.random()* 9999);
+                this.customer.setPassword(Long.toString(randomPassword));
+                this.customer.setLastName(getLast_name());
+                this.customer.setFirstName(getFirst_name());
+                this.customer.setGender(getGender());
+                this.createCustomer(event);
+            }
+            
+        }
+        catch(IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+    }
+    
+    public void employeeLogin(ActionEvent event)
     {
         try
         {
@@ -126,7 +162,7 @@ public class SignUpAndLoginManagedBean implements Serializable
             customer = new Customer();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New customer registered successfully!", "Your registration verification code is " + verificationCode));
             this.customerLogin(event);
-
+            
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email is been registered", "Email is been registered"));        }
     }
@@ -168,5 +204,29 @@ public class SignUpAndLoginManagedBean implements Serializable
     
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public String getLast_name() {
+        return last_name;
+    }
+    
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+    
+    public String getFirst_name() {
+        return first_name;
+    }
+    
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+    
+    public String getGender() {
+        return gender;
+    }
+    
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

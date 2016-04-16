@@ -100,6 +100,13 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     }
     
     @Override
+    public Boolean customerLoginByFaceBook(String email)
+    {
+        customer = accountManagementLocal.retrieveCustomerByEmail(email);
+        return true;
+    }
+    
+    @Override
     public Customer retrieveCustomerByEmail(String email) {
         try{
             String jpql = "SELECT c FROM Customer c WHERE c.email = " + "'" + email + "'";

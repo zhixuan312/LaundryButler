@@ -20,6 +20,8 @@ public interface AccountManagementRemote {
     
     public Boolean customerLogin(String email, String password);
     
+    public Boolean customerLoginByFaceBook(String email);
+    
     public Customer viewAccount();
     
     public Transaction viewTransactionHistory();
