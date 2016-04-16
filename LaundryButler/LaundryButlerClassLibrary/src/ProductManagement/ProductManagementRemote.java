@@ -35,4 +35,8 @@ public interface ProductManagementRemote {
     
     public Boolean deleteCartLineItem (Long cartLineItemId);
     
+    public CartLineItem getCartLineItem();
+
+    public void setCartLineItem(CartLineItem cartLineItem);
+    
 }

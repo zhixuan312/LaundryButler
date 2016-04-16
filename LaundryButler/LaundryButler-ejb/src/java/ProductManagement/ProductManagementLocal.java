@@ -34,4 +34,9 @@ public interface ProductManagementLocal {
     public List<CartLineItem> viewAllCartLineItemByCustomerId (Long customerId);
     
     public Boolean deleteCartLineItem (Long cartLineItemId);
+    
+    public CartLineItem getCartLineItem();
+
+    public void setCartLineItem(CartLineItem cartLineItem);
+
 }

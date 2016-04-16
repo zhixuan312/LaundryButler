@@ -28,6 +28,8 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
     @PersistenceContext
     private EntityManager em;
     
+    private CartLineItem cartLineItem;
+    
     @Override
     public Long createProduct (Product product) {
         try {
@@ -134,5 +136,15 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    @Override
+    public CartLineItem getCartLineItem() {
+        return cartLineItem;
+    }
+    
+    @Override
+    public void setCartLineItem(CartLineItem cartLineItem) {
+        this.cartLineItem = cartLineItem;
     }
 }
