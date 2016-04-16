@@ -76,6 +76,7 @@ public class CustomerProfileManagedBean implements Serializable{
         if (accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId()) != null){
             cards = accountManagementRemote.viewAllCardByCustomerId(customer.getCustomerId());
         }
+        message = "";
     }
     
     public void updateCustomerProfile (ActionEvent event) {
