@@ -1,9 +1,9 @@
 GROUP EB01
 -----------------------------------------------------
-Leader:		A0111860R Ho Ren Sen
-Members:	A0105484H Jin Wenqian
-		A0119323M Nguyen Tran Nhat Uyen
-		A0124493E Zhang Zhixuan
+A0111860R Ho Ren Sen (Engineer/Leader)
+A0105484H Jin Wenqian (Designer)
+A0119323M Nguyen Tran Nhat Uyen (Designer)
+A0124493E Zhang Zhixuan (Engineer)
 
 VIEWING INSTRUCTIONS
 -----------------------------------------------------
@@ -19,33 +19,37 @@ Rename "LaundryButler" to "src". Then upload to IVLE.
 
 FUNCTION CHECKLIST
 -----------------------------------------------------
-CUSTOMERS
+CUSTOMER USE CASES
 
-- Sign up an account with an optional referring username.
-- Enter verification code if manual signup.
-- Sign up with Facebook with an optional referring username.
-- Login with LaundryButler account.
-- Login with Facebook account.
-- Link Facebook and LaundryButler account.
+- Sign up an account with no referring customer ID.
+- Sign up an account with referrer's customer ID.
+- Award referrer and referent one free dry cleaning if a valid referrer's customer ID is entered during signup.
+- Randomly generate verification code upon customer registration (set account status to Pending).
+- Email verification code to customer.
+- Enter verification code if manual signup (set account status to Verified and clear verification code).
+- Sign up with Facebook with an optional referring customer ID.
+DONE - Login with LaundryButler account.
+DONE - Login with Facebook account.
+DONE - Link Facebook and LaundryButler account.
 - Add Airbnb username in LaundryButler profile.
-- Logout.
-
-- View account details.
-- Update account information.
+DONE - Logout.
+- View account information i.e. number of dry cleaning, number of express cleaning, number of unscheduled boxes
+- Update account information i.e. first name, last name, mobile number
 - Change password with confirm password.
 
 - View addresses.
 - Create address.
 - Update address.
 - Delete address.
+- Mark an address as Airbnb address if user logs in to LaundryButler from Airbnb.
 
-- View credit card info.
-- Create credit card info.
-- Update credit card info.
-- Delete credit card info.
-- Link with PayPal.
-- Unlink from Paypal.
-- Set a default payment method.
+- Pay with Stripe.
+- Record transaction and transaction line items.
+- Update number of dry cleaning.
+- Update number of express cleaning.
+- Immediately generate boxes according to customers' purchased plan.
+- Immediately generate weekly pickup dates and make it "Scheduled".
+- Randomly generate 3-digit box passcode for each box.
 
 - Add products to shopping cart.
 - Edit quantity of products on shopping cart.
@@ -68,44 +72,26 @@ CUSTOMERS
 
 
 
+EMPLOYEE/ADMIN USE CASES
 
+- Employee login.
 
-SYSTEM
-
-- Randomly generate verification code upon customer registration.
-- Email verification code to customer.
-- After successful verification, set account status to be "Verified" and clear verification code.
-
-- Immediately generate boxes according to customers' purchased products.
-- Randomly generate 4-digit box passcode for each box.
-- Immediately generate weekly pickup dates and make it "Scheduled".
-
-- Mark an address as Airbnb address if user logs in to LaundryButler from Airbnb.
-
-
-
-
-
-ADMIN
-
-- View dashboard (up to our creative SQL queries).
-
-- View all products.
+- View list of all products (boxes and add-ons).
 - View product details.
 - Add product.
-- Update product.
-- Delete product.
+- Edit product (only if it has never been purchased before).
+- Delete product (only if it has never been purchased before).
 
 - View all employees.
 - Add employee.
 - Update employee.
-- Delete employee.
+- Delete employee (only if he/she has never been assigned a task before).
 - Assign employees to boxes (randomly).
 
-- View all customers.
+- View list of all customers.
 - View customer details.
 - Update customer.
-- Suspend customer.
+- Suspend customer (change account status from Verified to Suspended).
 
 - View transaction history for all customers.
 - View transaction details.
