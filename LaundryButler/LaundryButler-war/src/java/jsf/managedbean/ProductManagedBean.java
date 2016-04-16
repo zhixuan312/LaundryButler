@@ -34,11 +34,14 @@ public class ProductManagedBean implements Serializable{
     
     private Employee admin;
     private Product product;
-    private List<Product> products;
+    private List<Product> productsTotal;
+    private List<Product> products1;
+    private List<Product> products2;
     
     public ProductManagedBean() {
         product = new Product();
-        products = new ArrayList<>();
+        products1 = new ArrayList<>();
+        products2 = new ArrayList<>();
     }
     
     @PostConstruct
@@ -65,7 +68,14 @@ public class ProductManagedBean implements Serializable{
             ex.printStackTrace();
         }
         admin = accountManagementRemote.getEmployee();
-        products = productManagmentRemote.viewAllProduct();
+        productsTotal = productManagmentRemote.viewAllProduct();
+        for (int i= 0; i < 6; i ++) {
+            if (i < 3){
+                products1.add(productsTotal.get(i));
+            } else {
+                products2.add(productsTotal.get(i));
+            }
+        }
     }
     
     public void createProduct(ActionEvent event){
@@ -123,12 +133,28 @@ public class ProductManagedBean implements Serializable{
         this.product = product;
     }
     
-    public List<Product> getProducts() {
-        return products;
+    public Employee getAdmin() {
+        return admin;
     }
     
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setAdmin(Employee admin) {
+        this.admin = admin;
+    }
+    
+    public List<Product> getProducts1() {
+        return products1;
+    }
+    
+    public void setProducts1(List<Product> products1) {
+        this.products1 = products1;
+    }
+    
+    public List<Product> getProducts2() {
+        return products2;
+    }
+    
+    public void setProducts2(List<Product> products2) {
+        this.products2 = products2;
     }
     
     public Employee getEmployee() {
