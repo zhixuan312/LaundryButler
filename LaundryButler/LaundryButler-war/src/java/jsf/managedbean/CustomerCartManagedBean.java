@@ -101,7 +101,7 @@ public class CustomerCartManagedBean implements Serializable {
     
     public void addProductToCart (Product product){
         List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
-        if (!carLineItems.isEmpty() || carLineItems != null){
+        if (carLineItems != null || !carLineItems.isEmpty()){
             for (int i = 0; i < carLineItems.size(); i ++) {
                 if (carLineItems.get(i).getProduct().equals(product)){
                     CartLineItem cartLineItem = carLineItems.get(i);
