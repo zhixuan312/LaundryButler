@@ -4,7 +4,8 @@ import AccountManagement.AccountManagementRemote;
 import entity.Customer;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Random;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -84,8 +85,8 @@ public class SignUpAndLoginManagedBean implements Serializable
             else
             {
                 this.customer.setEmail(email);
-                Long randomPassword = (long)(Math.random()* 9999);
-                this.customer.setPassword(Long.toString(randomPassword));
+                SecureRandom random = new SecureRandom();
+                this.customer.setPassword(new BigInteger(130, random).toString(32));
                 this.customer.setLastName(getLast_name());
                 this.customer.setFirstName(getFirst_name());
                 this.customer.setGender(getGender());
