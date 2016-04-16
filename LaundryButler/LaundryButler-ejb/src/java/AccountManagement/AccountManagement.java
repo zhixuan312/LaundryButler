@@ -102,8 +102,12 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     @Override
     public Boolean customerLoginByFaceBook(String email)
     {
-        customer = accountManagementLocal.retrieveCustomerByEmail(email);
-        return true;
+        if (accountManagementLocal.retrieveCustomerByEmail(email) == null){
+            return false;
+        } else {
+            customer = accountManagementLocal.retrieveCustomerByEmail(email);
+            return true;
+        }  
     }
     
     @Override
