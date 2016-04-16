@@ -48,11 +48,10 @@
     </div>
     <div>
       <h:form id="fbLogin" class="form hide">
-        <h:inputText  id="fblastname"  class="form-control input_text" value="#{signUpAndLoginManagedBean_test.last_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
-        <h:inputText  id="fbfirstname"  class="form-control input_text"  value="#{signUpAndLoginManagedBean_test.first_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
-        <h:inputText  id="fbemail"  class="form-control input_text"  value="#{signUpAndLoginManagedBean_test.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
-        <h:inputText id="fbpassword" class="form-control input_text" value="#{signUpAndLoginManagedBean_test.password}" maxlength="32" required="true" requiredMessage="Password is required"/>
-        <h:commandButton id="fbloginButton" value="CUSTOMER LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean_test.fbCustomerLogin}">
+        <h:inputText  id="fblastname"  class="form-control input_text" value="#{signUpAndLoginManagedBean.last_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
+        <h:inputText  id="fbfirstname"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.first_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
+        <h:inputText  id="fbemail"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
+        <h:commandButton id="fbloginButton" value="CUSTOMER LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean.customerLoginByFaceBook}">
           <f:ajax execute="@form"/>
         </h:commandButton>
       </h:form>
@@ -62,7 +61,7 @@
         document.getElementById('#{cc.clientId}:fbLogin:fbemail').value = response.email;
         document.getElementById('#{cc.clientId}:fbLogin:fblastname').value = response.last_name;
         document.getElementById('#{cc.clientId}:fbLogin:fbfirstname').value = response.first_name;
-        document.getElementById('#{cc.clientId}:fbLogin:fbpassword').value = "123456";//hardcode for testing
+        
         var status = document.getElementById('#{cc.clientId}:fbLogin:fbloginButton').click();
         //console.log(status);
         console.log("Login finished!");
