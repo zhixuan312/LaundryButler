@@ -231,6 +231,13 @@ footer .glyphicon {
 .subscreen{
   min-height: 100vh;
 }
+
+.error_message{
+  color: #F5A9A9;
+  text-shadow: none;
+  list-style: none;
+  padding-left: 0;
+}
 /*.command_button:active,
 .command_button:focus{
     color:#3fb0ac;

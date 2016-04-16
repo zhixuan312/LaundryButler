@@ -23,14 +23,14 @@
           <a class="navbar-brand" href="#homePage">Logo</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right" >
             <li><a href="#home">HOME</a></li>
             <li><a href="#mybox">MY BOX</a></li>
             <li><a href="#myinvoice">MY INVOICE</a></li>
             <li><a href="#discover">DISCOVER</a></li>
             <li><a href="#freedry">FREE DRY</a></li>
             <li><a href="#contact">CONTACT</a></li>
-            <li style="margin-left: 40px;">
+            <li style="margin-left: 20px;">
               <h:form id="fbLogout" class="form hide" style="display: inline-block">
                 <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}">
                   <f:ajax execute="@form"/>
@@ -50,10 +50,37 @@
                 }
               </script>
             </li>
+            <li><button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" style="margin-left: 40px; padding: 3px; border: 0; background: transparent;">
+                <i class="glyphicon glyphicon-shopping-cart text-center" style="color:white; font-size: 1.5em; padding: 0; margin: 0; border: 0;"></i>
+              </button>
+            </li>
           </ul>
 
         </div>
       </div>
     </nav>
+    
+    <!-- Modal windows-->
+      <div class="modal fade" id="myShoppingCart" role="dialog" style="padding-top:100px;">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header themeBg">
+              <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title text-center">My Profile</h4>
+            </div>
+            <h:form class="form">
+            <div class="modal-body">
+              <h3 class="themeC">Account</h3>
+              
+            </div>
+            <div class="modal-footer">
+              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.updateCustomerProfile}" ><f:ajax execute="@form"/></h:commandButton>
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
+            </div>
+            </h:form>
+          </div>
+        </div>
+      </div>
   </cc:implementation>
 </html>
