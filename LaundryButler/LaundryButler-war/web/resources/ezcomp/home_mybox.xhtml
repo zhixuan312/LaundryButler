@@ -19,10 +19,10 @@
         <table class="table table-hover text-center">
           <thead>
             <td></td>
-            <td>Pick Up</td>
-            <td>Delivery</td>
-            <td>Dry Clean</td>
-            <td>Status</td>
+            <td style="font-weight:bold; color:#000000;">Pick Up</td>
+            <td style="font-weight:bold; color:#000000;">Delivery</td>
+            <td style="font-weight:bold; color:#000000;">Dry Clean</td>
+            <td style="font-weight:bold; color:#000000;">Status</td>
             <td class="text-right">
 
             </td>
@@ -30,7 +30,7 @@
           <tbody>
             <ui:repeat var="box" value="#{customerBoxManagedBean.boxes}">
               <tr data-toggle="collapse" data-target="#myBoxToggle#{box.boxId}" class="accordion-toggle">
-                <td>#{box.boxId}</td>
+                <td style="font-weight: bold;color:#000000;">#{box.boxId}</td>
                 <td>
                   <h:outputText class="pTime" value="#{box.pickupDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="HH:mm, MMM dd yyyy, E" /></h:outputText>
                 </td>
@@ -44,20 +44,19 @@
               <tr>
                 <td colspan="6" class="hiddenRow">
                   <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
-                    <div class="row" style="padding-left:20px;padding-right:20px;">
-                      <div class="col-md-4">
+                    <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
+                      <div class="col-md-6" style="padding-left:46px;" >
                         <p>Passcode: <h:outputText value="#{box.boxPasscode}"/></p>
                         <p>Sharing: <h:outputText value="#{box.allowSharing}"/></p>
-                      </div>
-                      <div class="col-md-4">
                         <p>Collected by: <h:outputText value="#{box.employee.firstName} #{box.employee.lastName}"/> </p>
                         <p>Contact: <h:outputText value="#{box.employee.mobile}"/> </p>
-                        <p>Rating: <h:outputText value="#{box.rating}"/></p>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <p>Price: <h:outputText value="$#{box.price}"/> </p>
                         <p>Paid By: <h:outputText value="#{box.payer.firstName} #{box.payer.lastName}"/> </p>
+                        <p>Rating: <h:outputText value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/></p>
                       </div>
+                     
                     </div>
                   </div>
                 </td>
