@@ -29,32 +29,32 @@
               <h3 class="themeC">Account</h3>
               <div class="form-group">
                 <h:outputLabel class="control-label" for="signUp_email" value="Email"/>
-                <h:inputText id="signUp_email"  class="form-control input_text"  value="#{signUpAndLoginManagedBean_test.customer.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
+                <h:inputText id="signUp_email"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.customer.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
               </div>
               <div class="form-group">
                 <h:outputLabel class="control-label" for="singUp_password" value="Password"/>
-                <h:inputSecret id="singUp_password"  class="form-control input_text"  value="#{signUpAndLoginManagedBean_test.customer.password}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+                <h:inputSecret id="singUp_password"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.customer.password}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
               </div>
               
               <h3 class="themeC">Basic</h3>
               <div class="form-group">
                 <h:outputLabel class="control-label" for="singUp_firstName" value="First Name"/>
-                <h:inputText id="singUp_firstName"  class="form-control input_text"  value="#{signUpAndLoginManagedBean_test.customer.firstName}" maxlength="32" required="true" requiredMessage="First Name is required"/>
+                <h:inputText id="singUp_firstName"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.customer.firstName}" maxlength="32" required="true" requiredMessage="First Name is required"/>
               </div>
               <div class="form-group">
                 <h:outputLabel class="control-label" for="profile_lastName" value="Last Name"/>
-                <h:inputText id="profile_lastName"  class="form-control input_text"  value="#{signUpAndLoginManagedBean_test.customer.lastName}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+                <h:inputText id="profile_lastName"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.customer.lastName}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
               </div>
 
               <h3 class="themeC">Contact</h3>
               
               <div class="form-group">
                 <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
-                <h:inputText id="profile_mobile"  class="form-control input_text"  value="#{signUpAndLoginManagedBean_test.customer.mobile}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+                <h:inputText id="profile_mobile"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.customer.mobile}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
               </div>
             </div>
             <div class="modal-footer">
-              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{signUpAndLoginManagedBean_test.createCustomer}"><f:ajax execute="@form"/></h:commandButton>
+              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{signUpAndLoginManagedBean.createCustomer}"><f:ajax execute="@form"/></h:commandButton>
               <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
             </div>
           </h:form>

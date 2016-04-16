@@ -16,7 +16,8 @@
       <div class="col-sm-8">
         <h2>Hi, <h:outputText value="#{customerProfileManagedBean.customer.firstName}"/>!</h2><br/>
         <h4>Welcome to Laundry Butler home page.</h4><br/>
-        <button class="btn btn-lg page_button" data-toggle="modal" data-target="#myProfile">My Profile</button>
+          <button class="btn btn-lg page_button" data-toggle="modal" data-target="#myProfile">My Profile</button>
+          <button class="btn btn-lg page_button" data-toggle="modal" data-target="#myPassword">Change Password</button>
       </div>
       <!-- Modal windows-->
       <div class="modal fade" id="myProfile" role="dialog" style="padding-top:100px;">
@@ -29,6 +30,12 @@
             </div>
             <h:form class="form">
             <div class="modal-body">
+              <h3 class="themeC">Account</h3>
+              <div class="form-group">
+                <h:outputLabel class="control-label" for="profile_email" value="Email: "/>
+                <h:outputText id="profile_email"  class="input_text"  value="   #{customerProfileManagedBean.customer.email}"/>
+              </div>
+              
               <h3 class="themeC">Basic</h3>
               <div class="form-group">
                 <h:outputLabel class="control-label" for="profile_firstName" value="First Name"/>
@@ -42,10 +49,6 @@
               
               <h3 class="themeC">Contact</h3>
               <div class="form-group">
-                <h:outputLabel class="control-label" for="profile_email" value="Email"/>
-                <h:inputText id="profile_email"  class="form-control input_text"  value="#{customerProfileManagedBean.customer.email}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
-              </div>
-              <div class="form-group">
                 <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
                 <h:inputText id="profile_mobile"  class="form-control input_text"  value="#{customerProfileManagedBean.customer.mobile}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
               </div>
@@ -53,6 +56,38 @@
             </div>
             <div class="modal-footer">
               <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.updateCustomerProfile}" ><f:ajax execute="@form"/></h:commandButton>
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
+            </div>
+            </h:form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modal windows-->
+      <div class="modal fade" id="myPassword" role="dialog" style="padding-top:100px;">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header themeBg">
+              <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title text-center">Change Password</h4>
+            </div>
+            <h:form class="form" rendered="#{!customerProfileManagedBean.customer.isFaceBook}">
+              <!--<h:messages id="messages"></h:messages>-->
+              <h:outputText id="messages" value="Hehe" rendered="false"/>
+            <div class="modal-body">
+              <div class="form-group">
+                <h:outputLabel class="control-label" for="password_old" value="Old Password"/>
+                <h:inputSecret id="password_old"  class="form-control input_text"  value="#{customerProfileManagedBean.oldPassword}" maxlength="32" required="true" requiredMessage="First Name is required"/>
+              </div>
+              
+              <div class="form-group">
+                <h:outputLabel class="control-label" for="password_new" value="New Password"/>
+                <h:inputSecret id="password_new"  class="form-control input_text"  value="#{customerProfileManagedBean.newPassword}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.checkPassword}" ><f:ajax render="messages"/></h:commandButton>
               <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
             </div>
             </h:form>
