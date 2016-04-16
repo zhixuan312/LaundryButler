@@ -25,6 +25,8 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
     @PersistenceContext
     private EntityManager em;
     
+    Transaction transcation;
+    
     @Override
     public Boolean createTransaction (Transaction transaction) {
         try {
@@ -258,5 +260,15 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    @Override
+    public Transaction getTranscation() {
+        return transcation;
+    }
+    
+    @Override
+    public void setTranscation(Transaction transcation) {
+        this.transcation = transcation;
     }
 }
