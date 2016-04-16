@@ -274,4 +274,12 @@ public class CustomerProfileManagedBean implements Serializable{
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
