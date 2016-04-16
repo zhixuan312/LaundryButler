@@ -7,13 +7,17 @@ package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
 import ProductManagement.ProductManagementRemote;
+import TransactionManagement.TransactionManagementRemote;
 import entity.CartLineItem;
 import entity.Customer;
+import entity.Transaction;
+import entity.TransactionLineItem;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -33,6 +37,8 @@ public class CustomerCartManagedBean implements Serializable {
     private AccountManagementRemote accountManagementRemote;
     @EJB
     private ProductManagementRemote productManagementRemote;
+    @EJB
+    private TransactionManagementRemote transactionManagementRemote;
     
     private Customer customer;
     private List<CartLineItem> cartLineItems;
@@ -43,6 +49,9 @@ public class CustomerCartManagedBean implements Serializable {
     private CartLineItem newCartLineItem;
     private CartLineItem cartLineItemToRemove;
     private CartLineItem cartLineItemAfterEdit;
+    private List<CartLineItem> readyToPayCartItems;
+    private List<TransactionLineItem> readyToPayTransactionLineItems;
+    private Transaction transaction;
     
     public CustomerCartManagedBean() {
         customer = new Customer();
@@ -51,9 +60,12 @@ public class CustomerCartManagedBean implements Serializable {
         totalPrice = 0;
         singleItemTotalPrice = 0;
         selectedCartLineItem = new CartLineItem();
+        readyToPayCartItems = new ArrayList<>();
         newCartLineItem = new CartLineItem();
         cartLineItemToRemove = new CartLineItem();
         cartLineItemAfterEdit = new CartLineItem();
+        readyToPayTransactionLineItems = new ArrayList<>();
+        transaction = new Transaction();
     }
     
     @PostConstruct
@@ -118,7 +130,39 @@ public class CustomerCartManagedBean implements Serializable {
             }
         }
         
+        readyToPayCartItems = customer.getCartLineItems();
         
+        if(readyToPayCartItems.isEmpty()){
+            for(int i = 0; i < readyToPayCartItems.size(); i ++) {
+                TransactionLineItem transactionLineItem = new TransactionLineItem();
+                transactionLineItem.setQuantity(readyToPayCartItems.get(i).getQuantity());
+                transactionLineItem.setUnitCharge(readyToPayCartItems.get(i).getProduct().getPrice());
+                transactionLineItem.setTotalCharge(readyToPayCartItems.get(i).getProduct().getPrice() * readyToPayCartItems.get(i).getQuantity());
+                transactionLineItem.setProduct(readyToPayCartItems.get(i).getProduct());
+                transactionManagementRemote.createTransactionLineItem(transactionLineItem);
+                readyToPayTransactionLineItems.add(transactionLineItem);
+            }
+        }
+        
+        transaction.setCustomer(customer);
+        Double totalCharge = new Double(0);
+        if (!readyToPayTransactionLineItems.isEmpty()){
+            for (int i = 0; i < readyToPayTransactionLineItems.size(); i ++){
+                totalCharge = totalCharge + readyToPayTransactionLineItems.get(i).getTotalCharge();
+            }
+            transaction.setTotalCharge(totalCharge);
+        } else {
+            transaction.setTotalCharge(new Double (0));
+        }
+        transaction.setTransactionDateTime(new Date());
+        if (transactionManagementRemote.createTransaction(transaction)){
+            if (!readyToPayTransactionLineItems.isEmpty()){
+                for (int j = 0; j < readyToPayTransactionLineItems.size(); j ++) {
+                    readyToPayTransactionLineItems.get(j).setTransaction(transaction);
+                    transactionManagementRemote.updateTransactionLineItem(readyToPayTransactionLineItems.get(j));
+                }
+            }
+        }
     }
     
     public Customer getCustomer() {
