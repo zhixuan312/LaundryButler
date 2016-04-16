@@ -51,4 +51,9 @@ public interface TransactionManagementRemote {
     public List<CartLineItem> viewAllCartLineItemByProductId (Long productId);
     
     public Boolean deleteCartLineItem (Long cartLineItemId);
+    
+    public Transaction getTranscation();
+    
+    public void setTranscation(Transaction transcation);
+    
 }

@@ -158,6 +158,7 @@ public class SignUpAndLoginManagedBean implements Serializable
     
     public void createCustomer(ActionEvent event)
     {
+        customer.setIsFaceBook(false);
         Long verificationCode = accountManagementRemote.register(customer);
         if (!verificationCode.equals(new Long("-1"))){
             this.email = customer.getEmail();

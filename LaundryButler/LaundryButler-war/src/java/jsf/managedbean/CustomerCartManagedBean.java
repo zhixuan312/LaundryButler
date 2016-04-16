@@ -163,6 +163,8 @@ public class CustomerCartManagedBean implements Serializable {
                 }
             }
         }
+        
+        transactionManagementRemote.setTranscation(transaction);
     }
     
     public Customer getCustomer() {

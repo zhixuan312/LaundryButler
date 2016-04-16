@@ -33,13 +33,15 @@ public class CustomerProfileManagedBean implements Serializable{
     @EJB
     private AccountManagementRemote accountManagementRemote;
     
-    Customer customer;
-    Address address;
-    String oldPassword;
-    String newPassword;
-    Card card;
-    List<Address> addresses;
-    List<Card> cards;
+    private Customer customer;
+    private Address address;
+    private String oldPassword;
+    private String newPassword;
+    private Card card;
+    private List<Address> addresses;
+    private List<Card> cards;
+//    private String message;
+    
     
     public CustomerProfileManagedBean() {
         customer = new Customer();
@@ -47,6 +49,8 @@ public class CustomerProfileManagedBean implements Serializable{
         card = new Card();
         addresses = new ArrayList<>();
         cards = new ArrayList<>();
+        oldPassword = "";
+        newPassword = "";
     }
     
     @PostConstruct
@@ -74,6 +78,23 @@ public class CustomerProfileManagedBean implements Serializable{
     }
     
     public void updateCustomerProfile (ActionEvent event) {
+        
+        if(accountManagementRemote.updateCutomerProfile(customer)){
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            try{
+                ec.redirect("home.xhtml?faces-redirect=true");
+                
+            } catch(IOException ex) {
+                ex.printStackTrace();
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+        }
+        
+    }
+    
+    public Boolean checkPassword(ActionEvent event){
         if (customer.getIsFaceBook()) {
             customer.setIsFaceBook(false);
             customer.setPassword(newPassword);
@@ -86,43 +107,33 @@ public class CustomerProfileManagedBean implements Serializable{
                     ex.printStackTrace();
                 }
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+                return true;
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+                return false;
             }
         } else {
-            if(accountManagementRemote.updateCutomerProfile(customer)){
-                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-                try{
-                    ec.redirect("home.xhtml?faces-redirect=true");
+            if(customer.getPassword().equals(oldPassword)){
+                customer.setPassword(newPassword);
+                if(accountManagementRemote.updateCutomerProfile(customer)){
+                    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                    try{
+                        ec.redirect("home.xhtml?faces-redirect=true");
+                        
+                    } catch(IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+                } else {
                     
-                } catch(IOException ex) {
-                    ex.printStackTrace();
                 }
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+                return true;
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+              System.out.println("######## old password wrong!");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid old password.","Invalid old password."));
+                
+                return false;
             }
-        }
-    }
-    
-    public Boolean checkPassword(ActionEvent event){
-        if(customer.getPassword().equals(oldPassword)){
-            customer.setPassword(newPassword);
-            if(accountManagementRemote.updateCutomerProfile(customer)){
-                ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-                try{
-                    ec.redirect("home.xhtml?faces-redirect=true");
-                    
-                } catch(IOException ex) {
-                    ex.printStackTrace();
-                }
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
-            }
-            return true;
-        } else {
-            return false;
         }
     }
     

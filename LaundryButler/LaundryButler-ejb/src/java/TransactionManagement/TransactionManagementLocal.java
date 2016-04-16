@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package TransactionManagement;
 
 import entity.CartLineItem;
@@ -51,5 +51,9 @@ public interface TransactionManagementLocal {
     public List<CartLineItem> viewAllCartLineItemByProductId (Long productId);
     
     public Boolean deleteCartLineItem (Long cartLineItemId);
+    
+    public Transaction getTranscation();
+    
+    public void setTranscation(Transaction transcation);
     
 }
