@@ -75,13 +75,19 @@
               
               <ui:fragment rendered="#{!customerCartManagedBean.isCartEmpty()}">
                 <table class="table table-hover text-center">
-                <ui:repeat var="item" value="#{customerCartManagedBean.cartLineItems}">
+                  <tbody>
+                  <ui:repeat var="item" value="#{customerCartManagedBean.refreshList()}">
                   <tr data-toggle="collapse" data-target="#myCartToggle#{item.cartLineItemId}" class="accordion-toggle">
                     <td>
                       <h:outputText value="#{item.product.name}"/>
                     </td>
                     <td>
+                      <span class="glyphicon glyphicon-plus"></span>
                       <h:outputText value="#{item.quantity}"/>
+                      <span class="glyphicon glyphicon-minus"></span>
+                    </td>
+                    <td>
+                      <h:outputText value="#{item.product.price * item.quantity}"/>
                     </td>
                     <td>
                       <i class="indicator glyphicon chevron_toggleable glyphicon-chevron-up pull-right"></i>
@@ -96,7 +102,9 @@
                   </div>
                 </td>
               </tr>
+                    
                 </ui:repeat>
+                  </tbody>
                 </table>
                 <script>
                   $('.chevron_toggleable').on('click', function () {
