@@ -232,4 +232,5 @@ public class SignUpAndLoginManagedBean implements Serializable
     public void setGender(String gender) {
         this.gender = gender;
     }
+    
 }

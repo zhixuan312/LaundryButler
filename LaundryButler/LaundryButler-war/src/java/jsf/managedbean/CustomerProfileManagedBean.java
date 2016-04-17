@@ -38,6 +38,7 @@ public class CustomerProfileManagedBean implements Serializable {
     private String oldPassword;
     private String newPassword;
     private List<Address> addresses;
+    private boolean hasAddress;
 //    private String message;
     
     public CustomerProfileManagedBean() {
@@ -46,6 +47,7 @@ public class CustomerProfileManagedBean implements Serializable {
         addresses = new ArrayList<>();
         oldPassword = "";
         newPassword = "";
+        hasAddress = false;
     }
     
     @PostConstruct
@@ -140,6 +142,7 @@ public class CustomerProfileManagedBean implements Serializable {
     }
     
     public void createAddress(ActionEvent event) {
+        address.setCustomer(customer);
         if (accountManagementRemote.createAddress(address)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
@@ -213,5 +216,13 @@ public class CustomerProfileManagedBean implements Serializable {
     
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+    
+    public boolean isHasAddress() {
+        return hasAddress;
+    }
+    
+    public void setHasAddress(boolean hasAddress) {
+        this.hasAddress = hasAddress;
     }
 }
