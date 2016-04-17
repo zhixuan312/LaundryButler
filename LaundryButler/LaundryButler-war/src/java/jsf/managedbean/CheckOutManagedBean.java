@@ -103,6 +103,11 @@ public class CheckOutManagedBean implements Serializable {
                 transactionLineItemsForOneTransaction.add(transactionLineItem);
             }
         }
+        try{
+            createStripeCharge();
+        } catch (Exception e){
+            
+        }
     }
     
     public void createStripeCharge() throws Exception {
