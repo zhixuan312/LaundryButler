@@ -25,7 +25,8 @@ public class Box implements Serializable {
     private Customer payer;
     private String status;
     private Double price;
-    private Integer dryCleaning;
+    private Boolean hasReqeustedDryCleaning;
+    private Boolean hasRequestedExpressService;
     @Temporal(TemporalType.TIMESTAMP)
     private Date pickupDateTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -109,14 +110,6 @@ public class Box implements Serializable {
         this.boxPasscode = boxPasscode;
     }
 
-    public Integer getDryCleaning() {
-        return dryCleaning;
-    }
-
-    public void setDryCleaning(Integer dryCleaning) {
-        this.dryCleaning = dryCleaning;
-    }
-
     public Boolean getAllowSharing() {
         return allowSharing;
     }
@@ -171,6 +164,22 @@ public class Box implements Serializable {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Boolean getHasReqeustedDryCleaning() {
+        return hasReqeustedDryCleaning;
+    }
+
+    public void setHasReqeustedDryCleaning(Boolean hasReqeustedDryCleaning) {
+        this.hasReqeustedDryCleaning = hasReqeustedDryCleaning;
+    }
+
+    public Boolean getHasRequestedExpressService() {
+        return hasRequestedExpressService;
+    }
+
+    public void setHasRequestedExpressService(Boolean hasRequestedExpressService) {
+        this.hasRequestedExpressService = hasRequestedExpressService;
     }
 
     @Override
