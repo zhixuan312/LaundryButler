@@ -15,29 +15,29 @@
 
         <!-- Container (HOME) -->
         <div id="home" class="container-fluid subscreen">
-          <ezcomp:employee_profile/>
+            <ezcomp:employee_profile/>
         </div>
 
-        <!-- Container (MY BOX) -->
-        <div id="mybox" class="container-fluid subscreen">
-          <h2 class="text-center">MY BOX</h2>
-          <ezcomp:employee_box/>
+        <!-- Container (BOXES) -->
+        <div id="boxes" class="container-fluid subscreen">
+            <h2 class="text-center">BOXES</h2>
+            <ezcomp:employee_box/>
         </div>
 
-        <!-- Container (Portfolio Section) -->
+        <!-- Container (Admin Section) -->
         <h:body rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
 
-          <div id="management" class="container-fluid subscreen text-center">
-            <h2>MANAGEMENT</h2>
-            <p>Under construction...</p>
-          </div>
-          <div id="product" class="container-fluid subscreen text-center">
-            <h2>PRODUCT</h2>
-            <p>Under construction...</p>
-          </div>
+            <div id="management" class="container-fluid subscreen text-center">
+                <h2>MANAGEMENT</h2>
+                <p>Under construction...</p>
+            </div>
+            <div id="product" class="container-fluid subscreen text-center">
+                <h2>PRODUCT</h2>
+                <p>Under construction...</p>
+            </div>
         </h:body>
 
-        
-        
+
+
     </cc:implementation>
 </html>

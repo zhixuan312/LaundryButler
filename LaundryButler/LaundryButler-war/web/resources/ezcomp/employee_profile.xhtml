@@ -6,21 +6,21 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
 
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
-    <div class="row">
-      <div class="col-sm-8">
-        <h2>Hi, <h:outputText value="#{adminEmployeeManagedBean.admin.firstName}"/>!</h2><br/>
-        <h4>Welcome to Laundry Butler EMPLOYEE page.</h4><br/>
-      </div>
-      <div class="col-sm-4">
-        <span class="glyphicon glyphicon-signal logo"></span>
-      </div>
-    </div>
-    
-  </cc:implementation>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="row">
+            <div class="col-sm-8">
+                <h2><h:outputText value="#{adminEmployeeManagedBean.admin.firstName} #{adminEmployeeManagedBean.admin.lastName}"/></h2>
+
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+
+    </cc:implementation>
 </html>
