@@ -38,6 +38,7 @@ public class CustomerProfileManagedBean implements Serializable {
     private String oldPassword;
     private String newPassword;
     private List<Address> addresses;
+    private boolean hasAddress;
 //    private String message;
     
     public CustomerProfileManagedBean() {
@@ -46,6 +47,7 @@ public class CustomerProfileManagedBean implements Serializable {
         addresses = new ArrayList<>();
         oldPassword = "";
         newPassword = "";
+        hasAddress = false;
     }
     
     @PostConstruct
@@ -66,6 +68,9 @@ public class CustomerProfileManagedBean implements Serializable {
         customer = accountManagementRemote.getCustomer();
         if (accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId()) != null) {
             addresses = accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId());
+            if (!addresses.isEmpty()){
+                hasAddress = true;
+            }
         }
     }
     
