@@ -68,6 +68,9 @@ public class CustomerProfileManagedBean implements Serializable {
         customer = accountManagementRemote.getCustomer();
         if (accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId()) != null) {
             addresses = accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId());
+            if(!addresses.isEmpty()){
+                hasAddress = true;
+            }
         }
     }
     
