@@ -49,6 +49,10 @@ public class CustomerCartManagedBean implements Serializable {
     private List<CartLineItem> readyToPayCartItems;
     private List<TransactionLineItem> readyToPayTransactionLineItems;
     private Transaction transaction;
+    private String stripeCurrency;
+    private String stripeLocale;
+    private String stripeName;
+    private String stripeAmount;
     
     public CustomerCartManagedBean() {
         customer = new Customer();
@@ -60,6 +64,9 @@ public class CustomerCartManagedBean implements Serializable {
         cartLineItemAfterEdit = new CartLineItem();
         readyToPayTransactionLineItems = new ArrayList<>();
         transaction = new Transaction();
+        stripeCurrency = "SGD";
+        stripeLocale = "auto";
+        stripeName = "LaundryButler";
     }
     
     @PostConstruct
@@ -100,15 +107,15 @@ public class CustomerCartManagedBean implements Serializable {
     
     public void addProductToCart (Product product){
         Boolean isThere = false;
-        List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
-        if (carLineItems != null && !carLineItems.isEmpty()){
-            for (int i = 0; i < carLineItems.size(); i ++) {
-                if (carLineItems.get(i).getProduct().equals(product)){
+        cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        if (cartLineItems != null && !cartLineItems.isEmpty()){
+            for (int i = 0; i < cartLineItems.size(); i ++) {
+                if (cartLineItems.get(i).getProduct().equals(product)){
                     CartLineItem newCartLineItem = new CartLineItem();
-                    newCartLineItem.setCartLineItemId(carLineItems.get(i).getCartLineItemId());
+                    newCartLineItem.setCartLineItemId(cartLineItems.get(i).getCartLineItemId());
                     newCartLineItem.setCustomer(customer);
                     newCartLineItem.setProduct(product);
-                    int quantity = carLineItems.get(i).getQuantity()+1;
+                    int quantity = cartLineItems.get(i).getQuantity()+1;
                     newCartLineItem.setQuantity(quantity);
                     productManagementRemote.updateCartLineItem(newCartLineItem);
                     cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
@@ -135,25 +142,31 @@ public class CustomerCartManagedBean implements Serializable {
     }
     
     public void deductProductFromCart (Product product){
-        List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
-        if (carLineItems != null && !carLineItems.isEmpty()){
-            for (int i = 0; i < carLineItems.size(); i ++) {
-                if (carLineItems.get(i).getProduct().equals(product)){
+        cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        if (cartLineItems != null && !cartLineItems.isEmpty()){
+            for (int i = 0; i < cartLineItems.size(); i ++) {
+                if (cartLineItems.get(i).getProduct().equals(product)){
                     CartLineItem newCartLineItem = new CartLineItem();
-                    newCartLineItem.setCartLineItemId(carLineItems.get(i).getCartLineItemId());
+                    newCartLineItem.setCartLineItemId(cartLineItems.get(i).getCartLineItemId());
                     newCartLineItem.setCustomer(customer);
                     newCartLineItem.setProduct(product);
-                    int quantity = carLineItems.get(i).getQuantity()-1;
+                    int quantity = cartLineItems.get(i).getQuantity()-1;
                     if (quantity < 0) {
                         quantity = 0;
                     }
                     newCartLineItem.setQuantity(quantity);
                     productManagementRemote.updateCartLineItem(newCartLineItem);
-                    cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
-                    retrieveTotalPrice ();
                 }
             }
         }
+        cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        for (int j = 0; j < cartLineItems.size(); j ++){
+            if (cartLineItems.get(j).getQuantity() == 0){
+                productManagementRemote.deleteCartLineItem(cartLineItems.get(j).getCartLineItemId());
+            }
+        }
+        cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        retrieveTotalPrice ();
     }
     
     public void removeProductFromCart (Product product){
@@ -268,6 +281,70 @@ public class CustomerCartManagedBean implements Serializable {
     
     public void setCartLineItemAfterEdit(CartLineItem cartLineItemAfterEdit) {
         this.cartLineItemAfterEdit = cartLineItemAfterEdit;
+    }
+    
+    public TransactionManagementRemote getTransactionManagementRemote() {
+        return transactionManagementRemote;
+    }
+    
+    public void setTransactionManagementRemote(TransactionManagementRemote transactionManagementRemote) {
+        this.transactionManagementRemote = transactionManagementRemote;
+    }
+    
+    public List<CartLineItem> getReadyToPayCartItems() {
+        return readyToPayCartItems;
+    }
+    
+    public void setReadyToPayCartItems(List<CartLineItem> readyToPayCartItems) {
+        this.readyToPayCartItems = readyToPayCartItems;
+    }
+    
+    public List<TransactionLineItem> getReadyToPayTransactionLineItems() {
+        return readyToPayTransactionLineItems;
+    }
+    
+    public void setReadyToPayTransactionLineItems(List<TransactionLineItem> readyToPayTransactionLineItems) {
+        this.readyToPayTransactionLineItems = readyToPayTransactionLineItems;
+    }
+    
+    public Transaction getTransaction() {
+        return transaction;
+    }
+    
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+    
+    public String getStripeCurrency() {
+        return stripeCurrency;
+    }
+    
+    public void setStripeCurrency(String stripeCurrency) {
+        this.stripeCurrency = stripeCurrency;
+    }
+    
+    public String getStripeLocale() {
+        return stripeLocale;
+    }
+    
+    public void setStripeLocale(String stripeLocale) {
+        this.stripeLocale = stripeLocale;
+    }
+    
+    public String getStripeName() {
+        return stripeName;
+    }
+    
+    public void setStripeName(String stripeName) {
+        this.stripeName = stripeName;
+    }
+    
+    public String getStripeAmount() {
+        return stripeAmount;
+    }
+    
+    public void setStripeAmount(String stripeAmount) {
+        this.stripeAmount = stripeAmount;
     }
     
 }
