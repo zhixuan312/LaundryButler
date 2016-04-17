@@ -141,27 +141,15 @@
                                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                                         </h:outputText>
                                     </div>
-
+                                </div>
+                                <div class="modal-footer">
+                                    <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Checkout">
+                                    </h:commandButton>
                                 </div>
                             </div>
                         </h:form>
-
-                        <div class="modal-footer">
-                            <!-- Stripe Form -->
-                            <form id="stripeForm" method="POST" action="processStripeForm.xhtml">
-                                <script
-                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                    data-key="#{facesContext.externalContext.initParameterMap['StripeTestPublishableKey']}"
-                                    data-name="#{customerCartManagedBean.stripeName}"
-                                    data-amount="#{customerCartManagedBean.stripeAmount}"
-                                    data-currency="#{customerCartManagedBean.stripeCurrency}"
-                                    data-locale="#{customerCartManagedBean.stripeLocale}">
-                                </script>                
-                            </form>
-                        </div>
-
-                    </div>
                 </div>
+            </div>
             </div>
         </h:form>
     </cc:implementation>
