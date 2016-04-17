@@ -68,9 +68,6 @@ public class CustomerProfileManagedBean implements Serializable {
         customer = accountManagementRemote.getCustomer();
         if (accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId()) != null) {
             addresses = accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId());
-            if (!addresses.isEmpty()){
-                hasAddress = true;
-            }
         }
     }
     
@@ -219,11 +216,11 @@ public class CustomerProfileManagedBean implements Serializable {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
-
+    
     public boolean isHasAddress() {
         return hasAddress;
     }
-
+    
     public void setHasAddress(boolean hasAddress) {
         this.hasAddress = hasAddress;
     }
