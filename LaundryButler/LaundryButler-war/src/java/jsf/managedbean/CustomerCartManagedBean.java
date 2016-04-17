@@ -169,19 +169,6 @@ public class CustomerCartManagedBean implements Serializable {
         retrieveTotalPrice ();
     }
     
-    public void removeProductFromCart (Product product){
-        List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
-        if (!carLineItems.isEmpty()){
-            for (int i = 0; i < carLineItems.size(); i ++) {
-                if (carLineItems.get(i).getProduct().equals(product)){
-                    Long cartLineItemId = carLineItems.get(i).getCartLineItemId();
-                    productManagementRemote.deleteCartLineItem(cartLineItemId);
-                }
-            }
-        }
-        
-    }
-    
     public boolean isCartEmpty(){
         for (int i = 0; i < cartLineItems.size(); i ++){
             if (cartLineItems.get(i).getQuantity() != 0){
@@ -197,6 +184,8 @@ public class CustomerCartManagedBean implements Serializable {
             tempPrice = tempPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
         }
         totalPrice = tempPrice;
+        
+        stripeAmount = Double.toString(totalPrice * 100);
     }
     
     public void checkOutButton(){
