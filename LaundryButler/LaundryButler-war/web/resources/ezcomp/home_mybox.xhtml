@@ -14,7 +14,7 @@
   <cc:implementation>
     <div class="row">
       <div class="col-sm-2"/>
-      <div class="col-sm-8">
+      <div class="col-sm-8" style="height: 70vh;overflow: auto;">
         <ui:fragment rendered="#{customerBoxManagedBean.boxes.size() &gt; 0}">
         <table class="table table-hover text-center">
           <thead>
@@ -76,19 +76,5 @@
       </div>
       <div class="col-sm-2"/>
     </div>
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8 text-right">
-          <a href="#discover" class="page_nav_btn">
-            <button class="btn page_button">
-              <span>
-                <i class="glyphicon glyphicon-plus"/>
-              </span>
-              <span>Add</span>
-            </button>
-          </a>
-        </div>
-        <div class="col-sm-2"></div>
-      </div>
   </cc:implementation>
 </html>

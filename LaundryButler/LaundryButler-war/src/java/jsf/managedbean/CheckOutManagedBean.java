@@ -30,6 +30,7 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.inject.Inject;
 
 /**
  *
@@ -46,11 +47,13 @@ public class CheckOutManagedBean implements Serializable {
     @EJB
     private LaundryOrderManagementRemote laundryOrderManagementRemote;
     
+    @Inject
+    private CustomerCartManagedBean customerCartManagedBean;
+    
     private Customer customer;
     private List<TransactionLineItem> readyToPayTransactionLineItems;
     private Transaction transaction;
     private Double totalAmount;
-    private String description;
     private Box box;
     
     public CheckOutManagedBean() {
@@ -58,7 +61,6 @@ public class CheckOutManagedBean implements Serializable {
         readyToPayTransactionLineItems = new ArrayList<>();
         transaction = new Transaction();
         totalAmount = new Double (0);
-        description = "欢迎下次光临 ^_^";
     }
     
     @PostConstruct
@@ -93,10 +95,10 @@ public class CheckOutManagedBean implements Serializable {
         if (stripeToken != null && stripeToken.trim().length() > 0) {
             Stripe.apiKey = ec.getInitParameter("StripeTestSecretKey");
             Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", totalAmount);
-            chargeParams.put("currency", "SGD");
+            chargeParams.put("amount", customerCartManagedBean.getStripeAmount()); 
+            chargeParams.put("currency", customerCartManagedBean.getStripeCurrency());
             chargeParams.put("source", stripeToken);
-            chargeParams.put("description", description);
+            chargeParams.put("description", " ");
             Charge charge = Charge.create(chargeParams);
             
             if(charge.getStatus().equals("succeeded")){
@@ -124,6 +126,9 @@ public class CheckOutManagedBean implements Serializable {
                         }
                     }
                 }
+                
+                // TODO: Redirect to boxes page after successful charge
+                
             }
         } else {
             System.out.println("Invalid credit card details. Payment is declined.");
