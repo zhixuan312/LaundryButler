@@ -7,18 +7,20 @@ package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
 import entity.Customer;
-import invoiceGenerator.Invoice;
+import invoiceGenerator.PDFTest1;
 import java.io.IOException;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -32,8 +34,8 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
  * @author XUAN
  */
 @Named(value = "invoiceManagedBean")
-@SessionScoped
-public class InvoiceManagedBean implements Serializable {
+@RequestScoped
+public class InvoiceManagedBean{
     
     @EJB
     private AccountManagementRemote accountManagementRemote;
@@ -65,6 +67,24 @@ public class InvoiceManagedBean implements Serializable {
         customer = new Customer();
     }
     
+    @PostConstruct
+    public void init() {
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        
+        try {
+            if (ec.getSessionMap().get("login") == null) {
+                ec.redirect("login.xhtml?faces-redirect=true");
+            } else {
+                if (ec.getSessionMap().get("login").equals(false)) {
+                    ec.redirect("login.xhtml?faces-redirect=true");
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        customer = accountManagementRemote.getCustomer();
+    }
+    
     public void generate() throws IOException, ParseException {
         System.out.println("YO");
         generateContent();
@@ -73,7 +93,6 @@ public class InvoiceManagedBean implements Serializable {
     }
     
     public void generateContent()throws ParseException {
-        customer = accountManagementRemote.getCustomer();
         this.name = customer.getFirstName() + " " + customer.getLastName();
         this.add1 = "13 Computing Dr";
         this.add2 = "School of Computing, NUS";
@@ -82,9 +101,9 @@ public class InvoiceManagedBean implements Serializable {
         this.postcode = "117417";
         this.tel = "+65-612345";
         SecureRandom random = new SecureRandom();
-        this.gstRegNo = "" + new BigInteger(130, random).toString(6) + "/" + new Date().getYear();
-        this.invoiceNo = new BigInteger(130, random).toString(10);
-        this.invoiceDate = (Date) sdf.parse("21-MAY-2016");
+        this.gstRegNo = "" + new BigInteger(36, random).toString(32) + "/2016";
+        this.invoiceNo = "" + new BigInteger(36, random).toString(32);
+        this.invoiceDate = new Date();
         this.pageNo = "1";
         this.customerNo = customer.getCustomerId().toString();
         this.orderNo = "67889933";
