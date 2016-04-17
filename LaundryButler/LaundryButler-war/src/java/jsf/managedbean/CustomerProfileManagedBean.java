@@ -219,4 +219,12 @@ public class CustomerProfileManagedBean implements Serializable {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+
+    public boolean isHasAddress() {
+        return hasAddress;
+    }
+
+    public void setHasAddress(boolean hasAddress) {
+        this.hasAddress = hasAddress;
+    }
 }
