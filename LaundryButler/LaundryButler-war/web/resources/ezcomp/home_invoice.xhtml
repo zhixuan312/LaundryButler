@@ -16,7 +16,7 @@
       <div class="col-sm-2"/>
       <div class="col-sm-8 text-center">
         <a href="resources/temp/invoice.pdf" download="Invoice.pdf">
-          <button class="btn page_button" >Download</button>
+            <h:commandButton class="btn page_button" value="Download" actionListener="#{invoiceManagedBean.generate()}"></h:commandButton>
         </a>
       </div>
       <div class="col-sm-2"/>
