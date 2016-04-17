@@ -291,8 +291,12 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         try {
             em.merge(address);
             em.flush();
+            
+            System.out.println("##### updated address blk=" + address.getBlock());
             return true;
+            
         } catch (Exception e) {
+          e.printStackTrace();
             return false;
         }
     }
