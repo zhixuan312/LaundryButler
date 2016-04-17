@@ -93,6 +93,13 @@ public class CustomerCartManagedBean implements Serializable {
         }
     }
     
+    public List<CartLineItem> refreshList(){
+        if (productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()) != null){
+            cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        }
+        return cartLineItems;
+    }
+    
     public void addProductToCart (Product product){
         Boolean isThere = false;
         List<CartLineItem> carLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
@@ -131,13 +138,13 @@ public class CustomerCartManagedBean implements Serializable {
         if (carLineItems != null && !carLineItems.isEmpty()){
             for (int i = 0; i < carLineItems.size(); i ++) {
                 if (carLineItems.get(i).getProduct().equals(product)){
-                   CartLineItem newCartLineItem = new CartLineItem();
+                    CartLineItem newCartLineItem = new CartLineItem();
                     newCartLineItem.setCartLineItemId(carLineItems.get(i).getCartLineItemId());
                     newCartLineItem.setCustomer(customer);
                     newCartLineItem.setProduct(product);
                     int quantity = carLineItems.get(i).getQuantity()-1;
                     if (quantity < 0) {
-                        quantity = 0; 
+                        quantity = 0;
                     }
                     newCartLineItem.setQuantity(quantity);
                     productManagementRemote.updateCartLineItem(newCartLineItem);
@@ -183,7 +190,7 @@ public class CustomerCartManagedBean implements Serializable {
     public void checkOutButton(List<CartLineItem> cartLineItems){
         if (!cartLineItems.isEmpty()){
             for (int i = 0; i < cartLineItems.size(); i ++){
-               // accountManagementRemote.addCartLineItemForCheckOut(cartLineItems.get(i));
+                // accountManagementRemote.addCartLineItemForCheckOut(cartLineItems.get(i));
             }
         }
         
