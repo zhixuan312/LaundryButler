@@ -7,6 +7,7 @@ package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
 import LaundryOrderManagement.LaundryOrderManagementRemote;
+import ProductManagement.ProductManagementRemote;
 import TransactionManagement.TransactionManagementRemote;
 import entity.Customer;
 import entity.Transaction;
@@ -25,6 +26,7 @@ import javax.faces.event.ActionEvent;
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
 import entity.Box;
+import entity.CartLineItem;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
@@ -46,21 +48,21 @@ public class CheckOutManagedBean implements Serializable {
     private TransactionManagementRemote transactionManagementRemote;
     @EJB
     private LaundryOrderManagementRemote laundryOrderManagementRemote;
+    @EJB
+    private ProductManagementRemote productManagementRemote;
     
     @Inject
     private CustomerCartManagedBean customerCartManagedBean;
     
     private Customer customer;
-    private List<TransactionLineItem> readyToPayTransactionLineItems;
+    private List<TransactionLineItem> transactionLineItemsForOneTransaction;
     private Transaction transaction;
-    private Double totalAmount;
     private Box box;
     
     public CheckOutManagedBean() {
         customer = new Customer();
-        readyToPayTransactionLineItems = new ArrayList<>();
+        transactionLineItemsForOneTransaction = new ArrayList<>();
         transaction = new Transaction();
-        totalAmount = new Double (0);
     }
     
     @PostConstruct
@@ -82,8 +84,25 @@ public class CheckOutManagedBean implements Serializable {
     }
     
     public void checkOut(ActionEvent event) {
-        transaction = transactionManagementRemote.getTranscation();
-        totalAmount = transaction.getTotalCharge();
+        List<CartLineItem> cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+        transaction.setCustomer(customer);
+        transaction.setTotalCharge(customerCartManagedBean.getTotalPrice());
+        transaction.setTransactionDateTime(new Date());
+        Long transactionId = transactionManagementRemote.createTransaction(transaction);
+        transaction.setTransactionId(transactionId);
+        
+        if(!cartLineItems.isEmpty()){
+            for(int i = 0; i < cartLineItems.size(); i ++) {
+                TransactionLineItem transactionLineItem = new TransactionLineItem();
+                transactionLineItem.setQuantity(cartLineItems.get(i).getQuantity());
+                transactionLineItem.setUnitCharge(cartLineItems.get(i).getProduct().getPrice());
+                transactionLineItem.setTotalCharge(cartLineItems.get(i).getProduct().getPrice() * cartLineItems.get(i).getQuantity());
+                transactionLineItem.setProduct(cartLineItems.get(i).getProduct());
+                transactionLineItem.setTransaction(transaction);
+                transactionManagementRemote.createTransactionLineItem(transactionLineItem);
+                transactionLineItemsForOneTransaction.add(transactionLineItem);
+            }
+        }
     }
     
     public void createStripeCharge() throws Exception {
@@ -95,33 +114,37 @@ public class CheckOutManagedBean implements Serializable {
         if (stripeToken != null && stripeToken.trim().length() > 0) {
             Stripe.apiKey = ec.getInitParameter("StripeTestSecretKey");
             Map<String, Object> chargeParams = new HashMap<>();
-            chargeParams.put("amount", customerCartManagedBean.getStripeAmount()); 
+            chargeParams.put("amount", customerCartManagedBean.getStripeAmount());
             chargeParams.put("currency", customerCartManagedBean.getStripeCurrency());
             chargeParams.put("source", stripeToken);
             chargeParams.put("description", " ");
             Charge charge = Charge.create(chargeParams);
             
             if(charge.getStatus().equals("succeeded")){
-                List<TransactionLineItem> items = transaction.getTransactionLineItems();
-                for (int i = 0; i < items.size(); i ++) {
-                    for (int j = 0; j < items.get(i).getQuantity(); j ++) {
-                        for (int k = 0; k < items.get(i).getProduct().getNumberOfUnits(); k ++){
-                            box.setAllowSharing(false);
-                            SecureRandom random = new SecureRandom();
-                            box.setBoxPasscode(new BigInteger(130, random).toString(6));
-                            box.setCreatedDateTime(new Date());
-                            box.setCustomer(customer);
-                            box.setDeliveryDateTime(null);
-                            box.setIsShared(false);
-                            laundryOrderManagementRemote.createBox(box);
+                if (!transactionLineItemsForOneTransaction.isEmpty()){
+                    for (int i = 0; i < transactionLineItemsForOneTransaction.size(); i ++) {
+                        for (int j =0; j <transactionLineItemsForOneTransaction.get(i).getQuantity(); j++){
+                            for (int k =0; k < transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits(); k ++){
+                                box.setAllowSharing(false);
+                                SecureRandom random = new SecureRandom();
+                                box.setBoxPasscode(new BigInteger(130, random).toString(6));
+                                box.setCreatedDateTime(new Date());
+                                box.setCustomer(customer);
+                                box.setDeliveryDateTime(null);
+                                box.setIsShared(false);
+                                laundryOrderManagementRemote.createBox(box);
+                            }
                         }
-                        if (items.get(i).getProduct().getProductId() == 5){
-                            // dry cleaning
-                            customer.setDryCleaning(items.get(i).getQuantity());
+                        if (transactionLineItemsForOneTransaction.get(i).getProduct().getName().equals("Dry Cleaning")){
+                            int dryCleaning = customer.getDryCleaning();
+                            dryCleaning += transactionLineItemsForOneTransaction.get(i).getQuantity();
+                            customer.setDryCleaning(dryCleaning);
                             accountManagementRemote.updateCutomerProfile(customer);
-                        } else if (items.get(i).getProduct().getProductId() == 6){
-                            // express
-                            customer.setExpress(items.get(i).getQuantity());
+                        }
+                        if (transactionLineItemsForOneTransaction.get(i).getProduct().getName().equals("Express")){
+                            int express = customer.getDryCleaning();
+                            express += transactionLineItemsForOneTransaction.get(i).getQuantity();
+                            customer.setExpress(express);
                             accountManagementRemote.updateCutomerProfile(customer);
                         }
                     }
@@ -143,12 +166,12 @@ public class CheckOutManagedBean implements Serializable {
         this.customer = customer;
     }
     
-    public List<TransactionLineItem> getReadyToPayTransactionLineItems() {
-        return readyToPayTransactionLineItems;
+    public List<TransactionLineItem> getTransactionLineItemsForOneTransaction() {
+        return transactionLineItemsForOneTransaction;
     }
     
-    public void setReadyToPayTransactionLineItems(List<TransactionLineItem> readyToPayTransactionLineItems) {
-        this.readyToPayTransactionLineItems = readyToPayTransactionLineItems;
+    public void setTransactionLineItemsForOneTransaction(List<TransactionLineItem> transactionLineItemsForOneTransaction) {
+        this.transactionLineItemsForOneTransaction = transactionLineItemsForOneTransaction;
     }
     
     public Transaction getTransaction() {
@@ -157,6 +180,14 @@ public class CheckOutManagedBean implements Serializable {
     
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
+    }
+    
+    public Box getBox() {
+        return box;
+    }
+    
+    public void setBox(Box box) {
+        this.box = box;
     }
     
 }
