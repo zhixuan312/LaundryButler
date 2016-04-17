@@ -6,153 +6,163 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
 
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
-    <h:form id="cartLineItem" class="form">
-      <div id="discover" class="container-fluid subscreen bg-grey">
-        <div class="text-center">
-          <h2>Discovery</h2>
-          <h4>Choose a payment plan that works for you</h4>
-        </div>
-        <div class="row">
-          <ui:repeat var="current1" value="#{productManagedBean.products1}" size="3">
-            <div class="col-sm-4 col-xs-12">
-              <div class="panel panel-default text-center">
-                <div class="panel-heading">
-                  <h1><h:outputText value="#{current1.name}"/></h1>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="cartLineItem" class="form">
+            <div id="discover" class="container-fluid subscreen bg-grey">
+                <div class="text-center">
+                    <h2>Discovery</h2>
+                    <h4>Choose a payment plan that works for you</h4>
                 </div>
-                <div class="panel-body">
-                  <p><strong><h:outputText value="#{current1.description}"/></strong></p>
+                <div class="row">
+                    <ui:repeat var="current1" value="#{productManagedBean.products1}" size="3">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1><h:outputText value="#{current1.name}"/></h1>
+                                </div>
+                                <div class="panel-body">
+                                    <p><strong><h:outputText value="#{current1.description}"/></strong></p>
+                                </div>
+                                <div class="panel-footer">
+                                    <h3>$<h:outputText value="#{current1.price}"/></h3>
+                                    <h:commandButton type="button" class="btn btn-default" style="width:80px;" value="Add" actionListener="#{customerCartManagedBean.addProductToCart(current1)}" >
+                                        <f:ajax render="@form cartLineItemListView"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>      
+                        </div>  
+                    </ui:repeat>
                 </div>
-                <div class="panel-footer">
-                  <h3>$<h:outputText value="#{current1.price}"/></h3>
-                  <h:commandButton type="button" class="btn btn-default" style="width:80px;" value="Add" actionListener="#{customerCartManagedBean.addProductToCart(current1)}" >
-                    <f:ajax render="@form cartLineItemListView"/>
-                  </h:commandButton>
-                </div>
-              </div>      
-            </div>  
-          </ui:repeat>
-        </div>
 
-        <div class="row">
-          <ui:repeat var="current2" value="#{productManagedBean.products2}" size="3">
-            <div class="col-sm-4 col-xs-12">
-              <div class="panel panel-default text-center">
-                <div class="panel-heading">
-                  <h1><h:outputText value="#{current2.name}"/></h1>
+                <div class="row">
+                    <ui:repeat var="current2" value="#{productManagedBean.products2}" size="3">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="panel panel-default text-center">
+                                <div class="panel-heading">
+                                    <h1><h:outputText value="#{current2.name}"/></h1>
+                                </div>
+                                <div class="panel-body">
+                                    <p><strong><h:outputText value="#{current2.description}"/></strong></p>
+                                </div>
+                                <div class="panel-footer">
+                                    <h3>$<h:outputText value="#{current2.price}"/></h3>
+                                    <h:commandButton type="button" class="btn btn-default" style="width:80px;" value="Add" actionListener="#{customerCartManagedBean.addProductToCart(current2)}" >
+                                        <f:ajax render="@form cartLineItemListView"/>
+                                    </h:commandButton>
+                                </div>
+                            </div>      
+                        </div>  
+                    </ui:repeat>
                 </div>
-                <div class="panel-body">
-                  <p><strong><h:outputText value="#{current2.description}"/></strong></p>
-                </div>
-                <div class="panel-footer">
-                  <h3>$<h:outputText value="#{current2.price}"/></h3>
-                  <h:commandButton type="button" class="btn btn-default" style="width:80px;" value="Add" actionListener="#{customerCartManagedBean.addProductToCart(current2)}" >
-                    <f:ajax render="@form cartLineItemListView"/>
-                  </h:commandButton>
-                </div>
-              </div>      
-            </div>  
-          </ui:repeat>
-        </div>
-      </div>
-
-      <!-- Modal windows-->
-      <div class="modal fade" id="myShoppingCart" role="dialog" style="padding-top:100px;">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header themeBg">
-              <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title text-center">My Cart</h4>
             </div>
-            <h:form id='cartLineItemListView'>
-              <div class="modal-body">
 
-                <ui:fragment rendered="#{!customerCartManagedBean.isCartEmpty()}">
-                  <table class="table table-hover text-center">
-                    <tbody>
-                      <ui:repeat id="cartItemRepeat" var="item" value="#{customerCartManagedBean.cartLineItems}" varStatus="varStatus">
-                        <tr>
-                          <td>
-                            <h:outputText value="#{item.product.name}"/>
-                          </td>
-                          <td>
+            <!-- Modal windows-->
+            <div class="modal fade" id="myShoppingCart" role="dialog" style="padding-top:100px;">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header themeBg">
+                            <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title text-center">My Cart</h4>
+                        </div>
+                        <h:form id='cartLineItemListView'>
+                            <div class="modal-body">
 
-                            <button class="btn navbar-btn text-center" type="button" onclick="{
-                                  console.log('minus bottuon clikced');
-                                  document.getElementById('#{cc.clientId}:cartLineItem:cartLineItemListView:cartItemRepeat:#{varStatus.index}:minusButton').click();
-                                }" style="margin:0; padding: 0; border: 0; background: transparent;">
-                              <i class="glyphicon glyphicon-minus" ></i>
-                            </button>
-                            <h:outputText id="qty" value="#{item.quantity}" style="padding-left:20px;padding-right:20px;"></h:outputText>
-                            <button class="btn navbar-btn text-center" type="button" onclick="{
-                                  console.log('add bottuon clikced');
-                                  document.getElementById('#{cc.clientId}:cartLineItem:cartLineItemListView:cartItemRepeat:#{varStatus.index}:addButton').click();
-                                }" style="margin:0; padding: 0; border: 0; background: transparent;">
-                              <i class="glyphicon glyphicon-plus" ></i>
-                            </button>
-                            <h:commandButton id="minusButton" type="button" class="btn navbar-btn text-center hide" actionListener="#{customerCartManagedBean.deductProductFromCart(item.product)}">
-                              <f:ajax render="cartLineItemListView qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
-                            </h:commandButton>
-                            <h:commandButton id="addButton" type="button" class="btn navbar-btn text-center hide" actionListener="#{customerCartManagedBean.addProductToCart(item.product)}">
-                              <f:ajax render="cartLineItemListView qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
-                            </h:commandButton>
-                          </td>
-                          <td class="text-right">
-                            $<h:outputText id="itemprice" value="#{item.product.price * item.quantity}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2"/></h:outputText>
-                          </td>
-                          <td data-toggle="collapse" data-target="#myCartToggle#{item.cartLineItemId}" class="accordion-toggle">
-                            <i class="indicator glyphicon chevron_toggleable glyphicon-chevron-up pull-right"></i>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="6" class="hiddenRow">
-                            <div id="myCartToggle#{item.cartLineItemId}" class="accordian-body collapse">    
-                              <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
-                                <h:outputText value="#{item.quantity}"/>
-                              </div>
+                                <ui:fragment rendered="#{!customerCartManagedBean.isCartEmpty()}">
+                                    <table class="table table-hover text-center">
+                                        <tbody>
+                                            <ui:repeat id="cartItemRepeat" var="item" value="#{customerCartManagedBean.cartLineItems}" varStatus="varStatus">
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{item.product.name}"/>
+                                                    </td>
+                                                    <td>
+
+                                                        <button class="btn navbar-btn text-center" type="button" onclick="{
+                                                                    console.log('minus bottuon clikced');
+                                                                    document.getElementById('#{cc.clientId}:cartLineItem:cartLineItemListView:cartItemRepeat:#{varStatus.index}:minusButton').click();
+                                                                }" style="margin:0; padding: 0; border: 0; background: transparent;">
+                                                            <i class="glyphicon glyphicon-minus" ></i>
+                                                        </button>
+                                                        <h:outputText id="qty" value="#{item.quantity}" style="padding-left:20px;padding-right:20px;"></h:outputText>
+                                                        <button class="btn navbar-btn text-center" type="button" onclick="{
+                                                                    console.log('add bottuon clikced');
+                                                                    document.getElementById('#{cc.clientId}:cartLineItem:cartLineItemListView:cartItemRepeat:#{varStatus.index}:addButton').click();
+                                                                }" style="margin:0; padding: 0; border: 0; background: transparent;">
+                                                            <i class="glyphicon glyphicon-plus" ></i>
+                                                        </button>
+                                                        <h:commandButton id="minusButton" type="button" class="btn navbar-btn text-center hide" actionListener="#{customerCartManagedBean.deductProductFromCart(item.product)}">
+                                                            <f:ajax render="cartLineItemListView qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
+                                                        </h:commandButton>
+                                                        <h:commandButton id="addButton" type="button" class="btn navbar-btn text-center hide" actionListener="#{customerCartManagedBean.addProductToCart(item.product)}">
+                                                            <f:ajax render="cartLineItemListView qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
+                                                        </h:commandButton>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        $<h:outputText id="itemprice" value="#{item.product.price * item.quantity}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2"/></h:outputText>
+                                                    </td>
+                                                    <td data-toggle="collapse" data-target="#myCartToggle#{item.cartLineItemId}" class="accordion-toggle">
+                                                        <i class="indicator glyphicon chevron_toggleable glyphicon-chevron-up pull-right"></i>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" class="hiddenRow">
+                                                        <div id="myCartToggle#{item.cartLineItemId}" class="accordian-body collapse">    
+                                                            <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
+                                                                <h:outputText value="#{item.quantity}"/>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </ui:repeat>
+                                        </tbody>
+                                    </table>
+                                    <script>
+                                        $('.chevron_toggleable').on('click', function () {
+                                            $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+                                        });
+                                    </script>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{customerCartManagedBean.isCartEmpty()}">
+                                    <p class="text-center">Your cart is empty.</p>
+                                </ui:fragment>
+                                <div class="row text-center">
+                                    <div class="col-md-4"/>
+                                    <div class="col-md-4"/>
+                                    <div class="col-md-4">
+                                        <h:outputLabel for="subtotal" value="Total: $"/>
+                                        <h:outputText id="subtotal" value="#{customerCartManagedBean.totalPrice}">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>
+                                    </div>
+
+                                </div>
                             </div>
-                          </td>
-                        </tr>
+                        </h:form>
 
-                      </ui:repeat>
-                    </tbody>
-                  </table>
-                  <script>
-                    $('.chevron_toggleable').on('click', function () {
-                      $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-                    });
-                  </script>
-                </ui:fragment>
-                <ui:fragment rendered="#{customerCartManagedBean.isCartEmpty()}">
-                  <p class="text-center">Your cart is empty.</p>
-                </ui:fragment>
-                <div class="row text-center">
-                  <div class="col-md-4"/>
-                  <div class="col-md-4"/>
-                  <div class="col-md-4">
-              <h:outputLabel for="subtotal" value="Total: $"/>
-              <h:outputText id="subtotal" value="#{customerCartManagedBean.totalPrice}">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-              </h:outputText>
-                  </div>
-                  
+                        <div class="modal-footer">
+                            <!-- Stripe Form -->
+                            <form id="stripeForm" method="POST" action="processStripeForm.xhtml">
+                                <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="#{facesContext.externalContext.initParameterMap['StripeTestPublishableKey']}"
+                                    data-name="#{customerCartManagedBean.stripeName}"
+                                    data-amount="#{customerCartManagedBean.stripeAmount}"
+                                    data-currency="#{customerCartManagedBean.stripeCurrency}"
+                                    data-locale="#{customerCartManagedBean.stripeLocale}">
+                                </script>                
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Checkout">
-                </h:commandButton>
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
-              </div>
-            </h:form>
-          </div>
-        </div>
-      </div>
-    </h:form>
-  </cc:implementation>
+            </div>
+        </h:form>
+    </cc:implementation>
 </html>
