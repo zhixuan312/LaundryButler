@@ -18,7 +18,7 @@ import javax.ejb.Local;
 @Local
 public interface TransactionManagementLocal {
     
-    public Boolean createTransaction (Transaction transaction);
+    public Long createTransaction (Transaction transaction);
     
     public Boolean updateTransaction (Transaction transaction);
     

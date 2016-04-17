@@ -18,7 +18,7 @@ import javax.ejb.Remote;
 @Remote
 public interface TransactionManagementRemote {
     
-    public Boolean createTransaction (Transaction transaction);
+    public Long createTransaction (Transaction transaction);
     
     public Boolean updateTransaction (Transaction transaction);
     
