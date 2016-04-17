@@ -34,7 +34,6 @@ public class Customer implements Serializable {
     private Date dateRegistered;
     private Integer dryCleaning; 
     private Integer express;
-    private List<CartLineItem> selectedCartLineItems;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Transaction> transactions;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
@@ -60,7 +59,6 @@ public class Customer implements Serializable {
         this.payingBoxes = new ArrayList<>();
         this.customerShareOuts = new ArrayList<>();
         this.neighbourShareIns = new ArrayList<>();
-        this.selectedCartLineItems = new ArrayList<>();
         this.isFaceBook = true; 
     }
 
@@ -214,14 +212,6 @@ public class Customer implements Serializable {
 
     public void setDryCleaning(Integer dryCleaning) {
         this.dryCleaning = dryCleaning;
-    }
-
-    public List<CartLineItem> getSelectedCartLineItems() {
-        return selectedCartLineItems;
-    }
-
-    public void setSelectedCartLineItems(List<CartLineItem> selectedCartLineItems) {
-        this.selectedCartLineItems = selectedCartLineItems;
     }
 
     public Boolean getIsFaceBook() {

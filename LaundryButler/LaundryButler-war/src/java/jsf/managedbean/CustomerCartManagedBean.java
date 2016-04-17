@@ -187,22 +187,15 @@ public class CustomerCartManagedBean implements Serializable {
         return totalPrice;
     }
     
-    public void checkOutButton(List<CartLineItem> cartLineItems){
-        if (!cartLineItems.isEmpty()){
-            for (int i = 0; i < cartLineItems.size(); i ++){
-                // accountManagementRemote.addCartLineItemForCheckOut(cartLineItems.get(i));
-            }
-        }
-        
-        readyToPayCartItems = customer.getCartLineItems();
-        
-        if(!readyToPayCartItems.isEmpty()){
-            for(int i = 0; i < readyToPayCartItems.size(); i ++) {
+    public void checkOutButton(){
+        List<CartLineItem> cartLineItemsForCheckOut = refreshList();
+        if(!cartLineItemsForCheckOut.isEmpty()){
+            for(int i = 0; i < cartLineItemsForCheckOut.size(); i ++) {
                 TransactionLineItem transactionLineItem = new TransactionLineItem();
-                transactionLineItem.setQuantity(readyToPayCartItems.get(i).getQuantity());
-                transactionLineItem.setUnitCharge(readyToPayCartItems.get(i).getProduct().getPrice());
-                transactionLineItem.setTotalCharge(readyToPayCartItems.get(i).getProduct().getPrice() * readyToPayCartItems.get(i).getQuantity());
-                transactionLineItem.setProduct(readyToPayCartItems.get(i).getProduct());
+                transactionLineItem.setQuantity(cartLineItemsForCheckOut.get(i).getQuantity());
+                transactionLineItem.setUnitCharge(cartLineItemsForCheckOut.get(i).getProduct().getPrice());
+                transactionLineItem.setTotalCharge(cartLineItemsForCheckOut.get(i).getProduct().getPrice() * readyToPayCartItems.get(i).getQuantity());
+                transactionLineItem.setProduct(cartLineItemsForCheckOut.get(i).getProduct());
                 transactionManagementRemote.createTransactionLineItem(transactionLineItem);
                 readyToPayTransactionLineItems.add(transactionLineItem);
             }
