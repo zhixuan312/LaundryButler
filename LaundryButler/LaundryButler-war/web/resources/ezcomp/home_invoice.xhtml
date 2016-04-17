@@ -5,21 +5,21 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
-
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
-    <div class="row">
-      <div class="col-sm-2"/>
-      <div class="col-sm-8 text-center">
-        <a href="resources/temp/invoice.pdf" download="Invoice.pdf">
-            <h:commandButton class="btn page_button" value="Download" actionListener="#{invoiceManagedBean.generate()}"></h:commandButton>
-        </a>
-      </div>
-      <div class="col-sm-2"/>
-    </div>
-  </cc:implementation>
+          
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+      
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="row">
+            <div class="col-sm-2"/>
+            <div class="col-sm-8 text-center">
+                <h:form>
+                    <h:commandButton class="btn page_button" value="Download" actionListener="#{invoiceManagedBean.generate()}"><f:ajax execute="@form"/></h:commandButton>
+                </h:form>
+            </div>
+            <div class="col-sm-2"/>
+        </div>
+    </cc:implementation>
 </html>

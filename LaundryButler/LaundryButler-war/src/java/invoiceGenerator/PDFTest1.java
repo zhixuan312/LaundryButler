@@ -23,14 +23,14 @@ public class PDFTest1 {
     /**
      * @param args the command line arguments
      */
-    public void generate() throws IOException, ParseException {
+    public void gogo() throws IOException, ParseException {
         // TODO code application logic here
 //    Random r = new Random();
 //    System.out.println(r.nextInt());
 //    PDFTest1 t = new PDFTest1();
         Invoice invoice = new Invoice();
         System.out.println("YO manman");
-        invoice.generateContent();
+        invoice.hardcodeTest();
         System.out.println("YO man");
         invoice.generateInvoice("/Users/XUAN/NetBeansProjects/laundrybutler/laundrybutler/LaundryButler/LaundryButler-war/web/resources/temp/newInvoice.pdf");
         //t.generateInvoice();
