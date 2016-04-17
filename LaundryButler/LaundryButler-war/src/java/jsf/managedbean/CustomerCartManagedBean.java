@@ -148,6 +148,7 @@ public class CustomerCartManagedBean implements Serializable {
                     }
                     newCartLineItem.setQuantity(quantity);
                     productManagementRemote.updateCartLineItem(newCartLineItem);
+                    cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
                 }
             }
         }
