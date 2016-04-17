@@ -63,8 +63,4 @@ public interface AccountManagementRemote {
     
     public Employee retrieveEmployeeByEmail(String email);
     
-    public Boolean addCartLineItemForCheckOut(CartLineItem cartLineItem);
-    
-    public Boolean resetCartLineItemForCheckOut();
-    
 }
