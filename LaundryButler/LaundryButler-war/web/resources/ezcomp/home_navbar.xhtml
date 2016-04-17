@@ -31,10 +31,19 @@
             <li><a id="nav_discover" href="#discover">DISCOVER</a></li>
             <li><a id="nav_freedry" href="#freedry">FREE DRY</a></li>
             <li><a id="nav_contact" href="#contact">CONTACT</a></li>
-            <li><button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" style="margin-left: 40px; padding: 3px; border: 0; background: transparent;">
+            <li>
+              <h:commandButton id='cartLineItemsUpdate' class="hide">
+                  <f:ajax execute="#{cc.clientId}:cartLineItemListView"/>
+              </h:commandButton>
+              <button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" onclick="cartButtonClick()" style="margin-left: 40px; padding: 3px; border: 0; background: transparent;">
                 <i class="glyphicon glyphicon-shopping-cart text-center" style="color:white; font-size: 1.5em; padding: 0; margin: 0; border: 0;"></i>
               </button>
             </li>
+            <script>
+              function cartButtonClick(){
+                document.getElementById('#{cc.clientId}:cartLineItemsUpdate').click();
+              }
+            </script>
             <li style="margin-left: 40px;">
               <h:form id="fbLogout" class="form hide" style="display: inline-block">
                 <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}">
@@ -61,35 +70,8 @@
       </div>
     </nav>
     
-    <!-- Modal windows-->
-      <div class="modal fade" id="myShoppingCart" role="dialog" style="padding-top:100px;">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header themeBg">
-              <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title text-center">My Cart</h4>
-            </div>
-            <h:form class="form">
-            <div class="modal-body">
-              <ui:fragment rendered="#{!customerCartManagedBean.isCartEmpty()}">
-                <ui:repeat var="item" value="#{customerCartManagedBean.cartLineItems}">
-                  <p class="text-center">Your cart is not empty.</p>
-                </ui:repeat>
-              </ui:fragment>
-              <ui:fragment rendered="#{customerCartManagedBean.isCartEmpty()}">
-                <p class="text-center">Your cart is empty.</p>
-              </ui:fragment>
-            </div>
-            <div class="modal-footer">
-              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
-                <f:ajax execute="@form"/>
-              </h:commandButton>
-              <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
-            </div>
-            </h:form>
-          </div>
-        </div>
-      </div>
+    
+    
+    
   </cc:implementation>
 </html>

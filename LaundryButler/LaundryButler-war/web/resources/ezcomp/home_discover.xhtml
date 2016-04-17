@@ -12,11 +12,11 @@
 
   <!-- IMPLEMENTATION -->
   <cc:implementation>
+    <h:form id="cartLineItemListView" class="form">
     <div class="row">
       <ui:repeat var="current" value="#{productManagedBean.products1}" size="3">
         <div class="col-sm-4 col-xs-12">
         <div class="panel panel-default text-center">
-          <h:form>
           <div class="panel-heading">
             <h1><h:outputText value="#{current.name}"/></h1>
           </div>
@@ -30,7 +30,6 @@
               </h:commandButton>
 <!--            <button class="btn btn-lg">Add to Cart</button>-->
           </div>
-          </h:form>
         </div>      
       </div>  
       </ui:repeat>
@@ -55,5 +54,35 @@
       </div>  
       </ui:repeat>
     </div>
+    
+    <!-- Modal windows-->
+      <div class="modal fade" id="myShoppingCart" role="dialog" style="padding-top:100px;">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header themeBg">
+              <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title text-center">My Cart</h4>
+            </div>
+            <div class="modal-body">
+              <ui:fragment rendered="#{!customerCartManagedBean.isCartEmpty()}">
+                <ui:repeat var="item" value="#{customerCartManagedBean.cartLineItems}">
+                  <p class="text-center">Your cart is not empty.</p>
+                </ui:repeat>
+              </ui:fragment>
+              <ui:fragment rendered="#{customerCartManagedBean.isCartEmpty()}">
+                <p class="text-center">Your cart is empty.</p>
+              </ui:fragment>
+            </div>
+            <div class="modal-footer">
+              <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
+                <f:ajax execute="@form"/>
+              </h:commandButton>
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </h:form>
   </cc:implementation>
 </html>

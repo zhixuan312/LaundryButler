@@ -1,36 +1,40 @@
 $(function(){
           $(".subscreen").hide();
-          $("#login_jumbotron").show();
+          $("#home").show();
           
           $("#nav_logo").click(function(){
             $(".subscreen").hide();
-            $("#login_jumbotron").show();
+            $("#home").show();
           });
           
-          $("#nav_login").click(function(){
-            $(this).addClass(activeNav);
+          $("#nav_home").click(function(){
             $(".subscreen").hide();
-            $("#login_jumbotron").show();
+            $("#home").show();
           });
           
           $("#footer_up").click(function(){
             $(".subscreen").hide();
-            $("#login_jumbotron").show();
+            $("#home").show();
           });
           
-          $("#nav_about").click(function(){
+          $("#nav_mybox").click(function(){
             $(".subscreen").hide();
-            $("#about").show();
+            $("#mybox").show();
           });
           
-          $("#nav_services").click(function(){
+          $("#nav_myinvoice").click(function(){
             $(".subscreen").hide();
-            $("#services").show();
+            $("#myinvoice").show();
           });
           
           $("#nav_discover").click(function(){
             $(".subscreen").hide();
             $("#discover").show();
+          });
+          
+          $("#nav_freedry").click(function(){
+            $(".subscreen").hide();
+            $("#freedry").show();
           });
           
           $("#nav_contact").click(function(){
