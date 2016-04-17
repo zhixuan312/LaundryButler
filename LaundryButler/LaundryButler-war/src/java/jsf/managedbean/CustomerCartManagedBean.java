@@ -183,8 +183,9 @@ public class CustomerCartManagedBean implements Serializable {
             tempPrice = tempPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
         }
         totalPrice = tempPrice;
+
         
-        stripeAmount = Double.toString(totalPrice * 100);
+        stripeAmount = Double.toString((int)totalPrice * 100);
     }
     
     public Customer getCustomer() {
