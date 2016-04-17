@@ -43,7 +43,6 @@ public class CustomerCartManagedBean implements Serializable {
     private Customer customer;
     private List<CartLineItem> cartLineItems;
     private double totalPrice;
-    private double singleItemTotalPrice;
     private CartLineItem newCartLineItem;
     private CartLineItem cartLineItemToRemove;
     private CartLineItem cartLineItemAfterEdit;
@@ -55,7 +54,6 @@ public class CustomerCartManagedBean implements Serializable {
         customer = new Customer();
         cartLineItems = new ArrayList<>();
         totalPrice = 0;
-        singleItemTotalPrice = 0;
         readyToPayCartItems = new ArrayList<>();
         newCartLineItem = new CartLineItem();
         cartLineItemToRemove = new CartLineItem();
@@ -123,6 +121,7 @@ public class CustomerCartManagedBean implements Serializable {
                 newCartLineItem.setQuantity(1);
                 productManagementRemote.createCartLineItem(newCartLineItem);
                 cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+                retrieveTotalPrice ();
             }
         } else {
             newCartLineItem.setProduct(product);
@@ -130,6 +129,7 @@ public class CustomerCartManagedBean implements Serializable {
             newCartLineItem.setQuantity(1);
             productManagementRemote.createCartLineItem(newCartLineItem);
             cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+            retrieveTotalPrice ();
         }
     }
     
@@ -149,6 +149,7 @@ public class CustomerCartManagedBean implements Serializable {
                     newCartLineItem.setQuantity(quantity);
                     productManagementRemote.updateCartLineItem(newCartLineItem);
                     cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+                    retrieveTotalPrice ();
                 }
             }
         }
@@ -176,16 +177,11 @@ public class CustomerCartManagedBean implements Serializable {
         return true;
     }
     
-    public double retrieveSingleItemTotalPrice (CartLineItem cartLineItem){
-        return cartLineItem.getQuantity() * cartLineItem.getProduct().getPrice();
-    }
-    
-    public double retrieveTotalPrice (List<CartLineItem> cartLineItems){
+    public void retrieveTotalPrice (){
         double totalPrice = 0;
         for (int i = 0; i < cartLineItems.size(); i ++) {
             totalPrice = totalPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
         }
-        return totalPrice;
     }
     
     public void checkOutButton(){
@@ -246,14 +242,6 @@ public class CustomerCartManagedBean implements Serializable {
     
     public void setTotalPrice(double totalAmount) {
         this.totalPrice = totalAmount;
-    }
-    
-    public double getSingleItemTotalPrice() {
-        return singleItemTotalPrice;
-    }
-    
-    public void setSingleItemTotalPrice(double singleItemTotalPrice) {
-        this.singleItemTotalPrice = singleItemTotalPrice;
     }
     
     public CartLineItem getNewCartLineItem() {
