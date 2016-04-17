@@ -229,6 +229,8 @@ footer .glyphicon {
 }
 
 .subscreen{
+}
+.subscreen-full{
   min-height: 100vh;
 }
 

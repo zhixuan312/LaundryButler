@@ -8,7 +8,6 @@ $(function(){
           });
           
           $("#nav_login").click(function(){
-            $(this).addClass(activeNav);
             $(".subscreen").hide();
             $("#login_jumbotron").show();
           });
