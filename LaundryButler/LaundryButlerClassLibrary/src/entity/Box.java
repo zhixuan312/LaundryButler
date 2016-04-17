@@ -25,8 +25,8 @@ public class Box implements Serializable {
     private Customer payer;
     private String status;
     private Double price;
-    private Boolean hasReqeustedDryCleaning;
-    private Boolean hasRequestedExpressService;
+    private Integer dryCleaning;    // number of pieces for dry cleaning
+    private Boolean isExpress;   // whether this box requires express laundry service
     @Temporal(TemporalType.TIMESTAMP)
     private Date pickupDateTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -166,20 +166,20 @@ public class Box implements Serializable {
         this.address = address;
     }
 
-    public Boolean getHasReqeustedDryCleaning() {
-        return hasReqeustedDryCleaning;
+    public Integer getDryCleaning() {
+        return dryCleaning;
     }
 
-    public void setHasReqeustedDryCleaning(Boolean hasReqeustedDryCleaning) {
-        this.hasReqeustedDryCleaning = hasReqeustedDryCleaning;
+    public void setDryCleaning(Integer dryCleaning) {
+        this.dryCleaning = dryCleaning;
     }
 
-    public Boolean getHasRequestedExpressService() {
-        return hasRequestedExpressService;
+    public Boolean getIsExpress() {
+        return isExpress;
     }
 
-    public void setHasRequestedExpressService(Boolean hasRequestedExpressService) {
-        this.hasRequestedExpressService = hasRequestedExpressService;
+    public void setIsExpress(Boolean isExpress) {
+        this.isExpress = isExpress;
     }
 
     @Override

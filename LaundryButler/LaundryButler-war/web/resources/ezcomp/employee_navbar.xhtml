@@ -24,11 +24,11 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#home">HOME</a></li>
-            <li><a href="#mybox">MY BOX</a></li>
+            <li><a id="nav_home" href="#home">HOME</a></li>
+            <li><a id="nav_mybox" href="#mybox">MY BOX</a></li>
             <ui:fragment rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
-              <li><a href="#management">MANAGEMENT</a></li>
-              <li><a href="#product">PRODUCT</a></li>
+              <li><a id="nav_management" href="#management">MANAGEMENT</a></li>
+              <li><a id="nav_product" href="#product">PRODUCT</a></li>
             </ui:fragment>
             <li>
               <h:form class="form" style="display: inline-block">

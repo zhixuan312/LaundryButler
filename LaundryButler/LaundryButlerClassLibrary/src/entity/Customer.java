@@ -32,8 +32,8 @@ public class Customer implements Serializable {
     private String verificationCode;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistered;
-    private Integer dryCleaning; 
-    private Integer express;
+    private Integer dryCleaning;    // number of remaining dry cleaning services to use
+    private Integer express;    // number of remaining express services to use
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     private List<Transaction> transactions;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
