@@ -18,7 +18,6 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -184,47 +183,9 @@ public class CustomerCartManagedBean implements Serializable {
             tempPrice = tempPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
         }
         totalPrice = tempPrice;
-        
-        stripeAmount = Double.toString(totalPrice * 100);
-    }
-    
-    public void checkOutButton(){
-      
-      System.out.println("##### Checkout button Clicked");
-      
-//        List<CartLineItem> cartLineItemsForCheckOut = refreshList();
-//        if(!cartLineItemsForCheckOut.isEmpty()){
-//            for(int i = 0; i < cartLineItemsForCheckOut.size(); i ++) {
-//                TransactionLineItem transactionLineItem = new TransactionLineItem();
-//                transactionLineItem.setQuantity(cartLineItemsForCheckOut.get(i).getQuantity());
-//                transactionLineItem.setUnitCharge(cartLineItemsForCheckOut.get(i).getProduct().getPrice());
-//                transactionLineItem.setTotalCharge(cartLineItemsForCheckOut.get(i).getProduct().getPrice() * readyToPayCartItems.get(i).getQuantity());
-//                transactionLineItem.setProduct(cartLineItemsForCheckOut.get(i).getProduct());
-//                transactionManagementRemote.createTransactionLineItem(transactionLineItem);
-//                readyToPayTransactionLineItems.add(transactionLineItem);
-//            }
-//        }
-//        
-//        transaction.setCustomer(customer);
-//        Double totalCharge = new Double(0);
-//        if (!readyToPayTransactionLineItems.isEmpty()){
-//            for (int i = 0; i < readyToPayTransactionLineItems.size(); i ++){
-//                totalCharge = totalCharge + readyToPayTransactionLineItems.get(i).getTotalCharge();
-//            }
-//            transaction.setTotalCharge(totalCharge);
-//        } else {
-//            transaction.setTotalCharge(new Double (0));
-//        }
-//        transaction.setTransactionDateTime(new Date());
-//        if (transactionManagementRemote.createTransaction(transaction)){
-//            if (!readyToPayTransactionLineItems.isEmpty()){
-//                for (int j = 0; j < readyToPayTransactionLineItems.size(); j ++) {
-//                    readyToPayTransactionLineItems.get(j).setTransaction(transaction);
-//                    transactionManagementRemote.updateTransactionLineItem(readyToPayTransactionLineItems.get(j));
-//                }
-//            }
-//        }
-//        transactionManagementRemote.setTranscation(transaction);
+
+        stripeAmount = String.valueOf(totalPrice * 100);
+        stripeAmount = stripeAmount.substring(0, stripeAmount.indexOf("."));
     }
     
     public Customer getCustomer() {

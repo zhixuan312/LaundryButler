@@ -28,13 +28,13 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
     Transaction transcation;
     
     @Override
-    public Boolean createTransaction (Transaction transaction) {
+    public Long createTransaction (Transaction transaction) {
         try {
             em.persist(transaction);
             em.flush();
-            return true;
+            return transaction.getTransactionId();
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
     

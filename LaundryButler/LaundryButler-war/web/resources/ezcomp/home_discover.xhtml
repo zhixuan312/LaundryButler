@@ -147,14 +147,10 @@
               <div class="modal-footer">
                 <h:form id="checkOutArea">
                 <button type='button' class="btn btn-default page_button" onclick="checkoutButtonClick()">Checkout</button>
-                <h:commandButton id='checkoutButton' type="button" class="btn btn-default page_button hide" actionListener="#{customerCartManagedBean.checkOutButton()}" style="width:80px;" value="Checkout">
-                  <f:ajax execute="checkOutArea"/>
-                </h:commandButton>
+                
                 <button id='cartWindowCloseButton' type="button" class="btn btn-default hide" data-dismiss="modal" style="width:80px;">Cancel</button>
                 <script>
                   function checkoutButtonClick(){
-                    var button = document.getElementById('#{cc.clientId}:cartLineItem:cartLineItemListView:checkOutArea:checkoutButton');
-                    button.click();
                     document.getElementById('cartWindowCloseButton').click();
                     window.open('checkout.xhtml','_blank');
                   }

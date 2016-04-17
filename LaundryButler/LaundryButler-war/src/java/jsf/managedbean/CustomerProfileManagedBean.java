@@ -164,10 +164,13 @@ public class CustomerProfileManagedBean implements Serializable {
         }
     }
     
-    public void updateAddress(ActionEvent event) {
-        if (accountManagementRemote.updateAddress(address)) {
+    public void updateAddress(Address currentAddress) {
+      System.out.println("##### Update Address");
+        if (accountManagementRemote.updateAddress(currentAddress)) {
+          System.out.println("##### Update Address success");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
+          System.out.println("##### Update Address fail");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
     }

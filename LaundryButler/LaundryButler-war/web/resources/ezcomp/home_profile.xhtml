@@ -78,10 +78,9 @@
             <h:form class="form">
             <div class="modal-body">
               <h3 class="themeC">Existing Address</h3>
-              <h3>#{customerProfileManagedBean.hasAddress}</h3>
-              
               <ui:fragment rendered="#{customerProfileManagedBean.hasAddress}">
-                <table class="table table-hover text-center">
+                <h:form id="currentAddress">
+                <table class="table text-center">
                   <thead>
                     <td></td>
                     <td style="font-weight:bold; color:#000000;">Block</td>
@@ -93,22 +92,22 @@
                     <td class="text-right"></td>
                   </thead>
                   <tbody>
-                      <ui:repeat var="address" value="#{customerProfileManagedBean.addresses}">
+                    <ui:repeat var="address" value="#{customerProfileManagedBean.customer.addresses}">
                       <tr data-toggle="collapse" data-target="#myAddressToggle#{address.addressId}" class="accordion-toggle">
                         <td style="font-weight: bold;color:#000000;">#{address.addressId}</td>
-                        <td>#{address.block}</td>
-                        <td>${address.street}</td>
-                        <td>#{address.floor}</td>
-                        <td>#{address.unit}</td>
-                        <td>#{address.country}</td>
-                        <td>#{address.postalCode}</td>
-                        <td><i class="indicator glyphicon chevron_toggleable glyphicon-chevron-up pull-right"></i></td>
+                       
+                          
+                        <td><h:outputText id="output_address_block" value="#{address.block}"></h:outputText></td>
+                        <td><h:outputText id="output_address_street" value="#{address.street}"></h:outputText></td>
+                        <td><h:outputText id="output_address_floor" value="#{address.floor}"></h:outputText></td>
+                        <td><h:outputText id="output_address_unit" value="#{address.unit}"></h:outputText></td>
+                        <td><h:outputText id="output_address_country" value="#{address.country}"></h:outputText></td>
+                        <td><h:outputText id="output_address_postcode" value="#{address.postalCode}"></h:outputText></td>
+                        <td><i class="indicator glyphicon chevron_toggleable chevron_toggleable_add glyphicon-chevron-up pull-right"></i></td>
                       </tr>
-                      
                       <tr>
                         <td colspan="8" class="hiddenRow">
                           <div id="myAddressToggle#{address.addressId}" class="accordian-body collapse">    
-                            <h:form>    
                                 <div class="row" style="padding:10px 0px; text-align: left;">
                                   <div class="col-md-6" >
                                     <h:outputLabel class="control-label" for="updateAddress_block" value="Block"/><br/>
@@ -145,19 +144,20 @@
                                 <div class="row" style="padding:20px 0px;">
                                     <div class="col-md-12">
                                         <div class="text-right">
-                                            <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Update" actionListener="#{customerProfileManagedBean.updateAddress()}" >
-                                                <f:ajax execute="@form"/>
+                                          <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Update" actionListener="#{customerProfileManagedBean.updateAddress(address)}" >
+                                            <f:ajax execute="@form" render="output_address_block output_address_street output_address_floor output_address_unit output_address_country output_address_postcode"/>
                                             </h:commandButton>
                                         </div>
                                     </div>    
                                 </div> 
-                            </h:form>  
+                              
                           </div>
                         </td>
                       </tr>
                     </ui:repeat>		
                   </tbody>		
                 </table>
+                </h:form>
                 <script>
                   $('.chevron_toggleable').on('click', function () {
                     $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
@@ -199,7 +199,7 @@
                         <h:commandButton type="button" class="btn btn-default page_button" style="width:120px;" value="Add Address" actionListener="#{customerProfileManagedBean.createAddress}" >
                             <f:ajax execute="@form"/>
                         </h:commandButton>
-                    </div>    
+                    </div>
                 </h:form>
                 
             </div>

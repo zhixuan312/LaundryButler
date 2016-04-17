@@ -39,7 +39,7 @@
                 </td>
                 
                 <td>#{box.status}</td>
-                <td><i class="indicator glyphicon chevron_toggleable glyphicon-chevron-up pull-right"></i></td>
+                <td><i class="indicator glyphicon chevron_toggleable chevron_toggleable_box glyphicon-chevron-up pull-right"></i></td>
               </tr>
               <tr>
                 <td colspan="6" class="hiddenRow">
@@ -65,7 +65,7 @@
           </tbody>		
         </table>
         <script>
-          $('.chevron_toggleable').on('click', function () {
+          $('.chevron_toggleable_box').on('click', function () {
             $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
           });
         </script>
