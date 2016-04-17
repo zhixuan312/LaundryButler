@@ -42,6 +42,7 @@ public class SignUpAndLoginManagedBean implements Serializable
     public SignUpAndLoginManagedBean()
     {
         customer = new Customer();
+        customer.setIsFaceBook(false);
         email = "";
         password = "";
         last_name="";
