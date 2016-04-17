@@ -178,10 +178,11 @@ public class CustomerCartManagedBean implements Serializable {
     }
     
     public void retrieveTotalPrice (){
-        totalPrice =0;
+        double tempPrice = 0;
         for (int i = 0; i < cartLineItems.size(); i ++) {
-            totalPrice = totalPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
+            tempPrice = tempPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
         }
+        totalPrice = tempPrice;
     }
     
     public void checkOutButton(){
