@@ -17,7 +17,6 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 
 
-
 @Named(value = "signUpAndLoginManagedBean")
 @SessionScoped
 
