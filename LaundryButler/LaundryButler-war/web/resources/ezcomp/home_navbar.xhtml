@@ -32,7 +32,7 @@
             <li><a id="nav_buy" href="#buy">BUY</a></li>
             <li>
               <h:commandButton id='cartLineItemsUpdate' class="hide">
-                  <f:ajax execute="#{cc.clientId}:cartLineItemListView"/>
+                  <f:ajax render="#{cc.clientId}:cartLineItem:cartLineItemListView"/>
               </h:commandButton>
               <button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" onclick="cartButtonClick()" style="margin-left: 40px; padding: 3px; border: 0; background: transparent;">
                 <i class="glyphicon glyphicon-shopping-cart text-center" style="color:white; font-size: 1.5em; padding: 0; margin: 0; border: 0;"></i>
@@ -41,6 +41,7 @@
             <script>
               function cartButtonClick(){
                 document.getElementById('#{cc.clientId}:cartLineItemsUpdate').click();
+                console.log("Cart Button Click");
               }
             </script>
             <li style="margin-left: 40px;">
