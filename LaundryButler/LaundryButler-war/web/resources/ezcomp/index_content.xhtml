@@ -7,41 +7,69 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
 
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
 
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
-    <div id="login_jumbotron" class="jumbotron text-center subscreen subscreen-full" style="height: 100vh; padding-top: 200px;">
-      <h1>Laundry Butler</h1> 
-      <p>We specialize in laundry service</p> 
-      <ezcomp:index_login/>
-      <ezcomp:index_signUp/>
-    </div>
-
-    <!-- Container (About Section) -->
-    <div id="about" class="container-fluid subscreen subscreen-full">
-      <div class="row">
-        <div class="col-sm-8">
-          <h2>About Company Page</h2><br/>
-          <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br/>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <button class="btn btn-default btn-lg">Get in Touch</button>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div id="login_jumbotron" class="jumbotron text-center subscreen subscreen-full" style="height: 100vh; padding-top: 200px;">
+            <h1>At Your Service</h1> 
+            <p>Your clothes cleaned round the clock.</p> 
+            <ezcomp:index_login/>
+            <ezcomp:index_signUp/>
         </div>
-        <div class="col-sm-4">
-          <span class="glyphicon glyphicon-signal logo"></span>
+
+        <!-- Container (About Section) -->
+        <div id="about" class="container-fluid subscreen subscreen-full">
+            <div class="container">
+                <div class="text-center">
+                    <h2>Wash Less. Do More.</h2>
+                    <h4>Laundry is a tedious and time-consuming task for busy professionals and students in this busy metropolitan we call Singapore.
+                        We're here to save your precious time and make your life much more easier.</h4>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-center" style="border-radius: 50%; width: 50px; height: 50px; padding: 11px; background: #3fb0ac; color: #fff;">
+                            <span class="glyphicon glyphicon-calendar" style="font-size: 25px;"></span>
+                        </div>
+                        
+                        <h4>Schedule anywhere</h4>
+                        <p>
+                            Schedule, track and manage your laundry. You are also encouraged to rate the completed laundry service to help us improve the service quality.
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center" style="border-radius: 50%; width: 50px; height: 50px; padding: 11px; background: #3fb0ac; color: #fff;">
+                            <span class="glyphicon glyphicon-send" style="font-size: 25px;"></span>
+                        </div>
+                        
+                        <h4>Lock and go</h4>
+                        <p>
+                            Tired of having to be at home to send off and receive the laundry items? Secure your box with our lock near your doorsteps, so you can  be free to continue your work for the rest of your day.
+                        </p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="text-center" style="border-radius: 50%; width: 50px; height: 50px; padding: 11px; background: #3fb0ac; color: #fff;">
+                            <span class="glyphicon glyphicon-hand-right" style="font-size: 25px;"></span>
+                        </div>
+                        
+                        <h4>Share with neighbours</h4>
+                        <p>
+                            Combine your laundry loads with nearby people if your laundry is slightly overflowing your own box. Socialize with your neighbour using laundry! Plus you can save up more money!
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <ezcomp:index_pricing/>
-    <ezcomp:contact/>
+        <!-- Container (Pricing Section) -->
+        <ezcomp:index_pricing/>
 
-    
+        <!-- Container (Contact Section) -->
+        <ezcomp:contact/>
 
-
-
-    
-  </cc:implementation>
+    </cc:implementation>
 </html>
