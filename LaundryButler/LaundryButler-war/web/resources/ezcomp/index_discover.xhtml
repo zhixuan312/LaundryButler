@@ -15,22 +15,21 @@
   <cc:implementation>
     <div id="discover" class="container-fluid subscreen">
       <div class="text-center">
-        <h1 class="header_row">Pricing</h1>
-        <div class="bottom_line"></div>
-        <h5 class="subtitle">Sign up and choose a payment plan that works for you.</h5>
+        <h2>Discovery</h2>
+        <h4>Sign up and choose a payment plan that works for you</h4>
       </div>
       <div class="row">
         <ui:repeat var="current1" value="#{productManagedBean.products1}" size="3">
           <div class="col-sm-4 col-xs-12">
             <div class="panel panel-default text-center">
               <div class="panel-heading">
-                <h4><h:outputText value="#{current1.name}"/></h4>
+                <h1><h:outputText value="#{current1.name}"/></h1>
               </div>
               <div class="panel-body">
                 <p><strong><h:outputText value="#{current1.description}"/></strong></p>
               </div>
               <div class="panel-footer">
-                <h5>$<h:outputText value="#{current1.price}"/></h5>
+                <h3>$<h:outputText value="#{current1.price}"/></h3>
               </div>
             </div>      
           </div>  
@@ -42,13 +41,13 @@
           <div class="col-sm-4 col-xs-12">
             <div class="panel panel-default text-center">
               <div class="panel-heading">
-                <h4><h:outputText value="#{current2.name}"/></h4>
+                <h1><h:outputText value="#{current2.name}"/></h1>
               </div>
               <div class="panel-body">
                 <p><strong><h:outputText value="#{current2.description}"/></strong></p>
               </div>
               <div class="panel-footer">
-                <h5>$<h:outputText value="#{current2.price}"/></h5>
+                <h3>$<h:outputText value="#{current2.price}"/></h3>
               </div>
             </div>      
           </div>  
