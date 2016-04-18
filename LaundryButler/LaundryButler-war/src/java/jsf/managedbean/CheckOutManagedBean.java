@@ -156,29 +156,42 @@ public class CheckOutManagedBean implements Serializable {
                     for (int i = 0; i < transactionLineItemsForOneTransaction.size(); i ++) {
                         for (int j =0; j <transactionLineItemsForOneTransaction.get(i).getQuantity(); j++){
                             for (int k =0; k < transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits(); k ++){
-                                try{
-                                    box.setAllowSharing(false);
-                                    SecureRandom random = new SecureRandom();
-                                    box.setBoxPasscode(new BigInteger(36, random).toString(32));
-                                    box.setCreatedDateTime(new Date());
-                                    box.setCustomer(customer);
-                                    box.setDeliveryDateTime(null);
-                                    box.setIsShared(false);
-                                    box.setDeliveryDateTime(deliveryDate);
-                                    box.setPickupDateTime(pickUpDate);
-                                    laundryOrderManagementRemote.createBox(box);
-                                    
-                                    c.setTime(deliveryDate);
-                                    c.add(Calendar.DATE, 7);
-                                    dt = c.getTime();
-                                    deliveryDate = sdfDate.parse(sdfDate.format(dt));
-                                    c.setTime(pickUpDate);
-                                    c.add(Calendar.DATE, 7);
-                                    dt = c.getTime();
-                                    pickUpDate = sdfDate.parse(sdfDate.format(dt));
-                                }catch(Exception e){
-                                    e.printStackTrace();
+                                
+                                box.setAllowSharing(false);
+                                SecureRandom random = new SecureRandom();
+                                box.setBoxPasscode(new BigInteger(36, random).toString(32));
+                                box.setCreatedDateTime(new Date());
+                                box.setCustomer(customer);
+                                box.setDeliveryDateTime(null);
+                                box.setIsShared(false);
+                                box.setDeliveryDateTime(deliveryDate);
+                                box.setPickupDateTime(pickUpDate);
+                                box.setDryCleaning(0);
+                                box.setPayer(customer);
+                                if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("5"))){
+                                    box.setIsExpress(true);
+                                } else {
+                                    box.setIsExpress(false);
                                 }
+                                box.setStatus("Unschedule");
+                                double price = 0;
+                                if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))){
+                                    price = transactionLineItemsForOneTransaction.get(i).getProduct().getPrice();
+                                } else {
+                                    price = transactionLineItemsForOneTransaction.get(i).getProduct().getPrice() / transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits();
+                                }
+                                box.setPrice(price);
+                                laundryOrderManagementRemote.createBox(box);
+                                
+                                c.setTime(deliveryDate);
+                                c.add(Calendar.DATE, 7);
+                                dt = c.getTime();
+                                deliveryDate = sdfDate.parse(sdfDate.format(dt));
+                                c.setTime(pickUpDate);
+                                c.add(Calendar.DATE, 7);
+                                dt = c.getTime();
+                                pickUpDate = sdfDate.parse(sdfDate.format(dt));
+                                
                             }
                         }
                         if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))){
