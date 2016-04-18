@@ -208,7 +208,7 @@ public class CheckOutManagedBean implements Serializable {
                         }
                     }
                 }
-                
+                customerCartManagedBean.setCartLineItems(productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()));
                 ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
             }
         } else {
