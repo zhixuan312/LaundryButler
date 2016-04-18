@@ -7,29 +7,19 @@ $(function(){
             $("#home").show();
           });
           
-          $("#nav_home").click(function(){
-            $(".subscreen").hide();
-            $("#home").show();
-          });
-          
-          $("#footer_up").click(function(){
-            $(".subscreen").hide();
-            $("#home").show();
-          });
-          
           $("#nav_mybox").click(function(){
             $(".subscreen").hide();
             $("#mybox").show();
           });
           
-          $("#nav_myinvoice").click(function(){
+          $("#nav_myaccount").click(function(){
             $(".subscreen").hide();
-            $("#myinvoice").show();
+            $("#myaccount").show();
           });
           
-          $("#nav_discover").click(function(){
+          $("#nav_buy").click(function(){
             $(".subscreen").hide();
-            $("#discover").show();
+            $("#buy").show();
           });
           
           $("#nav_freedry").click(function(){
