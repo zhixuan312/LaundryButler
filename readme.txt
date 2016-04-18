@@ -79,12 +79,12 @@ EMPLOYEE/ADMIN USE CASES
 GENERAL
 - Employee login.
 
-PRODUCTS
-- View list of all products (boxes and add-ons).
-- View product details.
-- Add product. (ADMIN ONLY)
-- Edit product (only if it has never been purchased before). (ADMIN ONLY)
-- Delete product (only if it has never been purchased before). (ADMIN ONLY)
+BOXES
+- Assign employees to boxes (randomly). (ADMIN ONLY)
+- View all boxes.
+- View a map of boxes based on customer addresses.
+- View box details.
+- Mark box as "Picked Up", "Cleaned", "Delivered".
 
 EMPLOYEES
 - View all employees.
@@ -103,9 +103,9 @@ TRANSACTIONS
 - View transaction history for all customers. (ADMIN ONLY)
 - View transaction details. (ADMIN ONLY)
 
-BOXES
-- Assign employees to boxes (randomly). (ADMIN ONLY)
-- View all boxes.
-- View a map of boxes based on customer addresses.
-- View box details.
-- Mark box as "Picked Up", "Cleaned", "Delivered".
+PRODUCTS
+- View list of all products (boxes and add-ons).
+- View product details.
+- Add product. (ADMIN ONLY)
+- Edit product (only if it has never been purchased before). (ADMIN ONLY)
+- Delete product (only if it has never been purchased before). (ADMIN ONLY)
