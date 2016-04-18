@@ -86,8 +86,6 @@ public class CheckOutManagedBean implements Serializable {
     
     public void checkOut() {
       
-      System.out.println("##### checkout function runs~");
-      
         List<CartLineItem> cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         transaction.setCustomer(customer);
         transaction.setTotalCharge(customerCartManagedBean.getTotalPrice());
@@ -106,7 +104,6 @@ public class CheckOutManagedBean implements Serializable {
                 transactionManagementRemote.createTransactionLineItem(transactionLineItem);
                 transactionLineItemsForOneTransaction.add(transactionLineItem);
             }
-            System.out.println("##### checkout function runs finish~");
         }
         try{
             createStripeCharge();
@@ -120,37 +117,24 @@ public class CheckOutManagedBean implements Serializable {
         ExternalContext ec = fc.getExternalContext();
         
         String stripeToken = ec.getRequestParameterMap().get("stripeToken");
-        System.out.println("##### before payment");
         if (stripeToken != null && stripeToken.trim().length() > 0) {
-          System.out.println("#####  payment is true");
             Stripe.apiKey = ec.getInitParameter("StripeTestSecretKey");
-            System.out.println("#####  parameter get");
             Map<String, Object> chargeParams = new HashMap<>();
             chargeParams.put("amount", customerCartManagedBean.getStripeAmount());
-            System.out.println("#####  amount get");
             chargeParams.put("currency", customerCartManagedBean.getStripeCurrency());
-            System.out.println("#####  get currency");
             chargeParams.put("source", stripeToken);
-            System.out.println("#####  get token: " + stripeToken);
             chargeParams.put("description", "PURCHASED");
             
-            System.out.println("##### before create charge");
             Charge charge = null;
             try{
               charge = Charge.create(chargeParams);
             }catch(Exception e){
               e.printStackTrace();
             }
-            
-            //System.out.println("##### receipt number: "+ charge.getReceiptNumber());
-            
-            System.out.println("##### payment");
-            //if(true){
+
             if(charge.getStatus().equals("succeeded")){
                 if (!transactionLineItemsForOneTransaction.isEmpty()){
-                  
-                  System.out.println("##### is not empty");
-                  
+
                     for (int i = 0; i < transactionLineItemsForOneTransaction.size(); i ++) {
                       System.out.println("##### i = " + i);
                         for (int j =0; j <transactionLineItemsForOneTransaction.get(i).getQuantity(); j++){
@@ -188,7 +172,6 @@ public class CheckOutManagedBean implements Serializable {
                 }
                 
                 // TODO: Redirect to boxes page after successful charge
-              System.out.println("##### payment finish");  
             }
         } else {
           System.out.println("#####  payment is false");
