@@ -20,6 +20,7 @@ Rename "LaundryButler" to "src". Then upload to IVLE.
 
 FUNCTION CHECKLIST
 -----------------------------------------------------
+
 CUSTOMER USE CASES
 
 - Sign up an account with no referring customer ID.
@@ -75,32 +76,36 @@ CUSTOMER USE CASES
 
 EMPLOYEE/ADMIN USE CASES
 
+GENERAL
 - Employee login.
 
+PRODUCTS
 - View list of all products (boxes and add-ons).
 - View product details.
-- Add product.
-- Edit product (only if it has never been purchased before).
-- Delete product (only if it has never been purchased before).
+- Add product. (ADMIN ONLY)
+- Edit product (only if it has never been purchased before). (ADMIN ONLY)
+- Delete product (only if it has never been purchased before). (ADMIN ONLY)
 
+EMPLOYEES
 - View all employees.
-- Add employee.
-- Update employee.
-- Delete employee (only if he/she has never been assigned a task before).
-- Assign employees to boxes (randomly).
+- Add employee. (ADMIN ONLY)
+- Update employee (only for itself). (ADMIN CAN UPDATE ANYONE)
+- Delete employee (only if he/she has never been assigned a task before). (ADMIN ONLY)
 
+CUSTOMERS
+- Send email to customers. (ADMIN ONLY)
 - View list of all customers.
 - View customer details.
-- Update customer.
-- Suspend customer (change account status from Verified to Suspended).
+- Update customer. (ADMIN ONLY)
+- Suspend customer (change account status from Verified to Suspended). (ADMIN ONLY)
 
-- View transaction history for all customers.
-- View transaction details.
+TRANSACTIONS
+- View transaction history for all customers. (ADMIN ONLY)
+- View transaction details. (ADMIN ONLY)
 
+BOXES
+- Assign employees to boxes (randomly). (ADMIN ONLY)
 - View all boxes.
 - View a map of boxes based on customer addresses.
 - View box details.
-- Update count of pieces and delivery date.
 - Mark box as "Picked Up", "Cleaned", "Delivered".
-
-- Send email to customers.
