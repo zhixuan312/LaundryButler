@@ -54,13 +54,13 @@ public class AdminBoxesManagedBean implements Serializable {
         {
             if(ec.getSessionMap().get("login") == null)
             {
-                ec.redirect("login.xhtml?faces-redirect=true");
+                ec.redirect("index.xhtml?faces-redirect=true");
             }
             else
             {
                 if(ec.getSessionMap().get("login").equals(false))
                 {
-                    ec.redirect("login.xhtml?faces-redirect=true");
+                    ec.redirect("index.xhtml?faces-redirect=true");
                 }
             }
         }

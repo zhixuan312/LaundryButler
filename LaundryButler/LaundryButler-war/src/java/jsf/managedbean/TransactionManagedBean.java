@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -51,13 +50,13 @@ public class TransactionManagedBean implements Serializable {
         {
             if(ec.getSessionMap().get("login") == null)
             {
-                ec.redirect("login.xhtml?faces-redirect=true");
+                ec.redirect("index.xhtml?faces-redirect=true");
             }
             else
             {
                 if(ec.getSessionMap().get("login").equals(false))
                 {
-                    ec.redirect("login.xhtml?faces-redirect=true");
+                    ec.redirect("index.xhtml?faces-redirect=true");
                 }
             }
         }
