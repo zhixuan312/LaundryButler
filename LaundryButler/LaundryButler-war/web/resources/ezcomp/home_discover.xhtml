@@ -96,10 +96,10 @@
                               <i class="glyphicon glyphicon-plus" ></i>
                             </button>
                             <h:commandButton id="minusButton" type="button" class="btn navbar-btn text-center hide" actionListener="#{customerCartManagedBean.deductProductFromCart(item.product)}">
-                              <f:ajax render="cartLineItemListView qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
+                              <f:ajax render="qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
                             </h:commandButton>
                             <h:commandButton id="addButton" type="button" class="btn navbar-btn text-center hide" actionListener="#{customerCartManagedBean.addProductToCart(item.product)}">
-                              <f:ajax render="cartLineItemListView qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
+                              <f:ajax render="qty itemprice #{cc.clientId}:cartLineItem:cartLineItemListView:subtotal"/>
                             </h:commandButton>
                           </td>
                           <td class="text-right">
