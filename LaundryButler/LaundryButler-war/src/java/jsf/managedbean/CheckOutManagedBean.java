@@ -209,7 +209,7 @@ public class CheckOutManagedBean implements Serializable {
                     }
                 }
                 
-                // TODO: Redirect to boxes page after successful charge
+                ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
             }
         } else {
             System.out.println("#####  payment is false");

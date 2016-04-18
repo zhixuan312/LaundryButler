@@ -158,12 +158,12 @@ public class CustomerCartManagedBean implements Serializable {
                 }
             }
         }
-        cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
-        for (int j = 0; j < cartLineItems.size(); j ++){
-            if (cartLineItems.get(j).getQuantity() == 0){
-                productManagementRemote.deleteCartLineItem(cartLineItems.get(j).getCartLineItemId());
-            }
-        }
+//        cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+//        for (int j = 0; j < cartLineItems.size(); j ++){
+//            if (cartLineItems.get(j).getQuantity() == 0){
+//                productManagementRemote.deleteCartLineItem(cartLineItems.get(j).getCartLineItemId());
+//            }
+//        }
         cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         retrieveTotalPrice ();
     }
