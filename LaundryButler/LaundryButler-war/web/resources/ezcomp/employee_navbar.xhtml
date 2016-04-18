@@ -6,45 +6,39 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <!-- INTERFACE -->
-    <cc:interface>
-    </cc:interface>
+  <!-- INTERFACE -->
+  <cc:interface>
+  </cc:interface>
 
-    <!-- IMPLEMENTATION -->
-    <cc:implementation>
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        MENU                    
-                    </button>
-                    <a class="navbar-brand" id="nav_home" href="#backend_home"><img height="20px" src="resources/images/laundrybutler_logo_white_transparent.png" /></a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a id="nav_manage_boxes" href="#backend_boxes">Boxes</a></li>
-                        <li><a id="nav_manage_employees" href="#backend_employees">Employees</a></li>
-                        <li><a id="nav_manage_customers" href="#backend_customers">Customers</a></li>
-                        <li><a id="nav_manage_transactions" href="#backend_transactions">Transactions</a></li>
-                        <li><a id="nav_manage_pricing" href="#backend_products">Pricing</a></li>
-                        <li>
-                            <a id="nav_manage_account" href="#backend_account">
-                                <h:outputText value="#{adminEmployeeManagedBean.admin.firstName}"/>
-                                <ui:fragment rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
-                                    <span class="label label-default">Admin</span>
-                                </ui:fragment>
-                            </a>
-                        </li>
-                        <li>
-                            <h:form class="form" style="display: inline-block">
-                                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" actionListener="#{signUpAndLoginManagedBean.logout}" value='LOGOUT'>
-                                    <f:ajax execute="@form"/>
-                                </h:commandButton>
-                            </h:form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </cc:implementation>
+  <!-- IMPLEMENTATION -->
+  <cc:implementation>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+          </button>
+          <a class="navbar-brand" href="#employeePage">Logo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a id="nav_home" href="#home">HOME</a></li>
+            <li><a id="nav_mybox" href="#mybox">MY BOX</a></li>
+            <ui:fragment rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
+              <li><a id="nav_management" href="#management">MANAGEMENT</a></li>
+              <li><a id="nav_product" href="#product">PRODUCT</a></li>
+            </ui:fragment>
+            <li>
+              <h:form class="form" style="display: inline-block">
+                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}"><f:ajax execute="@form"/></h:commandButton>
+              </h:form>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </cc:implementation>
 </html>

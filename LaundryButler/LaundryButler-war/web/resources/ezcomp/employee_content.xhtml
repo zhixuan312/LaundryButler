@@ -13,45 +13,31 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        
-        <div id="backend_home" class="container-fluid subscreen subscreen-full">
-            Home
+        <!-- Container (HOME) -->
+        <div id="home" class="container-fluid subscreen">
+          <ezcomp:employee_profile/>
         </div>
-        
-        <div id="backend_boxes" class="container-fluid subscreen subscreen-full">
-            <ezcomp:employee_box/>
-        </div>
-        
-        <div id="backend_employees" class="container-fluid subscreen subscreen-full">
-            Employees
-        </div>
-        
-        <div id="backend_customers" class="container-fluid subscreen subscreen-full">
-            Customers
-        </div>
-        
-        <div id="backend_transactions" class="container-fluid subscreen subscreen-full">
-            Transactions
-        </div>
-        
-        <div id="backend_products" class="container-fluid subscreen subscreen-full">
-            Products
-        </div>
-        
-        <div id="backend_account" class="container-fluid subscreen subscreen-full">
-            <ezcomp:employee_profile/>
-        </div>
-        
 
-        <!-- Container (Admin Section)
-        <h:body rendered="">
-            <div id="management" class="container-fluid subscreen text-center">
-                
-            </div>
-            <div id="product" class="container-fluid subscreen text-center">
+        <!-- Container (MY BOX) -->
+        <div id="mybox" class="container-fluid subscreen">
+          <h2 class="text-center">MY BOX</h2>
+          <ezcomp:employee_box/>
+        </div>
 
-            </div>
-        </h:body>-->
+        <!-- Container (Portfolio Section) -->
+        <h:body rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
 
+          <div id="management" class="container-fluid subscreen text-center">
+            <h2>MANAGEMENT</h2>
+            <p>Under construction...</p>
+          </div>
+          <div id="product" class="container-fluid subscreen text-center">
+            <h2>PRODUCT</h2>
+            <p>Under construction...</p>
+          </div>
+        </h:body>
+
+        
+        
     </cc:implementation>
 </html>

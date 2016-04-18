@@ -6,71 +6,72 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <!-- INTERFACE -->
-    <cc:interface>
-    </cc:interface>
+  <!-- INTERFACE -->
+  <cc:interface>
+  </cc:interface>
 
-    <!-- IMPLEMENTATION -->
-    <cc:implementation>
+  <!-- IMPLEMENTATION -->
+  <cc:implementation>
 
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
-                    </button>
-                    <a class="navbar-brand" id="nav_home" href="#home"><img height="20px" src="resources/images/laundrybutler_logo_white_transparent.png" /></a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav navbar-right" >
-                        <li><a id="nav_mybox" href="#mybox">MY BOXES</a></li>
-                        <li><a id="nav_myinvoice" href="#myinvoice">ACCOUNT</a></li>
-                        <li><a id="nav_freedry" href="#freedry">FREE DRY CLEANING</a></li>
-                        <li><a id="nav_contact" href="#contact">CONTACT</a></li>
-                        <li><a id="nav_discover" href="#discover">BUY</a></li>
-                        <li>
-                            <h:commandButton id='cartLineItemsUpdate' class="hide">
-                                <f:ajax execute="#{cc.clientId}:cartLineItemListView"/>
-                            </h:commandButton>
-                            <button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" onclick="cartButtonClick()" style="margin-left: 40px; padding: 3px; border: 0; background: transparent;">
-                                <i class="glyphicon glyphicon-shopping-cart text-center" style="color:white; font-size: 1.5em; padding: 0; margin: 0; border: 0;"></i>
-                            </button>
-                        </li>
-                        <script>
-                            function cartButtonClick() {
-                                document.getElementById('#{cc.clientId}:cartLineItemsUpdate').click();
-                            }
-                        </script>
-                        <li style="margin-left: 40px;">
-                            <h:form id="fbLogout" class="form hide" style="display: inline-block">
-                                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}">
-                                    <f:ajax execute="@form"/>
-                                </h:commandButton>
-                            </h:form>
-                            <button class="btn navbar-btn command_button" onclick="fbLogoutButtonClick()">LOGOUT</button>
-                            <script>
-                                function fbLogoutButtonClick() {
-                                    FB.getLoginStatus(function (response) {
-                                        if (response.status === 'connected') {
-                                            customerLogout();
-                                        }
-                                    });
-
-                                    document.getElementById('#{cc.clientId}:fbLogout:logoutButton').click();
-                                    console.log("finished!");
-                                }
-                            </script>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-
-
-
-    </cc:implementation>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+          </button>
+          <a class="navbar-brand" href="#homePage">Logo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-right" >
+            <li><a id="nav_home" href="#home">HOME</a></li>
+            <li><a id="nav_mybox" href="#mybox">MY BOX</a></li>
+            <li><a id="nav_myinvoice" href="#myinvoice">MY INVOICE</a></li>
+            <li><a id="nav_discover" href="#discover">DISCOVER</a></li>
+            <li><a id="nav_freedry" href="#freedry">FREE DRY</a></li>
+            <li><a id="nav_contact" href="#contact">CONTACT</a></li>
+            <li>
+              <h:commandButton id='cartLineItemsUpdate' class="hide">
+                  <f:ajax execute="#{cc.clientId}:cartLineItemListView"/>
+              </h:commandButton>
+              <button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" onclick="cartButtonClick()" style="margin-left: 40px; padding: 3px; border: 0; background: transparent;">
+                <i class="glyphicon glyphicon-shopping-cart text-center" style="color:white; font-size: 1.5em; padding: 0; margin: 0; border: 0;"></i>
+              </button>
+            </li>
+            <script>
+              function cartButtonClick(){
+                document.getElementById('#{cc.clientId}:cartLineItemsUpdate').click();
+              }
+            </script>
+            <li style="margin-left: 40px;">
+              <h:form id="fbLogout" class="form hide" style="display: inline-block">
+                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}">
+                  <f:ajax execute="@form"/>
+                </h:commandButton>
+              </h:form>
+              <button class="btn navbar-btn command_button" onclick="fbLogoutButtonClick()">LOGOUT</button>
+              <script>
+                function fbLogoutButtonClick() {
+                  FB.getLoginStatus(function (response) {
+                    if(response.status === 'connected'){
+                      customerLogout();
+                    }
+                  });
+                  
+                  document.getElementById('#{cc.clientId}:fbLogout:logoutButton').click();
+                  console.log("finished!");
+                }
+              </script>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    
+    
+    
+  </cc:implementation>
 </html>

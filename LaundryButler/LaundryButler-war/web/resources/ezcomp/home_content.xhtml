@@ -14,37 +14,30 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <!-- Home -->
         <div id="home" class="container-fluid subscreen subscreen-full">
-            <ezcomp:home_profile/>
+          <ezcomp:home_profile/>
         </div>
 
-        <!-- My Boxes -->
         <div id="mybox" class="container-fluid subscreen subscreen-full">
-            <h2 class="text-center">MY BOX</h2>
-            <ezcomp:home_mybox/>
+          <h2 class="text-center">MY BOX</h2>
+          <ezcomp:home_mybox/>
         </div>
-
-        <!-- Transactions -->
-        <div id="myinvoice" class="container-fluid subscreen subscreen-full">
+        
+        <div id="myinvoice" class="container-fluid subscreen subscreen-full ">
             <h2 class="text-center">My Invoice</h2>
             <ezcomp:home_invoice/>
         </div>
 
-        <!-- Buy -->
-        <div id="discover" class="container-fluid subscreen subscreen-full">
-            <ezcomp:home_discover/>
+        
+          <ezcomp:home_discover/>
+        
+        <div id="freedry" class="container-fluid subscreen subscreen-full text-center">
+            <h2>Free Dry</h2>
+            <p>Under construction...</p>
         </div>
 
-        <!-- Invite -->
-        <div id="freedry" class="container-fluid subscreen subscreen-full">
-            <h2>Free Dry Cleaning</h2>
-            <p>Share this signup link with your friend and both of you will get one free dry cleaning each.</p>
-            <p>http://localhost:8080/LaundryButler-war/index.html?referrerid=#{customerProfileManagedBean.customer.customerId}</p>
-        </div>
-
-        <!-- Contact -->
+        <!-- Container (Contact Section) -->
         <ezcomp:contact/>
-
+        
     </cc:implementation>
 </html>
