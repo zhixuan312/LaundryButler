@@ -100,6 +100,11 @@ public class CustomerCartManagedBean implements Serializable {
     public List<CartLineItem> refreshList(){
         if (productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()) != null){
             cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
+            for (int j = 0; j < cartLineItems.size(); j ++){
+                if (cartLineItems.get(j).getQuantity() == 0){
+                    productManagementRemote.deleteCartLineItem(cartLineItems.get(j).getCartLineItemId());
+                }
+            }
         }
         return cartLineItems;
     }
@@ -167,9 +172,9 @@ public class CustomerCartManagedBean implements Serializable {
         cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         retrieveTotalPrice ();
     }
-    
+
     public boolean isCartEmpty(){
-      if (cartLineItems == null)
+      if (cartLineItems == null || cartLineItems.size() == 0)
         return true;
         for (int i = 0; i < cartLineItems.size(); i ++){
             if (cartLineItems.get(i).getQuantity() != 0){
