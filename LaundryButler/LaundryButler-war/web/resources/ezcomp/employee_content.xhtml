@@ -13,26 +13,45 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <!-- Container (HOME) -->
-        <div id="home" class="container-fluid subscreen">
-            <ezcomp:employee_profile/>
+        
+        <div id="backend_home" class="container-fluid subscreen subscreen-full">
+            Home
         </div>
-
-        <!-- Container (BOXES) -->
-        <div id="boxes" class="container-fluid subscreen">
-            <h2 class="text-center">BOXES</h2>
+        
+        <div id="backend_boxes" class="container-fluid subscreen subscreen-full">
             <ezcomp:employee_box/>
         </div>
+        
+        <div id="backend_employees" class="container-fluid subscreen subscreen-full">
+            Employees
+        </div>
+        
+        <div id="backend_customers" class="container-fluid subscreen subscreen-full">
+            Customers
+        </div>
+        
+        <div id="backend_transactions" class="container-fluid subscreen subscreen-full">
+            Transactions
+        </div>
+        
+        <div id="backend_products" class="container-fluid subscreen subscreen-full">
+            Products
+        </div>
+        
+        <div id="backend_account" class="container-fluid subscreen subscreen-full">
+            <ezcomp:employee_profile/>
+        </div>
+        
 
-        <!-- Container (Admin Section) -->
-        <h:body rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
+        <!-- Container (Admin Section)
+        <h:body rendered="">
             <div id="management" class="container-fluid subscreen text-center">
                 
             </div>
             <div id="product" class="container-fluid subscreen text-center">
 
             </div>
-        </h:body>
+        </h:body>-->
 
     </cc:implementation>
 </html>
