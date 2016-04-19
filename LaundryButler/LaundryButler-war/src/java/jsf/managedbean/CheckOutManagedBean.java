@@ -158,8 +158,7 @@ public class CheckOutManagedBean implements Serializable {
                             for (int k =0; k < transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits(); k ++){
                                 
                                 box.setAllowSharing(false);
-                                SecureRandom random = new SecureRandom();
-                                box.setBoxPasscode(new BigInteger(36, random).toString(32));
+                                box.setBoxPasscode(Integer.toString((int)(Math.random() * (1000 - 100) + 100)));
                                 box.setCreatedDateTime(new Date());
                                 box.setCustomer(customer);
                                 box.setDeliveryDateTime(null);
