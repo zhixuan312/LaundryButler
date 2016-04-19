@@ -59,8 +59,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             }
         }
         if (!sameEmail) {
-            SecureRandom random = new SecureRandom();
-            String verificationCode = new BigInteger(130, random).toString(32);
+            String verificationCode = Integer.toString(1000 + (int)(Math.random() * 9999)); 
             customer.setVerificationCode(verificationCode);
             customer.setAccountStatus("Pending Verification");
             customer.setDateRegistered(new Date());
