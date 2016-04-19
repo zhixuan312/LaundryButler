@@ -1,7 +1,9 @@
 package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
+import com.twilio.sdk.TwilioRestException;
 import entity.Customer;
+import extensions.TextSender;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -30,6 +32,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     private String last_name;
     private String first_name;
     private String gender;
+    private String mobile;
 
     @PostConstruct
     public void init() {
@@ -44,6 +47,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
         last_name = "";
         first_name = "";
         gender = "";
+        mobile = "";
     }
 
     public void customerLogin(ActionEvent event) {
@@ -75,15 +79,14 @@ public class SignUpAndLoginManagedBean implements Serializable {
                 this.customer.setPassword(new BigInteger(130, random).toString(32));
                 this.customer.setLastName(getLast_name());
                 this.customer.setFirstName(getFirst_name());
+                this.customer.setMobile(getMobile());
                 this.customer.setGender(getGender());
                 this.customer.setIsFaceBook(true);
                 this.createCustomer(event);
             }
-
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     public void employeeLogin(ActionEvent event) {
@@ -130,22 +133,22 @@ public class SignUpAndLoginManagedBean implements Serializable {
         if (!verificationCode.equals("-1")) {
             this.email = customer.getEmail();
             this.password = customer.getPassword();
+
+            // Try to text the verification code to the phone number of the new customer
+            try {
+                TextSender ts = new TextSender();
+                ts.setBodyMessage("Hi " + customer.getFirstName() + ". Your LaundryButler verification code is " + verificationCode + ".");
+                ts.setRecipientPhoneNumber(customer.getMobile());
+                ts.sendText();
+            } catch (TwilioRestException tre) {
+                tre.printStackTrace();
+            }
+
             customer = new Customer();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New customer registered successfully!", "Your registration verification code is " + verificationCode));
             this.customerLogin(event);
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email is been registered", "Email is been registered"));
-        }
-    }
-
-    public void cancelRegister(ActionEvent event) {
-        try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-
-            ec.redirect("SignUpAndLogin.xhtml?faces-redirect=true");
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -195,6 +198,22 @@ public class SignUpAndLoginManagedBean implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public AccountManagementRemote getAccountManagementRemote() {
+        return accountManagementRemote;
+    }
+
+    public void setAccountManagementRemote(AccountManagementRemote accountManagementRemote) {
+        this.accountManagementRemote = accountManagementRemote;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
 }
