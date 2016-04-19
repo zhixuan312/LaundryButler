@@ -4,7 +4,8 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -12,8 +13,6 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <p><small>Not a member yet? <a data-toggle="modal" data-target="#signUp">Sign Up</a> now!</small></p>      
-
         <!-- Modal windows-->
         <div class="modal fade text-left" id="signUp" role="dialog" style="padding-top:100px;">
             <div class="modal-dialog">
@@ -55,6 +54,7 @@
                                 <div class="col-md-12 form-group">
                                     <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
                                     <h:inputText id="profile_mobile" class="form-control input_text" value="#{signUpAndLoginManagedBean.customer.mobile}" maxlength="32" required="true" requiredMessage="Mobile is required"/>
+                                    <small style="color: gray;">Phone number requires area code without dashes, brackets or periods e.g. +6591234567</small>
                                 </div>
                             </div>
 
