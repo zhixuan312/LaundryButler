@@ -1,8 +1,8 @@
 function initializeMap() {
-  var myCenter = new google.maps.LatLng(1.294807, 103.773800);
+  var myCenter = new google.maps.LatLng(1.2925447, 103.7734944);
   var mapProp = {
     center: myCenter,
-    zoom: 14,
+    zoom: 16,
     scrollwheel: false,
     draggable: false,
     mapTypeId: google.maps.MapTypeId.ROADMAP
