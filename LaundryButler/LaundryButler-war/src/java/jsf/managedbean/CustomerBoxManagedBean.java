@@ -16,7 +16,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -27,7 +27,7 @@ import javax.faces.event.ActionEvent;
  * @author XUAN
  */
 @Named(value = "customerBoxManagedBean")
-@SessionScoped
+@RequestScoped
 public class CustomerBoxManagedBean implements Serializable{
     
     @EJB
@@ -42,10 +42,11 @@ public class CustomerBoxManagedBean implements Serializable{
     public CustomerBoxManagedBean() {
         box = new Box();
         boxes = new ArrayList<>();
+        customer = new Customer();
     }
     
     @PostConstruct
-    public void init() 
+    public void init()
     {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         
@@ -69,7 +70,8 @@ public class CustomerBoxManagedBean implements Serializable{
         }
         
         customer = accountManagementRemote.getCustomer();
-        boxes = laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId());
+        if(laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId()) != null)
+            boxes = laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId());
     }
     
     public void updateBox (ActionEvent event) {
@@ -80,8 +82,8 @@ public class CustomerBoxManagedBean implements Serializable{
         }
     }
     
-    public void deleteBox (ActionEvent event) {
-        Box boxToDelete = (Box)event.getComponent().getAttributes().get("boxToDelete");
+    public void deleteBox (Box boxToDelete) {
+
         if(laundryOrderManagementRemote.deleteBox(boxToDelete.getBoxId())){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
         } else {
@@ -112,6 +114,4 @@ public class CustomerBoxManagedBean implements Serializable{
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
     }
-    
-    
 }
