@@ -9,42 +9,30 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
 
-    private String host;
-    private String senderEmail;
-    private String senderName;
+    private static final String HOST = "smtp.starhub.net.sg";
+    private static final String SENDER_EMAIL = "support@laundrybutler.com";
+    private static final String SENDER_NAME = "LaundryButler";
     private String recipientEmail;
     private String subject;
     private String message;
 
     public EmailSender() {
-        // initialise default values
-        host = "smtp.starhub.net.sg";
-        senderEmail = "support@laundrybutler.com";
-        senderName = "LaundryButler";
     }
 
-    public void createEmail() throws Exception {
-        Properties properties = System.getProperties();
-        properties.put("mail.smtp.host", host);
-        Session session = Session.getDefaultInstance(properties);
-        MimeMessage mm = new MimeMessage(session);
-        mm.setFrom(new InternetAddress(senderEmail, senderName));
-        mm.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
-        mm.setSubject(subject);
-        mm.setContent(message, "text/html");
-        Transport.send(mm);
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public String getSenderEmail() {
-        return senderEmail;
-    }
-
-    public String getSenderName() {
-        return senderName;
+    public void createEmail() {
+        try {
+            Properties properties = System.getProperties();
+            properties.put("mail.smtp.host", HOST);
+            Session session = Session.getDefaultInstance(properties);
+            MimeMessage mm = new MimeMessage(session);
+            mm.setFrom(new InternetAddress(SENDER_EMAIL, SENDER_NAME));
+            mm.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+            mm.setSubject(subject);
+            mm.setContent(message, "text/html");
+            Transport.send(mm);
+        } catch (Exception ex) {
+            System.out.println("Try changing to a different host address.");
+        }
     }
 
     public String getRecipientEmail() {
