@@ -8,66 +8,74 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
 
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-          <h:form class="form">
-            <div class="form-group">
-              <h:inputText  id="email"  class="form-control input_text" a:placeholder="Email"  value="#{signUpAndLoginManagedBean.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <h:form class="form">
+                        
+                        <div class="row" style="display: inline-block; text-align: center;">
+                            <div class="col-md-6">
+                                <fb:login-button id="fblogin" data-size="xlarge" scope="public_profile,email" onlogin="checkLoginState();" style="font-size: 12px;">Get Started with Facebook</fb:login-button>
+                            </div>
+                        </div>
+                        
+                        <small>Or use your email</small>
+                        
+                        <div class="form-group">
+                            <h:inputText  id="email"  class="form-control input_text" a:placeholder="Email"  value="#{signUpAndLoginManagedBean.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h:inputSecret id="password" class="form-control input_text" a:placeholder="Password" value="#{signUpAndLoginManagedBean.password}" maxlength="32" required="true" requiredMessage="Password is required"/>
+                        </div>
+                        
+                        <h:messages id="login_error" class="error_message"/>
+                        
+                        <div class="row" style="display: inline-block; text-align: center;">
+                            <div class="col-md-6">
+                                <h:commandButton value="CUSTOMER LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean.customerLogin}">
+                                    <f:ajax execute="@form" render="login_error"/>
+                                </h:commandButton>
+                            </div>
+                            <div class="col-md-6">
+                                <h:commandButton value="EMPLOYEE LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean.employeeLogin}">
+                                    <f:ajax execute="@form" render="login_error"/>
+                                </h:commandButton>
+                            </div>
+                        </div>
+                        
+                    </h:form>
+                </div>
             </div>
-            <div class="form-group">
-              <h:inputSecret id="password" class="form-control input_text" a:placeholder="Password" value="#{signUpAndLoginManagedBean.password}" maxlength="32" required="true" requiredMessage="Password is required"/>
-            </div>
-            <h:messages id="login_error" class="error_message"/>
-            <div class="row" style="display: inline-block; text-align: center;">
-              <div class="col-md-6">
-                <h:commandButton value="CUSTOMER LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean.customerLogin}">
-                  <f:ajax execute="@form" render="login_error"/>
-                </h:commandButton>
-              </div>
-              <div class="col-md-6">
-                <h:commandButton value="EMPLOYEE LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean.employeeLogin}">
-                  <f:ajax execute="@form" render="login_error"/>
-                </h:commandButton>
-              </div>
-            </div>
-            <div class="row" style="display: inline-block; text-align: center;">
-              <div class="col-md-6">
-                <fb:login-button id="fblogin" scope="public_profile,email" onlogin="checkLoginState();" style="font-size: 12px;">Login with Facebook</fb:login-button>
-              </div>
-            </div>
-          </h:form>
         </div>
-      </div>
-    </div>
-    <div>
-      <h:form id="fbLogin" class="form hide">
-        <h:inputText  id="fblastname"  class="form-control input_text" value="#{signUpAndLoginManagedBean.last_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
-        <h:inputText  id="fbfirstname"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.first_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
-        <h:inputText  id="fbemail"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
-        <h:commandButton id="fbloginButton" value="CUSTOMER LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean.customerLoginByFaceBook}">
-          <f:ajax execute="@form"/>
-        </h:commandButton>
-      </h:form>
-    </div>
-    <script>
-      function fbLoginButtonClick(response) {
-        document.getElementById('#{cc.clientId}:fbLogin:fbemail').value = response.email;
-        document.getElementById('#{cc.clientId}:fbLogin:fblastname').value = response.last_name;
-        document.getElementById('#{cc.clientId}:fbLogin:fbfirstname').value = response.first_name;
-        
-        var status = document.getElementById('#{cc.clientId}:fbLogin:fbloginButton').click();
-        //console.log(status);
-        console.log("Login finished!");
-      }
-    </script>
+        <div>
+            <h:form id="fbLogin" class="form hide">
+                <h:inputText  id="fblastname"  class="form-control input_text" value="#{signUpAndLoginManagedBean.last_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
+                <h:inputText  id="fbfirstname"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.first_name}" maxlength="32" required="true" requiredMessage="Email is required"/>
+                <h:inputText  id="fbemail"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
+                <h:commandButton id="fbloginButton" value="CUSTOMER LOGIN" class="btn btn-default command_button" actionListener="#{signUpAndLoginManagedBean.customerLoginByFaceBook}">
+                    <f:ajax execute="@form"/>
+                </h:commandButton>
+            </h:form>
+        </div>
+        <script>
+            function fbLoginButtonClick(response) {
+                document.getElementById('#{cc.clientId}:fbLogin:fbemail').value = response.email;
+                document.getElementById('#{cc.clientId}:fbLogin:fblastname').value = response.last_name;
+                document.getElementById('#{cc.clientId}:fbLogin:fbfirstname').value = response.first_name;
 
-  </cc:implementation>
+                var status = document.getElementById('#{cc.clientId}:fbLogin:fbloginButton').click();
+                //console.log(status);
+                console.log("Login finished!");
+            }
+        </script>
+
+    </cc:implementation>
 </html>
