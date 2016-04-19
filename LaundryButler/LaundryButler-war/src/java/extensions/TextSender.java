@@ -27,9 +27,9 @@ public class TextSender {
     public void sendText() throws TwilioRestException {
         TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
         List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("Body", bodyMessage));
         params.add(new BasicNameValuePair("To", recipientPhoneNumber));
         params.add(new BasicNameValuePair("From", SENDER_PHONE_NUMBER));
+        params.add(new BasicNameValuePair("Body", bodyMessage));
         MessageFactory messageFactory = client.getAccount().getMessageFactory();
         Message message = messageFactory.create(params);
     }
