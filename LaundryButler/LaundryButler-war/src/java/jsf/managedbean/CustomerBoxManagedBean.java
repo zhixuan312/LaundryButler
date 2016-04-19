@@ -76,10 +76,19 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void updateBox (ActionEvent event) {
         if(laundryOrderManagementRemote.updateBox(box)){
+            if (box.getIsExpress())
+                isExpressBox ();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
         }
+    }
+    
+    public void isExpressBox (){
+        int num = customer.getExpress();
+        num --;
+        customer.setExpress(num);
+        accountManagementRemote.updateCutomerProfile(customer);
     }
     
     public void deleteBox (Box boxToDelete) {

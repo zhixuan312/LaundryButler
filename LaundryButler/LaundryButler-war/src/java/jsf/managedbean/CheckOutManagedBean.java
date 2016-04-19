@@ -161,15 +161,13 @@ public class CheckOutManagedBean implements Serializable {
                                 box.setCustomer(customer);
                                 box.setDeliveryDateTime(null);
                                 box.setIsShared(false);
-                                box.setDeliveryDateTime(deliveryDate);
-                                box.setPickupDateTime(pickUpDate);
+//                                box.setDeliveryDateTime(deliveryDate);
+//                                box.setPickupDateTime(pickUpDate);
+                                box.setDeliveryDateTime(null);
+                                box.setPickupDateTime(null);
                                 box.setDryCleaning(0);
                                 box.setPayer(customer);
-                                if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("5"))){
-                                    box.setIsExpress(true);
-                                } else {
-                                    box.setIsExpress(false);
-                                }
+                                box.setIsExpress(false);
                                 box.setStatus("Unschedule");
                                 double price = 0;
                                 if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))){
