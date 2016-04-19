@@ -20,7 +20,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -38,6 +37,7 @@ public class CustomerBoxManagedBean implements Serializable{
     private Box box;
     private Customer customer;
     private List<Box> boxes;
+    
     
     public CustomerBoxManagedBean() {
         box = new Box();
@@ -94,12 +94,12 @@ public class CustomerBoxManagedBean implements Serializable{
         accountManagementRemote.updateCutomerProfile(customer);
     }
     
-    public void updateBoxIsShared (Box box){
+    public void updateBoxAllowSharing (Box box){
         System.out.println("updateBoxIsShared is called");
-        if (box.getIsShared()){
-            box.setIsShared(false);
+        if (box.getAllowSharing()){
+            box.setAllowSharing(false);
         } else {
-             box.setIsShared(true);
+            box.setAllowSharing(true);
         }
         laundryOrderManagementRemote.updateBox(box);
         System.out.println("updateBoxIsShared status: " + box.getIsShared());
@@ -110,6 +110,7 @@ public class CustomerBoxManagedBean implements Serializable{
         laundryOrderManagementRemote.updateBox(box);
         customer.setDryCleaning(customer.getDryCleaning() + 1);
         accountManagementRemote.updateCutomerProfile(customer);
+        System.out.println("updateBoxDryCleaning number: " + box.getDryCleaning());
     }
     
     public void deleteBox (Box boxToDelete) {
