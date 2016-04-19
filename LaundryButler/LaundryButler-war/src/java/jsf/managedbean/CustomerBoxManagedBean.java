@@ -74,14 +74,16 @@ public class CustomerBoxManagedBean implements Serializable{
             boxes = laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId());
     }
     
-    public void updateBox (ActionEvent event) {
-        if(laundryOrderManagementRemote.updateBox(box)){
-            if (box.getIsExpress())
-                isExpressBox ();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
+    public void updateBoxIsExpress (Box box) {
+        if (box.getIsExpress()){
+            box.setIsExpress(false);
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
+            box.setIsExpress(true);
         }
+        laundryOrderManagementRemote.updateBox(box);
+        if (box.getIsExpress())
+            isExpressBox ();
+        
     }
     
     public void isExpressBox (){
@@ -91,8 +93,23 @@ public class CustomerBoxManagedBean implements Serializable{
         accountManagementRemote.updateCutomerProfile(customer);
     }
     
+    public void updateBoxIsShared (Box box){
+        if (box.getIsShared()){
+            box.setAllowSharing(false);
+        } else {
+            box.setAllowSharing(true);
+        }
+        laundryOrderManagementRemote.updateBox(box);
+    }
+    
+    public void updateBoxDryCleaning (Box box){
+        laundryOrderManagementRemote.updateBox(box);
+        customer.setDryCleaning(customer.getDryCleaning() + 1);
+        accountManagementRemote.updateCutomerProfile(customer);
+    }
+    
     public void deleteBox (Box boxToDelete) {
-
+        
         if(laundryOrderManagementRemote.deleteBox(boxToDelete.getBoxId())){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","Success!"));
         } else {

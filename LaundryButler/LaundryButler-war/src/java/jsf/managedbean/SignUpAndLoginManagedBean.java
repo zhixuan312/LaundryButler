@@ -122,6 +122,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 
             ((HttpSession) ec.getSession(true)).invalidate();
+            ec.invalidateSession();
             ec.redirect("index.xhtml?faces-redirect=true");
         } catch (IOException ex) {
             ex.printStackTrace();
