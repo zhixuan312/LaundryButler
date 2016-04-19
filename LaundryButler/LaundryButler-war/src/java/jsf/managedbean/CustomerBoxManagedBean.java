@@ -37,12 +37,14 @@ public class CustomerBoxManagedBean implements Serializable{
     private Box box;
     private Customer customer;
     private List<Box> boxes;
+    private List <Box> boxesIsShared ;
     
     
     public CustomerBoxManagedBean() {
         box = new Box();
         boxes = new ArrayList<>();
         customer = new Customer();
+        boxesIsShared = new ArrayList<>();
     }
     
     @PostConstruct
@@ -131,19 +133,19 @@ public class CustomerBoxManagedBean implements Serializable{
     }
     
     public void getIsSharedBoxFromOthers (){
-        List <Box> boxes = laundryOrderManagementRemote.viewAllBox();
+        boxesIsShared = laundryOrderManagementRemote.viewAllBox();
         List <Integer> tempList = new ArrayList<Integer> ();
         
-        for(int i = 0 ; i < boxes.size(); i ++) {
-            if (boxes.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
+        for(int i = 0 ; i < boxesIsShared.size(); i ++) {
+            if (boxesIsShared.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
                 tempList.add(i);
-            } else if (!boxes.get(i).getAllowSharing()){
+            } else if (!boxesIsShared.get(i).getAllowSharing()){
                 tempList.add(i);
             }
         }
         if (!tempList.isEmpty()){
             for (int i =0; i < tempList.size();i++) {
-                boxes.remove(i);
+                boxesIsShared.remove(i);
             }
         }
         
@@ -171,5 +173,13 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
+    }
+
+    public List<Box> getBoxesIsShared() {
+        return boxesIsShared;
+    }
+
+    public void setBoxesIsShared(List<Box> boxesIsShared) {
+        this.boxesIsShared = boxesIsShared;
     }
 }
