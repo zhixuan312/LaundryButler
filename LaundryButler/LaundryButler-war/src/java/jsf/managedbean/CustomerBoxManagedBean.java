@@ -76,15 +76,18 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void updateBoxIsExpress (Box box) {
         System.out.println("updateBoxIsExpress is called");
-        if (box.getIsExpress()){
-            box.setIsExpress(false);
+        if (customer.getExpress()> -1){
+            if (box.getIsExpress()){
+                box.setIsExpress(false);
+            } else {
+                box.setIsExpress(true);
+            }
+            laundryOrderManagementRemote.updateBox(box);
+            if (box.getIsExpress())
+                isExpressBox ();
         } else {
-            box.setIsExpress(true);
-        }
-        laundryOrderManagementRemote.updateBox(box);
-        if (box.getIsExpress())
-            isExpressBox ();
-        
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough express cleaning!","Sorry, you dont have enough  express cleaning!"));
+        }  
     }
     
     public void isExpressBox (){
@@ -107,10 +110,14 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void updateBoxDryCleaning (Box box){
         System.out.println("updateBoxDryCleaning is called");
-        laundryOrderManagementRemote.updateBox(box);
-        customer.setDryCleaning(customer.getDryCleaning() + 1);
-        accountManagementRemote.updateCutomerProfile(customer);
-        System.out.println("updateBoxDryCleaning number: " + box.getDryCleaning());
+        if (box.getDryCleaning().compareTo(customer.getDryCleaning()) >0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough dry cleaning!","Sorry, you dont have enough dry cleaning!"));
+        } else {
+            laundryOrderManagementRemote.updateBox(box);
+            customer.setDryCleaning(customer.getDryCleaning() + 1);
+            accountManagementRemote.updateCutomerProfile(customer);
+            System.out.println("updateBoxDryCleaning number: " + box.getDryCleaning());
+        }
     }
     
     public void deleteBox (Box boxToDelete) {
@@ -124,6 +131,12 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void getIsSharedBoxFromOthers (){
         List <Box> boxes = laundryOrderManagementRemote.viewAllBox();
+        
+        for(int i = 0 ; i < boxes.size(); i ++) {
+            if (boxes.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
+                
+            }
+        }
     }
     
     public Box getBox() {
