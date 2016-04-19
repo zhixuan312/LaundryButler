@@ -75,6 +75,7 @@ public class CustomerBoxManagedBean implements Serializable{
     }
     
     public void updateBoxIsExpress (Box box) {
+        System.out.println("updateBoxIsExpress is called");
         if (box.getIsExpress()){
             box.setIsExpress(false);
         } else {
@@ -94,6 +95,7 @@ public class CustomerBoxManagedBean implements Serializable{
     }
     
     public void updateBoxIsShared (Box box){
+        System.out.println("updateBoxIsShared is called");
         if (box.getIsShared()){
             box.setAllowSharing(false);
         } else {
@@ -103,6 +105,7 @@ public class CustomerBoxManagedBean implements Serializable{
     }
     
     public void updateBoxDryCleaning (Box box){
+        System.out.println("updateBoxDryCleaning is called");
         laundryOrderManagementRemote.updateBox(box);
         customer.setDryCleaning(customer.getDryCleaning() + 1);
         accountManagementRemote.updateCutomerProfile(customer);
@@ -115,6 +118,10 @@ public class CustomerBoxManagedBean implements Serializable{
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
         }
+    }
+    
+    public void getIsSharedBoxFromOthers (){
+        
     }
     
     public Box getBox() {
