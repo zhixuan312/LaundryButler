@@ -97,9 +97,9 @@ public class CustomerBoxManagedBean implements Serializable{
     public void updateBoxIsShared (Box box){
         System.out.println("updateBoxIsShared is called");
         if (box.getIsShared()){
-            box.setAllowSharing(false);
+            box.setIsShared(false);
         } else {
-            box.setAllowSharing(true);
+             box.setIsShared(true);
         }
         laundryOrderManagementRemote.updateBox(box);
         System.out.println("updateBoxIsShared status: " + box.getIsShared());
