@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -29,6 +31,61 @@
                 </div>
             </div>
         </nav>
+        
+        <!-- Modal windows-->
+        <div class="modal fade text-left" id="signUp" role="dialog" style="padding-top:80px;">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header themeBg">
+                        <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center">Sign Up</h4>
+                    </div>
+                    <h:form class="form">
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <h:outputLabel class="control-label" for="singUp_firstName" value="First Name"/>
+                                    <h:inputText id="singUp_firstName"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.customer.firstName}" maxlength="32" required="true" requiredMessage="First name is required"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <h:outputLabel class="control-label" for="profile_lastName" value="Last Name"/>
+                                    <h:inputText id="profile_lastName"  class="form-control input_text"  value="#{signUpAndLoginManagedBean.customer.lastName}" maxlength="32" required="true" requiredMessage="Last name is required"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <h:outputLabel class="control-label" for="signUp_email" value="Email"/>
+                                    <h:inputText id="signUp_email" class="form-control input_text" value="#{signUpAndLoginManagedBean.customer.email}" maxlength="32" required="true" requiredMessage="Email is required"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <h:outputLabel class="control-label" for="singUp_password" value="Password"/>
+                                    <h:inputSecret id="singUp_password" class="form-control input_text" value="#{signUpAndLoginManagedBean.customer.password}" maxlength="32" required="true" requiredMessage="Password is required"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
+                                    <h:inputText id="profile_mobile" class="form-control input_text" value="#{signUpAndLoginManagedBean.customer.mobile}" maxlength="32" required="true" requiredMessage="Mobile is required"/>
+                                    <small style="color: gray;">Phone number requires area code without dashes, brackets or periods e.g. +6591234567</small>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Sign Up" actionListener="#{signUpAndLoginManagedBean.createCustomer}"><f:ajax execute="@form"/></h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+
+            </div>
+        </div>
 
     </cc:implementation>
 </html>

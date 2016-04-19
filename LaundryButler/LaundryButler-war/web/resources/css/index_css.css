@@ -18,7 +18,7 @@ h4 {
     margin-bottom: 30px;
 }  
 .jumbotron {
-    background-color: #3fb0ac;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(63,176,172,0.80)), color-stop(100%, rgba(56,168,233,0.75))), url('../images/index_background.jpg') no-repeat;
     color: #fff;
     padding: 100px 25px;
     font-family: Montserrat, sans-serif;
@@ -193,14 +193,13 @@ footer .glyphicon {
 }
 
 .command_button, command.button:active:after{
-    
     color: #fff;
     border-color: #fff;
-    background-color: #3fb0ac;
+    background-color: transparent;
 }
 .command_button:hover{
-    color:#3fb0ac;
-    background: #fff;
+    color: #fff;
+    background-color: #3fb0ac;
     border-color: #fff;
 }
 .page_button, page_button:active:after{
