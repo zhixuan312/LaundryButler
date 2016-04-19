@@ -76,7 +76,7 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void updateBoxIsExpress (Box box) {
         System.out.println("updateBoxIsExpress is called");
-        if (customer.getExpress()> -1){
+        if (customer.getExpress() > 0){
             if (box.getIsExpress()){
                 box.setIsExpress(false);
             } else {
@@ -87,7 +87,7 @@ public class CustomerBoxManagedBean implements Serializable{
                 isExpressBox ();
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough express cleaning!","Sorry, you dont have enough  express cleaning!"));
-        }  
+        }
     }
     
     public void isExpressBox (){
@@ -131,12 +131,21 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void getIsSharedBoxFromOthers (){
         List <Box> boxes = laundryOrderManagementRemote.viewAllBox();
+        List <Integer> tempList = new ArrayList<Integer> ();
         
         for(int i = 0 ; i < boxes.size(); i ++) {
             if (boxes.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
-                
+                tempList.add(i);
+            }else if (!boxes.get(i).getAllowSharing()){
+                tempList.add(i);
             }
         }
+        if (!tempList.isEmpty()){
+            for (int i =0; i < tempList.size();i++) {
+                boxes.remove(i);
+            }
+        }
+        
     }
     
     public Box getBox() {
