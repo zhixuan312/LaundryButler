@@ -77,11 +77,10 @@
                     <tbody>
                       <ui:repeat id="cartItemRepeat" var="item" value="#{customerCartManagedBean.cartLineItems}" varStatus="varStatus">
                         <tr>
-                          <td>
+                          <td class="text-left">
                             <h:outputText value="#{item.product.name}"/>
                           </td>
                           <td>
-
                             <button class="btn navbar-btn text-center" type="button" onclick="{
                                   console.log('minus bottuon clikced');
                                   document.getElementById('#{cc.clientId}:cartLineItem:cartLineItemListView:cartItemRepeat:#{varStatus.index}:minusButton').click();
@@ -105,28 +104,11 @@
                           <td class="text-right">
                             $<h:outputText id="itemprice" value="#{item.product.price * item.quantity}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2"/></h:outputText>
                           </td>
-                          <td data-toggle="collapse" data-target="#myCartToggle#{item.cartLineItemId}" class="accordion-toggle">
-                            <i class="indicator glyphicon chevron_toggleable glyphicon-chevron-up pull-right"></i>
-                          </td>
                         </tr>
-                        <tr>
-                          <td colspan="6" class="hiddenRow">
-                            <div id="myCartToggle#{item.cartLineItemId}" class="accordian-body collapse">    
-                              <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
-                                <h:outputText value="#{item.quantity}"/>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-
+                       
                       </ui:repeat>
                     </tbody>
                   </table>
-                  <script>
-                    $('.chevron_toggleable').on('click', function () {
-                      $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-                    });
-                  </script>
                 </ui:fragment>
                 <ui:fragment rendered="#{customerCartManagedBean.isCartEmpty()}">
                   <p class="text-center">Your cart is empty.</p>
