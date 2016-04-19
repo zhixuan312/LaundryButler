@@ -12,6 +12,7 @@
 
   <!-- IMPLEMENTATION -->
   <cc:implementation>
+    <h:form>
     <div class="row">
       <div class="col-sm-2"/>
       <div class="col-sm-8" style="height: 70vh;overflow: auto;">
@@ -45,18 +46,86 @@
                 <td colspan="6" class="hiddenRow">
                   <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
                     <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
-                      <div class="col-md-6" style="padding-left:46px;" >
-                        <p>Passcode: <h:outputText value="#{box.boxPasscode}"/></p>
-                        <p>Sharing: <h:outputText value="#{box.allowSharing}"/></p>
-                        <p>Collected by: <h:outputText value="#{box.employee.firstName} #{box.employee.lastName}"/> </p>
-                        <p>Contact: <h:outputText value="#{box.employee.mobile}"/> </p>
-                      </div>
-                      <div class="col-md-6">
-                        <p>Price: <h:outputText value="$#{box.price}"/> </p>
-                        <p>Paid By: <h:outputText value="#{box.payer.firstName} #{box.payer.lastName}"/> </p>
-                        <p>Rating: <h:outputText value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/></p>
-                      </div>
-                     
+                        <p>
+                          <h:outputLabel for="box_passcode" value="Passcode:"/>
+                          <h:outputText id="box_passcode" value="#{box.boxPasscode}"/>
+                        </p>
+                        <p>
+                          <h:outputLabel for="box_collectedBy" value="Collected by:"/>
+                          <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/> 
+                        </p>
+                        <p>
+                          <h:outputLabel for="box_contact" value="Contact:"/>
+                          <h:outputText id="box_contact" value="#{box.employee.mobile}"/>
+                        </p>
+                        <p>
+                          <h:outputLabel for="box_price" value="Price:"/>
+                          $
+                            <h:outputText id="box_price" value="#{box.price}">
+                              <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>                
+                        </p>
+                        <p>
+                          <h:outputLabel for="box_payer" value="Paid By:"/>
+                          <h:outputText id="box_payer" value="#{box.payer.firstName} #{box.payer.lastName}"/>
+                        </p>
+                        <p>
+                          <h:outputLabel for="box_rating" value="Rating:"/>
+                          <h:outputText id="box_rating" value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
+                        </p>
+                        <p>
+                          <h:form id="dryCleanForm">
+                          <h:outputLabel for="box_dryCleaning" value="Dry Cleaning:"/>
+                          <h:inputText id="box_dryCleaning" value="#{box.dryCleaning}"/>
+                          <h:messages id="no_enough_dryCleaning_error" class="error_message"/>
+                          <h:commandButton  id="box_dryCleanningButton"
+                                            type="button"
+                                            value="Update"
+                                            class="btn page_button"
+                                            actionListener="#{customerBoxManagedBean.updateBoxDryCleaning(box)}">
+                            <f:ajax execute="dryCleanForm" render="no_enough_dryCleaning_error"/>
+                          </h:commandButton>
+                          </h:form>
+                        </p>
+                        <p>
+                          <h:outputLabel for="box_isExpress" value="Express:"/>
+                          <h:outputText id="box_isExpress" value="#{box.isExpress?'Yes':'No'}"/>
+                          <h:messages id="no_enough_express_error" class="error_message"/>
+                          <input type="checkbox"
+                                 name="my-checkbox"
+                                 checked="true"
+                                 data-size="mini"
+                                 data-on-text="YES"
+                                 data-off-text="NO"/>
+                          <h:commandButton  id="box_express_switchButton"
+                                            type="button"
+                                            value="Switch"
+                                            class="btn page_button"
+                                            actionListener="#{customerBoxManagedBean.updateBoxIsExpress(box)}">
+                            <f:ajax render="box_isExpress no_enough_express_error"/>
+                          </h:commandButton>
+                        </p>
+                        <p>
+                          <h:outputLabel for="box_sharing" value="Sharing:"/>
+                          <h:outputText id="box_sharing" value="#{box.allowSharing?'Allow':'Not Allow'}"/>
+                          <input type="checkbox"
+                                 name="my-checkbox"
+                                 checked="true"
+                                 data-size="mini"
+                                 data-on-text="YES"
+                                 data-off-text="NO"/>
+                          <script>
+                            $("[name='my-checkbox']").bootstrapSwitch();
+                            $("[name='my-checkbox']").attr("checked","false");
+                          </script>
+                          <h:commandButton  id="box_sharing_switchButton"
+                                            type="button"
+                                            value="Switch"
+                                            class="btn page_button"
+                                            actionListener="#{customerBoxManagedBean.updateBoxAllowSharing(box)}">
+                            <f:ajax render="box_sharing"/>
+                          </h:commandButton>
+                        </p>
                     </div>
                   </div>
                 </td>
@@ -76,5 +145,6 @@
       </div>
       <div class="col-sm-2"/>
     </div>
+    </h:form>
   </cc:implementation>
 </html>
