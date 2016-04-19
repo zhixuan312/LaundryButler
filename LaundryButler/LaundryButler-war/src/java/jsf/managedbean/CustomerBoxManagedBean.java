@@ -109,12 +109,13 @@ public class CustomerBoxManagedBean implements Serializable{
     }
     
     public void updateBoxDryCleaning (Box box){
+        long change = box.getDryCleaning() - laundryOrderManagementRemote.retrieveBoxByBoxId(box.getBoxId()).getDryCleaning();
         System.out.println("updateBoxDryCleaning is called");
-        if (box.getDryCleaning().compareTo(customer.getDryCleaning()) >0){
+        if (change - customer.getDryCleaning() >0){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough dry cleaning!","Sorry, you dont have enough dry cleaning!"));
         } else {
             laundryOrderManagementRemote.updateBox(box);
-            customer.setDryCleaning(customer.getDryCleaning() + 1);
+            customer.setDryCleaning(customer.getDryCleaning() );
             accountManagementRemote.updateCutomerProfile(customer);
             System.out.println("updateBoxDryCleaning number: " + box.getDryCleaning());
         }
@@ -136,7 +137,7 @@ public class CustomerBoxManagedBean implements Serializable{
         for(int i = 0 ; i < boxes.size(); i ++) {
             if (boxes.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
                 tempList.add(i);
-            }else if (!boxes.get(i).getAllowSharing()){
+            } else if (!boxes.get(i).getAllowSharing()){
                 tempList.add(i);
             }
         }

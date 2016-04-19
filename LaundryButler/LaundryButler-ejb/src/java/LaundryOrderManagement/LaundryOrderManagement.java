@@ -98,6 +98,18 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
     }
     
     @Override
+    public Box retrieveBoxByBoxId (Long boxId){
+        try{
+            String jpql = "SELECT b FROM Box b WHERE b.boxId= " + boxId;
+            Query query = em.createQuery(jpql);
+            return (Box)query.getSingleResult();
+        } catch(NoResultException ex) {
+            return null;
+        }
+        
+    }
+    
+    @Override
     public Boolean deleteBox (Long boxId){
         try {
             Box box = em.find(Box.class, boxId);

@@ -45,4 +45,6 @@ public interface LaundryOrderManagementLocal {
     
     public Boolean deleteSharedBoxPermissions (List<SharedBoxPermission> sharedBoxPermissions);
     
+    public Box retrieveBoxByBoxId (Long boxId);
+    
 }

@@ -45,4 +45,6 @@ public interface LaundryOrderManagementRemote {
     
     public Boolean deleteSharedBoxPermissions (List<SharedBoxPermission> sharedBoxPermissions);
     
+    public Box retrieveBoxByBoxId (Long boxId);
+    
 }
