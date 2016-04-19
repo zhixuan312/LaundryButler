@@ -102,6 +102,7 @@ public class CustomerBoxManagedBean implements Serializable{
             box.setAllowSharing(true);
         }
         laundryOrderManagementRemote.updateBox(box);
+        System.out.println("updateBoxIsShared status: " + box.getIsShared());
     }
     
     public void updateBoxDryCleaning (Box box){
@@ -121,7 +122,7 @@ public class CustomerBoxManagedBean implements Serializable{
     }
     
     public void getIsSharedBoxFromOthers (){
-        
+        List <Box> boxes = laundryOrderManagementRemote.viewAllBox();
     }
     
     public Box getBox() {
