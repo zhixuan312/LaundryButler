@@ -15,7 +15,7 @@ import entity.Transaction;
 import entity.TransactionLineItem;
 import java.io.IOException;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import javax.faces.context.FacesContext;
  * @author XUAN
  */
 @Named(value = "customerCartManagedBean")
-@RequestScoped
+@SessionScoped
 public class CustomerCartManagedBean implements Serializable {
     
     @EJB
