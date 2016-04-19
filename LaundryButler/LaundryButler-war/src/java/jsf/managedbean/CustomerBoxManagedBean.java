@@ -81,12 +81,19 @@ public class CustomerBoxManagedBean implements Serializable{
         if (customer.getExpress() > 0){
             if (box.getIsExpress()){
                 box.setIsExpress(false);
+                int num = customer.getExpress();
+                num ++;
+                customer.setExpress(num);
+                accountManagementRemote.updateCutomerProfile(customer);
+                laundryOrderManagementRemote.updateBox(box);
             } else {
                 box.setIsExpress(true);
+                int num = customer.getExpress();
+                num --;
+                customer.setExpress(num);
+                accountManagementRemote.updateCutomerProfile(customer);
+                laundryOrderManagementRemote.updateBox(box);
             }
-            laundryOrderManagementRemote.updateBox(box);
-            if (box.getIsExpress())
-                isExpressBox ();
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough express cleaning!","Sorry, you dont have enough  express cleaning!"));
         }
@@ -174,11 +181,11 @@ public class CustomerBoxManagedBean implements Serializable{
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
     }
-
+    
     public List<Box> getBoxesIsShared() {
         return boxesIsShared;
     }
-
+    
     public void setBoxesIsShared(List<Box> boxesIsShared) {
         this.boxesIsShared = boxesIsShared;
     }
