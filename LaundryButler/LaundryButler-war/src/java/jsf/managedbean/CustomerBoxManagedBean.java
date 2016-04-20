@@ -78,7 +78,7 @@ public class CustomerBoxManagedBean implements Serializable{
     
     public void updateBoxIsExpress (Box box) {
         System.out.println("updateBoxIsExpress is called");
-        if (customer.getExpress() > 0){
+        if (customer.getExpress() >= 0){
             if (box.getIsExpress()){
                 box.setIsExpress(false);
                 int num = customer.getExpress();
@@ -87,23 +87,20 @@ public class CustomerBoxManagedBean implements Serializable{
                 accountManagementRemote.updateCutomerProfile(customer);
                 laundryOrderManagementRemote.updateBox(box);
             } else {
-                box.setIsExpress(true);
-                int num = customer.getExpress();
-                num --;
-                customer.setExpress(num);
-                accountManagementRemote.updateCutomerProfile(customer);
-                laundryOrderManagementRemote.updateBox(box);
+                if (customer.getExpress() != 0) {
+                    box.setIsExpress(true);
+                    int num = customer.getExpress();
+                    num --;
+                    customer.setExpress(num);
+                    accountManagementRemote.updateCutomerProfile(customer);
+                    laundryOrderManagementRemote.updateBox(box);
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough express cleaning!","Sorry, you dont have enough  express cleaning!"));
+                }
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough express cleaning!","Sorry, you dont have enough  express cleaning!"));
         }
-    }
-    
-    public void isExpressBox (){
-        int num = customer.getExpress();
-        num --;
-        customer.setExpress(num);
-        accountManagementRemote.updateCutomerProfile(customer);
     }
     
     public void updateBoxAllowSharing (Box box){
