@@ -161,8 +161,8 @@ public class CheckOutManagedBean implements Serializable {
                                 box.setCustomer(customer);
                                 box.setDeliveryDateTime(null);
                                 box.setIsShared(false);
-//                                box.setDeliveryDateTime(deliveryDate);
-//                                box.setPickupDateTime(pickUpDate);
+                                box.setDeliveryDateTime(new Date(0));
+                                box.setPickupDateTime(new Date(0));
                                 box.setDeliveryDateTime(null);
                                 box.setPickupDateTime(null);
                                 box.setDryCleaning(0);
