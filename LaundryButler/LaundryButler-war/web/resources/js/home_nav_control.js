@@ -1,10 +1,10 @@
 $(function(){
           $(".subscreen").hide();
-          $("#home").show();
+          $("#mybox").show();
           
           $("#nav_logo").click(function(){
             $(".subscreen").hide();
-            $("#home").show();
+            $("#mybox").show();
           });
           
           $("#nav_mybox").click(function(){
