@@ -18,7 +18,7 @@ h4 {
     margin-bottom: 30px;
 }  
 .jumbotron {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(63,176,172,0.80)), color-stop(100%, rgba(56,168,233,0.75))), url('../images/index_background.jpg') no-repeat;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(63,176,172,0.80)), color-stop(100%, rgba(56,168,233,1))), url('../images/index_background.jpg') no-repeat;
     color: #fff;
     padding: 100px 25px;
     font-family: Montserrat, sans-serif;
