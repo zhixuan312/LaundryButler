@@ -13,153 +13,221 @@
   <!-- IMPLEMENTATION -->
   <cc:implementation>
     <div id="mybox" class="container-fluid subscreen subscreen-full">
-          <h2 class="text-center">MY BOX</h2>
-    <div class="row">
-      <div class="col-sm-2"/>
-      <div class="col-sm-8">
-        <div class="row text-center">
-          <h:form id="customer_spec_details">
-          <div class="col-sm-4">
-            <h:outputText id="customer_box_number"
-                          value="#{customerBoxManagedBean.customer.boxes.size()}"
-                          style="font-size:48px; color:#5A6297">
-            </h:outputText><br/>
-            <h:outputLabel for="customer_box_number" value="Boxes"/>
-          </div>
-          <div class="col-sm-4">
-            <h:outputText id="customer_dryCleaning_number"
-                          value="#{customerBoxManagedBean.customer.dryCleaning}"
-                          style="font-size:48px; color:#D17286">
-            </h:outputText><br/>
-            <h:outputLabel for="customer_dryCleaning_number" value="Unused Dry Cleaning"/>
-          </div>
-          <div class="col-sm-4">
-            <h:outputText id="customer_express_number"
-                          value="#{customerBoxManagedBean.customer.express}"
-                          style="font-size:48px; color:#A8C673">
-            </h:outputText><br/>
-            <h:outputLabel for="customer_express_number" value="Unused Express"/>
-          </div>
+      <h2 class="text-center">MY BOX</h2>
+      <div class="row">
+        <div class="col-sm-2"/>
+        <div class="col-sm-8">
+          <div class="row text-center">
+            <h:form id="customer_spec_details">
+              <div class="col-sm-4">
+                <h:outputText id="customer_box_number"
+                              value="#{customerBoxManagedBean.customer.boxes.size()}"
+                              style="font-size:48px; color:#5A6297">
+                </h:outputText><br/>
+                <h:outputLabel for="customer_box_number" value="Boxes"/>
+              </div>
+              <div class="col-sm-4">
+                <h:outputText id="customer_dryCleaning_number"
+                              value="#{customerBoxManagedBean.customer.dryCleaning}"
+                              style="font-size:48px; color:#D17286">
+                </h:outputText><br/>
+                <h:outputLabel for="customer_dryCleaning_number" value="Unused Dry Cleaning"/>
+              </div>
+              <div class="col-sm-4">
+                <h:outputText id="customer_express_number"
+                              value="#{customerBoxManagedBean.customer.express}"
+                              style="font-size:48px; color:#A8C673">
+                </h:outputText><br/>
+                <h:outputLabel for="customer_express_number" value="Unused Express"/>
+              </div>
             </h:form>
-        </div>
-        <div class="row" style="height: 50vh;overflow: auto;">
-        <ui:fragment rendered="#{customerBoxManagedBean.boxes.size() &gt; 0}">
-        <table class="table table-hover text-center">
-          <thead>
-            <td></td>
-            <td style="font-weight:bold; color:#000000;">Pick Up</td>
-            <td style="font-weight:bold; color:#000000;">Delivery</td>
-            
-            <td style="font-weight:bold; color:#000000;">Status</td>
-            <td class="text-right">
+          </div>
+          <div class="row" style="padding-top: 20px;height: 60vh;overflow: auto;">
+            <ui:fragment rendered="#{customerBoxManagedBean.boxes.size() &gt; 0}">
+              <table class="table table-hover text-center">
+                <thead>
+                  <td></td>
+                  <td style="font-weight:bold; color:#000000;">Pick Up</td>
+                  <td style="font-weight:bold; color:#000000;">Delivery</td>
 
-            </td>
-          </thead>
-          <tbody>
-            <ui:repeat id="customer_box_list" var="box" value="#{customerBoxManagedBean.boxes}" varStatus="st">
-              <tr data-toggle="collapse" data-target="#myBoxToggle#{box.boxId}" class="accordion-toggle">
-                <td style="font-weight: bold;color:#000000;">#{box.boxId}</td>
-                <td>
-                  <h:outputText class="pTime" value="#{box.pickupDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="HH:mm, MMM dd yyyy, E" /></h:outputText>
-                </td>
-                <td>
-                  <h:outputText class="dTime" value="#{box.deliveryDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="HH:mm, MMM dd yyyy, E" /></h:outputText>
-                </td>
-                
-                <td>#{box.status}</td>
-                <td><i class="indicator glyphicon chevron_toggleable chevron_toggleable_box glyphicon-chevron-up pull-right"></i></td>
-              </tr>
-              <tr>
-                <td colspan="6" class="hiddenRow">
-                  <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
-                    <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
-                        <p>
-                          <h:outputLabel for="box_passcode" value="Passcode:"/>
-                          <h:outputText id="box_passcode" value="#{box.boxPasscode}"/>
-                        </p>
-                        <p>
-                          <h:outputLabel for="box_collectedBy" value="Collected by:"/>
-                          <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/> 
-                        </p>
-                        <p>
-                          <h:outputLabel for="box_contact" value="Contact:"/>
-                          <h:outputText id="box_contact" value="#{box.employee.mobile}"/>
-                        </p>
-                        <p>
-                          <h:outputLabel for="box_price" value="Price:"/>
-                          $
-                            <h:outputText id="box_price" value="#{box.price}">
-                              <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                            </h:outputText>                
-                        </p>
-                        <p>
-                          <h:outputLabel for="box_payer" value="Paid By:"/>
-                          <h:outputText id="box_payer" value="#{box.payer.firstName} #{box.payer.lastName}"/>
-                        </p>
-                        <p>
-                          <h:outputLabel for="box_rating" value="Rating:" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
-                          <h:outputText id="box_rating" value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
-                        </p>
-                        <p>
-                          <h:form id="dryCleanForm" style="display:inline-block;">
-                          <h:outputLabel for="box_dryCleaning" value="Dry Cleaning:"/>
-                          <h:inputText id="box_dryCleaning" value="#{box.dryCleaning}"/>
-                          <h:messages id="no_enough_dryCleaning_error" class="error_message"/>
-                          <h:commandButton  id="box_dryCleanningButton"
-                                            type="button"
-                                            value="Update"
-                                            class="btn page_button"
-                                            actionListener="#{customerBoxManagedBean.updateBoxDryCleaning(box)}">
-                            <f:ajax execute="dryCleanForm" render="no_enough_dryCleaning_error #{cc.clientId}:customer_spec_details:customer_dryCleaning_number"/>
-                          </h:commandButton>
+                  <td style="font-weight:bold; color:#000000;">Status</td>
+                  <td class="text-right">
+
+                  </td>
+                </thead>
+                <tbody>
+                  <ui:repeat id="customer_box_list" var="box" value="#{customerBoxManagedBean.boxes}" varStatus="st">
+                    <tr data-toggle="collapse" data-target="#myBoxToggle#{box.boxId}" class="accordion-toggle">
+                      <td style="font-weight: bold;color:#000000;">#{st.index + 1}</td>
+                      <td>
+                        <h:form id="pickUpTimeDisplayForm">
+                          <h:outputText id="box_pickupTime_notScheduled"
+                                        value="NOT SCHEDULED" 
+                                        rendered="#{box.pickupDateTime == null or box.pickupDateTime.time &lt; 946684800}">
+                          </h:outputText>
+                        <h:outputText id="box_pickupTime"
+                                      class="pTime"
+                                      value="#{box.pickupDateTime}"
+                                      rendered="#{box.pickupDateTime.time &gt; 946684800}">
+                          <f:convertDateTime type="date" timeZone="Singapore" pattern="HH:00, dd MMM yyyy, E" />
+                        </h:outputText>
+                        </h:form>
+                      </td>
+                      <td>
+                        <h:form id="deliveryTimeDisplayForm">
+                        <h:outputText id="box_deliveryTime_notScheduled"
+                                      value="NOT SCHEDULED"
+                                      rendered="#{box.deliveryDateTime.time == null or box.deliveryDateTime.time &lt; 946684800}">
+                        </h:outputText>
+                        <h:outputText id="box_deliveryTime"
+                                      class="dTime"
+                                      value="#{box.deliveryDateTime}"
+                                      rendered="#{box.deliveryDateTime.time &gt; 946684800}">
+                          <f:convertDateTime type="date" timeZone="Singapore" pattern="HH:00, dd MMM yyyy, E" />
+                        </h:outputText>
                           </h:form>
-                        </p>
-                        <p>
-                          <h:outputLabel for="box_isExpress" value="Express:"/>
-                          <h:outputText id="box_isExpress" value="#{box.isExpress?'Yes':'No'}"/>
-                          <h:messages id="no_enough_express_error" class="error_message"/>
-                          
-                          <h:commandButton  id="box_express_switchButton"
-                                            type="button"
-                                            value="#{box.isExpress?'EXPRESS':'NORMAL'}"
-                                            class="btn page_button"
-                                            actionListener="#{customerBoxManagedBean.updateBoxIsExpress(box)}">
-                            <f:ajax render="box_isExpress box_express_switchButton no_enough_express_error #{cc.clientId}:customer_spec_details:customer_express_number"/>
-                          </h:commandButton>
-                        </p>
-                        <p>
-                          <h:outputLabel for="box_sharing" value="Sharing:"/>
-                          <h:outputText id="box_sharing" value="#{box.allowSharing?'Allow':'Not Allow'}"/>
-                          
-                          <h:commandButton  id="box_sharing_switchButton"
-                                            type="button"
-                                            value="#{box.allowSharing?'ENALBED':'DISABLED'}"
-                                            class="btn page_button"
-                                            actionListener="#{customerBoxManagedBean.updateBoxAllowSharing(box)}">
-                            <f:ajax render="box_sharing box_sharing_switchButton"/>
-                          </h:commandButton>
-                        </p>
-                       
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </ui:repeat>		
-          </tbody>	
-        </table>
-        <script>
-          $('.chevron_toggleable_box').on('click', function () {
-            $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-          });
-        </script>
-        </ui:fragment>
-        <ui:fragment rendered="#{customerBoxManagedBean.boxes == null or customerBoxManagedBean.boxes.size() &lt; 1}">
-          <p class="text-center" style="padding-top: 30vh;">No box currently. Sad~</p>
-        </ui:fragment>
+                      </td>
+
+                      <td>
+                        <h:outputText id="box_status"
+                                      value="#{box.status}"/>
+                        </td>
+                      <td><i class="indicator glyphicon chevron_toggleable chevron_toggleable_box glyphicon-chevron-up pull-right"></i></td>
+                    </tr>
+                    <tr>
+                      <td colspan="6" class="hiddenRow">
+                        <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
+                          <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
+                            <p>
+                              <h:outputLabel for="box_passcode" value="Passcode:"/>
+                              <h:outputText id="box_passcode" value="#{box.boxPasscode}"/>
+                            </p>
+                            <p>
+                              <h:outputLabel for="box_collectedBy" value="Collected by:"/>
+                              <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/> 
+                            </p>
+                            <p>
+                              <h:outputLabel for="box_contact" value="Contact:"/>
+                              <h:outputText id="box_contact" value="#{box.employee.mobile}"/>
+                            </p>
+                            <p>
+                              <h:outputLabel for="box_price" value="Price:"/>
+                              $
+                              <h:outputText id="box_price" value="#{box.price}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                              </h:outputText>                
+                            </p>
+                            <p>
+                              <h:outputLabel for="box_payer" value="Paid By:"/>
+                              <h:outputText id="box_payer" value="#{box.payer.firstName} #{box.payer.lastName}"/>
+                            </p>
+                            <p>
+                              <h:outputLabel for="box_rating" value="Rating:" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
+                              <h:outputText id="box_rating" value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
+                            </p>
+                            <p>
+                              <h:form class="hide" id="pickUpTimeForm" style="display:inline-block;">
+                                <h:inputText id="box_pickupTime_detail_mSec" value="#{box.pickupDateTime.time}"/>
+                                <h:inputText id="box_deliveryTime_detail_mSec" value="#{box.deliveryDateTime.time}"/>
+                                <h:inputText id="box_status_detail" value="#{box.status}"/>
+                                <h:commandButton  id="box_pickupDateTimeButton"
+                                                  type="button"
+                                                  value="Update Pickup"
+                                                  class="btn page_button"
+                                                  actionListener="#{customerBoxManagedBean.updateBox(box)}">
+                                  <f:ajax execute="pickUpTimeForm" render="#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:deliveryTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:box_status"/>
+                                </h:commandButton>
+                              </h:form>
+                            </p>
+                            <p>Pick up Time:
+                              <div class='input-group date' id='datetimepicker#{box.boxId}'>
+                                  <input type='text' class="form-control" />
+                                  <span class="input-group-addon">
+                                      <span class="glyphicon glyphicon-calendar"></span>
+                                  </span>
+                              </div>
+                              <script type="text/javascript">
+                                var today = new Date();
+                                
+                                  $(function () {
+                                      $('#datetimepicker#{box.boxId}').datetimepicker({
+                                        format: 'HH:00, DD MMM YYYY',
+                                        minDate: today.setDate(today.getDate()+1),
+                                        enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+                                      });
+                                      $('#datetimepicker#{box.boxId}').on('dp.change',function(e){
+                                        document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_pickupTime_detail_mSec').value = e.date + 0;
+                                        document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_deliveryTime_detail_mSec').value = e.date + 604800000;
+                                        document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_status_detail').value = (e.date + 0 == 0)?'Unscheduled':'Scheduled';
+                                        document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_pickupDateTimeButton').click();
+                                        console.log('datetime changed to mSec ' + e.date);
+                                        
+                                      });
+                                  });
+                              </script>
+                            </p>
+                            
+                            <p>
+                              <h:form id="dryCleanForm" style="display:inline-block;">
+                                <h:outputLabel for="box_dryCleaning" value="Dry Cleaning:"/>
+                                <h:inputText id="box_dryCleaning" value="#{box.dryCleaning}"/>
+                                <h:commandButton  id="box_dryCleanningButton"
+                                                  type="button"
+                                                  value="Update"
+                                                  class="btn page_button"
+                                                  actionListener="#{customerBoxManagedBean.updateBoxDryCleaning(box)}">
+                                  <f:ajax execute="dryCleanForm" render="no_enough_dryCleaning_error #{cc.clientId}:customer_spec_details:customer_dryCleaning_number"/>
+                                </h:commandButton>
+                                <h:messages id="no_enough_dryCleaning_error" class="error_message"/>
+                              </h:form>
+                            </p>
+                            <p>
+                              <h:outputLabel for="box_isExpress" value="Express:"/>
+                              <h:outputText id="box_isExpress" value="#{box.isExpress?'Yes':'No'}"/>
+                              <h:messages id="no_enough_express_error" class="error_message"/>
+
+                              <h:commandButton  id="box_express_switchButton"
+                                                type="button"
+                                                value="#{box.isExpress?'EXPRESS':'NORMAL'}"
+                                                class="btn page_button"
+                                                actionListener="#{customerBoxManagedBean.updateBoxIsExpress(box)}">
+                                <f:ajax render="box_isExpress box_express_switchButton no_enough_express_error #{cc.clientId}:customer_spec_details:customer_express_number"/>
+                              </h:commandButton>
+                            </p>
+                            <p>
+                              <h:outputLabel for="box_sharing" value="Sharing:"/>
+                              <h:outputText id="box_sharing" value="#{box.allowSharing?'Allow':'Not Allow'}"/>
+
+                              <h:commandButton  id="box_sharing_switchButton"
+                                                type="button"
+                                                value="#{box.allowSharing?'ENALBED':'DISABLED'}"
+                                                class="btn page_button"
+                                                actionListener="#{customerBoxManagedBean.updateBoxAllowSharing(box)}">
+                                <f:ajax render="box_sharing box_sharing_switchButton"/>
+                              </h:commandButton>
+                            </p>
+
+
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ui:repeat>		
+                </tbody>	
+              </table>
+              <script>
+                $('.chevron_toggleable_box').on('click', function () {
+                  $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+                });
+              </script>
+            </ui:fragment>
+            <ui:fragment rendered="#{customerBoxManagedBean.boxes == null or customerBoxManagedBean.boxes.size() &lt; 1}">
+              <p class="text-center" style="padding-top: 30vh;">No box currently. Sad~</p>
+            </ui:fragment>
+          </div>
+        </div>
+        <div class="col-sm-2"/>
       </div>
-      </div>
-      <div class="col-sm-2"/>
-    </div>
     </div>
   </cc:implementation>
 </html>
