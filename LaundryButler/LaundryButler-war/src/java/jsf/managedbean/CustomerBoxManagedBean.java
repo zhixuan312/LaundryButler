@@ -128,13 +128,18 @@ public class CustomerBoxManagedBean implements Serializable{
         System.out.println("updateBoxIsShared status: " + box.getIsShared());
     }
     
+    //Status Code
+    //0: reuqested, pending
+    //1: accepted
+    //-1: denied
+    
     public void acceptRequest (SharedBoxPermission sharedBoxPermission){
         sharedBoxPermission.setStatus(1);
         laundryOrderManagementRemote.updateSharedBoxPermission(sharedBoxPermission);
     }
     
     public void denyRequest (SharedBoxPermission sharedBoxPermission){
-        sharedBoxPermission.setStatus(0);
+        sharedBoxPermission.setStatus(-1);
         laundryOrderManagementRemote.updateSharedBoxPermission(sharedBoxPermission);
     }
     
