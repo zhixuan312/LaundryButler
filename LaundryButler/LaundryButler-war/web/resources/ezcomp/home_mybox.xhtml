@@ -12,10 +12,37 @@
 
   <!-- IMPLEMENTATION -->
   <cc:implementation>
-    <h:form>
+    <div id="mybox" class="container-fluid subscreen subscreen-full">
+          <h2 class="text-center">MY BOX</h2>
     <div class="row">
       <div class="col-sm-2"/>
-      <div class="col-sm-8" style="height: 70vh;overflow: auto;">
+      <div class="col-sm-8">
+        <div class="row text-center">
+          <h:form id="customer_spec_details">
+          <div class="col-sm-4">
+            <h:outputText id="customer_box_number"
+                          value="#{customerBoxManagedBean.customer.boxes.size()}"
+                          style="font-size:48px; color:#5A6297">
+            </h:outputText><br/>
+            <h:outputLabel for="customer_box_number" value="Boxes"/>
+          </div>
+          <div class="col-sm-4">
+            <h:outputText id="customer_dryCleaning_number"
+                          value="#{customerBoxManagedBean.customer.dryCleaning}"
+                          style="font-size:48px; color:#D17286">
+            </h:outputText><br/>
+            <h:outputLabel for="customer_dryCleaning_number" value="Unused Dry Cleaning"/>
+          </div>
+          <div class="col-sm-4">
+            <h:outputText id="customer_express_number"
+                          value="#{customerBoxManagedBean.customer.express}"
+                          style="font-size:48px; color:#A8C673">
+            </h:outputText><br/>
+            <h:outputLabel for="customer_express_number" value="Unused Express"/>
+          </div>
+            </h:form>
+        </div>
+        <div class="row" style="height: 50vh;overflow: auto;">
         <ui:fragment rendered="#{customerBoxManagedBean.boxes.size() &gt; 0}">
         <table class="table table-hover text-center">
           <thead>
@@ -29,7 +56,7 @@
             </td>
           </thead>
           <tbody>
-            <ui:repeat var="box" value="#{customerBoxManagedBean.boxes}">
+            <ui:repeat id="customer_box_list" var="box" value="#{customerBoxManagedBean.boxes}" varStatus="st">
               <tr data-toggle="collapse" data-target="#myBoxToggle#{box.boxId}" class="accordion-toggle">
                 <td style="font-weight: bold;color:#000000;">#{box.boxId}</td>
                 <td>
@@ -70,11 +97,11 @@
                           <h:outputText id="box_payer" value="#{box.payer.firstName} #{box.payer.lastName}"/>
                         </p>
                         <p>
-                          <h:outputLabel for="box_rating" value="Rating:"/>
+                          <h:outputLabel for="box_rating" value="Rating:" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
                           <h:outputText id="box_rating" value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
                         </p>
                         <p>
-                          <h:form id="dryCleanForm">
+                          <h:form id="dryCleanForm" style="display:inline-block;">
                           <h:outputLabel for="box_dryCleaning" value="Dry Cleaning:"/>
                           <h:inputText id="box_dryCleaning" value="#{box.dryCleaning}"/>
                           <h:messages id="no_enough_dryCleaning_error" class="error_message"/>
@@ -83,7 +110,7 @@
                                             value="Update"
                                             class="btn page_button"
                                             actionListener="#{customerBoxManagedBean.updateBoxDryCleaning(box)}">
-                            <f:ajax execute="dryCleanForm" render="no_enough_dryCleaning_error"/>
+                            <f:ajax execute="dryCleanForm" render="no_enough_dryCleaning_error #{cc.clientId}:customer_spec_details:customer_dryCleaning_number"/>
                           </h:commandButton>
                           </h:form>
                         </p>
@@ -91,48 +118,34 @@
                           <h:outputLabel for="box_isExpress" value="Express:"/>
                           <h:outputText id="box_isExpress" value="#{box.isExpress?'Yes':'No'}"/>
                           <h:messages id="no_enough_express_error" class="error_message"/>
-                          <input type="checkbox"
-                                 name="my-checkbox"
-                                 checked="false"
-                                 data-size="mini"
-                                 data-on-text="YES"
-                                 data-off-text="NO"/>
+                          
                           <h:commandButton  id="box_express_switchButton"
                                             type="button"
-                                            value="Switch"
+                                            value="#{box.isExpress?'EXPRESS':'NORMAL'}"
                                             class="btn page_button"
                                             actionListener="#{customerBoxManagedBean.updateBoxIsExpress(box)}">
-                            <f:ajax render="box_isExpress no_enough_express_error"/>
+                            <f:ajax render="box_isExpress box_express_switchButton no_enough_express_error #{cc.clientId}:customer_spec_details:customer_express_number"/>
                           </h:commandButton>
                         </p>
                         <p>
                           <h:outputLabel for="box_sharing" value="Sharing:"/>
                           <h:outputText id="box_sharing" value="#{box.allowSharing?'Allow':'Not Allow'}"/>
-                          <input type="checkbox"
-                                 name="my-checkbox"
-                                 checked="false"
-                                 data-size="mini"
-                                 data-on-text="YES"
-                                 data-off-text="NO"/>
-                          <script>
-                            $("[name='my-checkbox']").bootstrapSwitch();
-                            $("[name='my-checkbox']").attr('disabled','true');
-                            console.log('disabled!');
-                          </script>
+                          
                           <h:commandButton  id="box_sharing_switchButton"
                                             type="button"
-                                            value="Switch"
+                                            value="#{box.allowSharing?'ENALBED':'DISABLED'}"
                                             class="btn page_button"
                                             actionListener="#{customerBoxManagedBean.updateBoxAllowSharing(box)}">
-                            <f:ajax render="box_sharing"/>
+                            <f:ajax render="box_sharing box_sharing_switchButton"/>
                           </h:commandButton>
                         </p>
+                       
                     </div>
                   </div>
                 </td>
               </tr>
             </ui:repeat>		
-          </tbody>		
+          </tbody>	
         </table>
         <script>
           $('.chevron_toggleable_box').on('click', function () {
@@ -141,11 +154,12 @@
         </script>
         </ui:fragment>
         <ui:fragment rendered="#{customerBoxManagedBean.boxes == null or customerBoxManagedBean.boxes.size() &lt; 1}">
-          <p class="text-center">No box currently. Sad~</p>
+          <p class="text-center" style="padding-top: 30vh;">No box currently. Sad~</p>
         </ui:fragment>
+      </div>
       </div>
       <div class="col-sm-2"/>
     </div>
-    </h:form>
+    </div>
   </cc:implementation>
 </html>
