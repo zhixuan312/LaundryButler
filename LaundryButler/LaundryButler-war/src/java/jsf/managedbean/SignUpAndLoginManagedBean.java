@@ -56,7 +56,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
 
             if (accountManagementRemote.customerLogin(email, password)) {
                 ec.getSessionMap().put("login", true);
-                ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
+                ec.redirect("home.xhtml?faces-redirect=true");
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential", "Invalid login credential"));
             }
@@ -72,7 +72,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
 
             if (accountManagementRemote.customerLoginByFaceBook(email)) {
                 ec.getSessionMap().put("login", true);
-                ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
+                ec.redirect("home.xhtml?faces-redirect=true");
             } else {
                 this.customer.setEmail(email);
                 SecureRandom random = new SecureRandom();
@@ -95,7 +95,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
 
             if (accountManagementRemote.employeeLogin(email, password)) {
                 ec.getSessionMap().put("login", true);
-                ec.redirect("http://localhost:8080/LaundryButler-war/employee.xhtml?faces-redirect=true");
+                ec.redirect("employee.xhtml?faces-redirect=true");
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential", "Invalid login credential"));
             }
