@@ -26,6 +26,7 @@ import com.stripe.Stripe;
 import com.stripe.model.Charge;
 import entity.Box;
 import entity.CartLineItem;
+import entity.SharedBoxPermission;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -167,6 +168,7 @@ public class CheckOutManagedBean implements Serializable {
                                 box.setPayer(customer);
                                 box.setIsExpress(false);
                                 box.setStatus("Unschedule");
+                                box.setSharedBoxPermissions(new ArrayList<SharedBoxPermission>());
                                 double price = 0;
                                 if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))){
                                     price = transactionLineItemsForOneTransaction.get(i).getProduct().getPrice();
