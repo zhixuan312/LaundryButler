@@ -127,6 +127,10 @@ public class CustomerBoxManagedBean implements Serializable{
         }
     }
     
+    public void updateBox (Box box) {
+        laundryOrderManagementRemote.updateBox(box);
+    }
+    
     public void deleteBox (Box boxToDelete) {
         
         if(laundryOrderManagementRemote.deleteBox(boxToDelete.getBoxId())){
