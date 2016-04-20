@@ -20,7 +20,7 @@ public class SharedBoxPermission implements Serializable {
     private Customer customer;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Customer neighbour;
-    private Boolean allowOrDeny;
+    private Integer status;
 
     public SharedBoxPermission() {
     }
@@ -57,12 +57,12 @@ public class SharedBoxPermission implements Serializable {
         this.neighbour = neighbour;
     }
 
-    public Boolean getAllowOrDeny() {
-        return allowOrDeny;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setAllowOrDeny(Boolean allowOrDeny) {
-        this.allowOrDeny = allowOrDeny;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override
