@@ -93,7 +93,7 @@
                           <h:messages id="no_enough_express_error" class="error_message"/>
                           <input type="checkbox"
                                  name="my-checkbox"
-                                 checked="true"
+                                 checked="false"
                                  data-size="mini"
                                  data-on-text="YES"
                                  data-off-text="NO"/>
@@ -110,13 +110,14 @@
                           <h:outputText id="box_sharing" value="#{box.allowSharing?'Allow':'Not Allow'}"/>
                           <input type="checkbox"
                                  name="my-checkbox"
-                                 checked="true"
+                                 checked="false"
                                  data-size="mini"
                                  data-on-text="YES"
                                  data-off-text="NO"/>
                           <script>
                             $("[name='my-checkbox']").bootstrapSwitch();
-                            $("[name='my-checkbox']").attr("checked","false");
+                            $("[name='my-checkbox']").attr('disabled','true');
+                            console.log('disabled!');
                           </script>
                           <h:commandButton  id="box_sharing_switchButton"
                                             type="button"
