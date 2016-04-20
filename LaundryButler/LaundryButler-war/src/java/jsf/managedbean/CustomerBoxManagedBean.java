@@ -9,6 +9,7 @@ import AccountManagement.AccountManagementRemote;
 import LaundryOrderManagement.LaundryOrderManagementRemote;
 import entity.Box;
 import entity.Customer;
+import entity.SharedBoxPermission;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -107,11 +108,34 @@ public class CustomerBoxManagedBean implements Serializable{
         System.out.println("updateBoxIsShared is called");
         if (box.getAllowSharing()){
             box.setAllowSharing(false);
+            List<SharedBoxPermission> sharedBoxPermissions = laundryOrderManagementRemote.viewAllSharedBoxPermissionByBoxId(box.getBoxId());
+            List<Long> tempList = new ArrayList<Long>();
+            for (int i = 0; i < sharedBoxPermissions.size(); i ++){
+                tempList.add(sharedBoxPermissions.get(i).getSharedBoxPermissionId());
+            }
+            for (int i = 0; i < tempList.size(); i ++){
+                laundryOrderManagementRemote.deleteSharedBoxPermission(tempList.get(i));
+            }
         } else {
             box.setAllowSharing(true);
+            SharedBoxPermission sharedBoxPermission = new SharedBoxPermission();
+            sharedBoxPermission.setCustomer(customer);
+            sharedBoxPermission.setBox(box);
+            sharedBoxPermission.setStatus(-1);
+            laundryOrderManagementRemote.createSharedBoxPermission(null);
         }
         laundryOrderManagementRemote.updateBox(box);
         System.out.println("updateBoxIsShared status: " + box.getIsShared());
+    }
+    
+    public void acceptRequest (SharedBoxPermission sharedBoxPermission){
+        sharedBoxPermission.setStatus(1);
+        laundryOrderManagementRemote.updateSharedBoxPermission(sharedBoxPermission);
+    }
+    
+    public void denyRequest (SharedBoxPermission sharedBoxPermission){
+        sharedBoxPermission.setStatus(0);
+        laundryOrderManagementRemote.updateSharedBoxPermission(sharedBoxPermission);
     }
     
     public void updateBoxDryCleaning (Box box){
@@ -138,25 +162,6 @@ public class CustomerBoxManagedBean implements Serializable{
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update","Fail to update"));
         }
-    }
-    
-    public void getIsSharedBoxFromOthers (){
-        boxesIsShared = laundryOrderManagementRemote.viewAllBox();
-        List <Integer> tempList = new ArrayList<Integer> ();
-        
-        for(int i = 0 ; i < boxesIsShared.size(); i ++) {
-            if (boxesIsShared.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
-                tempList.add(i);
-            } else if (!boxesIsShared.get(i).getAllowSharing()){
-                tempList.add(i);
-            }
-        }
-        if (!tempList.isEmpty()){
-            for (int i =0; i < tempList.size();i++) {
-                boxesIsShared.remove(i);
-            }
-        }
-        
     }
     
     public Box getBox() {
