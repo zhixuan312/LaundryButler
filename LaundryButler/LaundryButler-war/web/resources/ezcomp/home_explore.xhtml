@@ -13,8 +13,67 @@
   <!-- IMPLEMENTATION -->
   <cc:implementation>
     <div id="explore" class="container-fluid subscreen subscreen-full text-center">
-      
-      
-    </div>
+        <h2 class="text-center">EXPLORE</h2>
+        <div class="row">
+          <div class="col-sm-2"/>
+          <div class="col-sm-8">
+            <div class="row" style="padding-top: 20px;height: 70vh;overflow: auto;">
+              <ui:fragment rendered="#{(requestSharedPermissionManagedBean.allowedSharingBoxes ne null) and (requestSharedPermissionManagedBean.allowedSharingBoxes.size() gt 0)}">
+                <table class="table table-hover text-center">
+                  <thead>
+                    <td></td>
+                    <td style="font-weight:bold; color:#000000;">Owner</td>
+                    <td></td>
+                  </thead>
+                  <tbody>
+                    <ui:repeat id="allowed_sharing_box_list" var="box" value="#{requestSharedPermissionManagedBean.allowedSharingBoxes}" varStatus="st">
+                      <tr>
+                        <td>
+                          <h:outputText value="#{st.index + 1}"></h:outputText>
+                        </td>
+                        <td>
+                          <h:outputText value="#{box.customer.firstName} #{box.customer.lastName}"></h:outputText>
+                        </td>
+                        <td>
+                          <h:form id='sharingRequestSendingForm'>
+                            <h:commandButton id='sharingRequestSendingButton'
+                                             type="button"
+                                             class="btn btn-default page_button"
+                                             style="width:100px;"
+                                             actionListener="#{requestSharedPermissionManagedBean.sendRequest(box)}"
+                                             rendered="#{requestSharedPermissionManagedBean.requestStatus(box) == 'Send Request'}"
+                                             value="Send Request">
+                              <f:ajax render="sharingRequestSendingButton sharingRequestPending sharingRequestAccpted sharingRequestDenied"/>
+                            </h:commandButton>
+                            <h:outputText id='sharingRequestPending'
+                                             style="width:100px; color: #5A6297; font-weight: bold;"
+                                             rendered="#{requestSharedPermissionManagedBean.requestStatus(box) == 'Pending'}"
+                                             value="Pending">
+                            </h:outputText>
+                            <h:outputText id='sharingRequestAccpted'
+                                             style="width:100px; color: #A8C673; font-weight: bold;"
+                                             rendered="#{requestSharedPermissionManagedBean.requestStatus(box) == 'Allowed'}"
+                                             value="Allowed">
+                            </h:outputText>
+                            <h:outputText id='sharingRequestDenied'
+                                             style="width:100px; color: #D17286; font-weight: bold;"
+                                             rendered="#{requestSharedPermissionManagedBean.requestStatus(box) == 'Denied'}"
+                                             value="Denied">
+                            </h:outputText>
+                          </h:form>
+                        </td>
+                      </tr>
+                    </ui:repeat>
+                  </tbody>
+                </table>
+              </ui:fragment>
+              <ui:fragment rendered="#{requestSharedPermissionManagedBean.allowedSharingBoxes eq null or requestSharedPermissionManagedBean.allowedSharingBoxes.size() lt 1}">
+                <p class="text-center" style="padding-top: 30vh;">No box is available. Sad~</p>
+              </ui:fragment>
+            </div>
+          </div>
+          <div class="col-sm-2"/>
+        </div>
+      </div>
   </cc:implementation>
 </html>
