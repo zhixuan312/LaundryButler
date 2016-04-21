@@ -111,25 +111,25 @@
                             $<h:outputText id="itemprice" value="#{item.product.price * item.quantity}"><f:convertNumber minFractionDigits="2" maxFractionDigits="2"/></h:outputText>
                           </td>
                         </tr>
-                       
                       </ui:repeat>
                     </tbody>
                   </table>
-                </ui:fragment>
+                  <div class="row text-center">
+                    <div class="col-md-4"/>
+                    <div class="col-md-4"/>
+                    <div class="col-md-4">
+                      <h:outputLabel for="subtotal" value="Total: $"/>
+                      <h:outputText id="subtotal" value="#{customerCartManagedBean.totalPrice}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                      </h:outputText>
+                    </div>
+
+                  </div>
+                  </ui:fragment>
                 <ui:fragment rendered="#{customerCartManagedBean.isCartEmpty()}">
                   <p class="text-center">Your cart is empty.</p>
                 </ui:fragment>
-                <div class="row text-center">
-                  <div class="col-md-4"/>
-                  <div class="col-md-4"/>
-                  <div class="col-md-4">
-              <h:outputLabel for="subtotal" value="Total: $"/>
-              <h:outputText id="subtotal" value="#{customerCartManagedBean.totalPrice}">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-              </h:outputText>
-                  </div>
-                  
-                </div>
+                
                 </h:form>
               </div>
               <div class="modal-footer">
