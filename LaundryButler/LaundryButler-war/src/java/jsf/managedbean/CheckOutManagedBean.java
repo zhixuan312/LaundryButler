@@ -53,6 +53,8 @@ public class CheckOutManagedBean implements Serializable {
     
     @Inject
     private CustomerCartManagedBean customerCartManagedBean;
+    @Inject
+    private CustomerBoxManagedBean customerBoxManagedBean;
     
     private Customer customer;
     private List<TransactionLineItem> transactionLineItemsForOneTransaction;
@@ -205,6 +207,7 @@ public class CheckOutManagedBean implements Serializable {
                 }
                 customerCartManagedBean.setCartLineItems(productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()));
                 customerCartManagedBean.setTotalPrice(0);
+                customerBoxManagedBean.setBoxes(laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId()));
                 ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
             }
         } else {
