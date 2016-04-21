@@ -27,7 +27,9 @@
                 </div>
                 <div class="panel-body">
                   <p><strong><h:outputText value="#{current1.description}"/></strong></p>
+                  
                 </div>
+                  
                 <div class="panel-footer">
                   <h3>$<h:outputText value="#{current1.price}"/></h3>
                   <h:commandButton type="button" class="btn btn-default" style="width:80px;" value="Add" actionListener="#{customerCartManagedBean.addProductToCart(current1)}" >
@@ -35,8 +37,9 @@
                   </h:commandButton>
                 </div>
               </div>      
-            </div>  
-          </ui:repeat>
+           
+          </div>
+         </ui:repeat> 
         </div>
 
         <div class="row">

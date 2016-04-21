@@ -11,3 +11,8 @@
 *.xml
 
 LaundryButler/LaundryButler-ejb/setup/glassfish-resources.xml
+/LaundryButler/nbproject/private/
+/LaundryButler/LaundryButler-ejb/nbproject/private/
+/LaundryButler/LaundryButlerClient/nbproject/private/
+/LaundryButler/LaundryButler-war/nbproject/private/
+/LaundryButler/LaundryButlerClassLibrary/nbproject/private/
