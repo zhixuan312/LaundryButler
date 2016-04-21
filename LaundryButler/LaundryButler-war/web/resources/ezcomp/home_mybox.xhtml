@@ -23,7 +23,7 @@
             <h:form id="customer_spec_details">
               <div class="col-sm-4">
                 <h:outputText id="customer_box_number"
-                              value="#{customerBoxManagedBean.customer.boxes.size()}"
+                              value="#{customerBoxManagedBean.boxes.size}"
                               style="font-size:48px; color:#5A6297">
                 </h:outputText><br/>
                 <h:outputLabel for="customer_box_number" value="Boxes"/>
@@ -217,6 +217,7 @@
                                 $(function(){
                                   $('#express_checkbox#{box.boxId}').bootstrapSwitch({
                                     size:'small',
+                                    handleWidth: 80,
                                     onColor:'info',
                                     onText:'Express',
                                     offText:'Normal',
@@ -257,12 +258,13 @@
                             <!--Sharing-->
                             <p>
                               <h:outputLabel for="box_sharing" value="Sharing:"/>
-                              <h:outputText id="box_sharing" class="hide" value="#{box.allowSharing?'Allow':'Not Allow'}"/>
+                              <h:outputText id="box_sharing" class="hide" value="#{box.allowSharing}"/>
                               <input id="sharing_checkbox#{box.boxId}" type="checkbox"/>
                               <script>
                                 $(function(){
                                   $('#sharing_checkbox#{box.boxId}').bootstrapSwitch({
                                     size:'small',
+                                    handleWidth: 80,
                                     onColor:'info',
                                     onText:'Enabled',
                                     offText:'Disabled',
