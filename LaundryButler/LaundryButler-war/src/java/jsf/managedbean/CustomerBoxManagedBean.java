@@ -121,11 +121,6 @@ public class CustomerBoxManagedBean implements Serializable{
         } else {
             System.out.println("false to true");
             box.setAllowSharing(true);
-//            SharedBoxPermission sharedBoxPermission = new SharedBoxPermission();
-//            sharedBoxPermission.setCustomer(customer);
-//            sharedBoxPermission.setBox(box);
-//            sharedBoxPermission.setStatus(-1);
-//            laundryOrderManagementRemote.createSharedBoxPermission(sharedBoxPermission);
         }
         laundryOrderManagementRemote.updateBox(box);
         System.out.println("updateBoxIsShared status: " + box.getIsShared());
