@@ -124,20 +124,21 @@ public class RequestSharedPermissionManagedBean implements Serializable {
                 }
             }
             if (!myRequest){
-                createRequest(box);
+                SharedBoxPermission sharedBoxPermission = new SharedBoxPermission();
+                sharedBoxPermission.setBox(box);
+                sharedBoxPermission.setCustomer(box.getCustomer());
+                sharedBoxPermission.setNeighbour(customer);
+                sharedBoxPermission.setStatus(0);
+                laundryOrderManagementRemote.createSharedBoxPermission(sharedBoxPermission);
             }
         } else {
-            createRequest(box);
+            SharedBoxPermission sharedBoxPermission = new SharedBoxPermission();
+            sharedBoxPermission.setBox(box);
+            sharedBoxPermission.setCustomer(box.getCustomer());
+            sharedBoxPermission.setNeighbour(customer);
+            sharedBoxPermission.setStatus(0);
+            laundryOrderManagementRemote.createSharedBoxPermission(sharedBoxPermission);
         }
-    }
-    
-    public void createRequest (Box box){
-        SharedBoxPermission sharedBoxPermission = new SharedBoxPermission();
-        sharedBoxPermission.setBox(box);
-        sharedBoxPermission.setCustomer(box.getCustomer());
-        sharedBoxPermission.setNeighbour(customer);
-        sharedBoxPermission.setStatus(0);
-        laundryOrderManagementRemote.createSharedBoxPermission(sharedBoxPermission);
     }
     
     public Customer getCustomer() {
