@@ -22,9 +22,9 @@ $(function(){
             $("#buy").show();
           });
           
-          $("#nav_freedry").click(function(){
+          $("#nav_explore").click(function(){
             $(".subscreen").hide();
-            $("#freedry").show();
+            $("#explore").show();
           });
           
           $("#nav_contact").click(function(){

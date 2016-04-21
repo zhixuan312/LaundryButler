@@ -335,7 +335,27 @@
         
         <div class="col-sm-4"/>
       </div>
-      
+      <div class="row text-center">
+        <div class="col-md-2"/>
+        <div class="col-md-8">
+          <h2>Free Dry Cleaning</h2>
+          <p>Share the signup link with your friend and both of you earn one free dry cleaning each.</p>
+          <h:outputText id="sharingLink" class="hide" value="http://localhost:8080/LaundryButler-war/index.xhtml?referrerid=#{customerProfileManagedBean.customer.customerId}"/>
+          <div class="input-group">
+            <input id='sharingLink_copy' type="text" class="form-control"/>
+            <span class="input-group-btn">
+              <button id='sharingLinkCopyButton' class="btn btn-secondary page_button" data-clipboard-target="#sharingLink_copy" type="button">Copy</button>
+            </span>
+            <script>
+              $(function () {
+                var clipboard = new Clipboard('#sharingLinkCopyButton');
+                $('#sharingLink_copy').val(document.getElementById('#{cc.clientId}:sharingLink').innerHTML);
+              });
+            </script>
+          </div>
+        </div>
+        <div class="col-md-2"/>
+      </div>
     </div>
   </cc:implementation>
 </html>
