@@ -283,7 +283,7 @@
                                 <f:ajax render="box_sharing box_sharing_request box_sharing_request_no"/>
                               </h:commandButton>
                               <br/>
-                              <a data-toggle="modal" data-target="#box_sharing_request">
+                              <a data-toggle="modal" data-target="#box_sharing_request#{box.boxId}">
                                 <h:outputText id="box_sharing_request"
                                               rendered="#{box.allowSharing and (!box.isShared) and box.sharedBoxPermissions ne null}"
                                               value="#{box.sharedBoxPermissions.size()} sharing request">
@@ -295,7 +295,7 @@
                               </h:outputText>
                               
                               <!-- Request Selection windows-->
-                              <div class="modal fade text-left" id="box_sharing_request" role="dialog" style="padding-top:80px;">
+                              <div class="modal fade text-left" id="box_sharing_request#{box.boxId}" role="dialog" style="padding-top:80px;">
                                 <div class="modal-dialog">
                                   <!-- Modal content-->
                                   <div class="modal-content">
@@ -361,12 +361,12 @@
                                       
                                       <div class="modal-footer">
                                         <h:form id='updaterequestStatusForm'>
-                                          <h:inputText id='updateRequestStatusAcceptReqId' binding='#{inputAcceptReqId}' value=''>
+                                          <h:inputText id='updateRequestStatusAcceptReqId' binding='#{inputAcceptReqId}'>
                                           </h:inputText>
                                           <h:commandButton id='updateRequestStatusButton'
                                                            type="button"
                                                            class="btn btn-default page_button"
-                                                           style="width:100px;"
+                                                           style="width:100px;" actionListener="#{customerBoxManagedBean.updateSharedBoxPermission(inputAcceptReqId.value)}"
                                                            value="Update">
                                             <f:ajax execute="updaterequestStatusForm" render="#{cc.clientId}:customer_box_list:#{st.index}:box_sharing_request #{cc.clientId}:customer_box_list:#{st.index}:box_sharing_with"/>
                                           </h:commandButton>
