@@ -70,23 +70,25 @@ public class RequestSharedPermissionManagedBean implements Serializable {
         
         customer = accountManagementRemote.getCustomer();
         if (laundryOrderManagementRemote.viewAllBox() != null){
-            allowedSharingBoxes = laundryOrderManagementRemote.viewAllBox();
-            retrieveAllAvailableBoxes ();
+            allowedSharingBoxes = retrieveAllAvailableBoxes();
+
         }
     }
     
-    public void retrieveAllAvailableBoxes (){
+    public List<Box> retrieveAllAvailableBoxes (){
+        List<Box> tempAllowedSharingBoxes = laundryOrderManagementRemote.viewAllBox();
         List<Integer> tempList = new ArrayList<>();
-        for (int i = 0; i < allowedSharingBoxes.size(); i ++) {
-            if (!allowedSharingBoxes.get(i).getAllowSharing()){
+        for (int i = 0; i < tempAllowedSharingBoxes.size(); i ++) {
+            if (!tempAllowedSharingBoxes.get(i).getAllowSharing()){
                 tempList.add(i);
-            } else if (allowedSharingBoxes.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
+            } else if (tempAllowedSharingBoxes.get(i).getCustomer().getCustomerId().equals(customer.getCustomerId())){
                 tempList.add(i);
             }
         }
         for (int i = 0; i < tempList.size(); i++){
-            allowedSharingBoxes.remove(tempList.get(i));
+            tempAllowedSharingBoxes.remove(tempList.get(i));
         }
+        return tempAllowedSharingBoxes;
     }
     
     public String requestStatus (Box box){
