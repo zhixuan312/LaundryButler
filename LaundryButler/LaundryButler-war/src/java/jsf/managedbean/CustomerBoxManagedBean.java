@@ -136,6 +136,38 @@ public class CustomerBoxManagedBean implements Serializable{
     //1: accepted
     //-1: denied
     
+    public void updateSharedBoxPermission (Long shareBoxPermissionId){
+        SharedBoxPermission sharedBoxPermission = laundryOrderManagementRemote.retrieveSharedBoxPermissionByPermissionId(shareBoxPermissionId);
+        List<SharedBoxPermission> sharedBoxPermissionList = laundryOrderManagementRemote.viewAllSharedBoxPermissionByBoxId(sharedBoxPermission.getBox().getBoxId());
+        if (sharedBoxPermissionList != null){
+            for (int i = 0; i < sharedBoxPermissionList.size(); i ++){
+                if (sharedBoxPermissionList.get(i).getSharedBoxPermissionId().equals(shareBoxPermissionId)){
+                    sharedBoxPermissionList.get(i).setStatus(1);
+                } else {
+                    sharedBoxPermissionList.get(i).setStatus(-1);
+                }
+                laundryOrderManagementRemote.updateSharedBoxPermission(sharedBoxPermissionList.get(i));
+            }
+        }
+        sharedBoxPermission.getBox().setIsShared(true);
+        laundryOrderManagementRemote.updateBox(sharedBoxPermission.getBox());
+         if(laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId()) != null)
+            boxes = laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId());
+    }
+    
+    public Customer sharingCustomer (Box box){
+        List<SharedBoxPermission> sharedBoxPermissionList = laundryOrderManagementRemote.viewAllSharedBoxPermissionByBoxId(box.getBoxId());
+        Customer returnCustomer = null;
+        if (sharedBoxPermissionList != null){
+            for (int i = 0; i < sharedBoxPermissionList.size(); i ++){
+                if (sharedBoxPermissionList.get(i).getStatus().equals(new Integer(1)) ){
+                    returnCustomer = sharedBoxPermissionList.get(i).getNeighbour();
+                }
+            }
+        }
+        return returnCustomer;
+    }
+    
     public void acceptRequest (SharedBoxPermission sharedBoxPermission){
         sharedBoxPermission.setStatus(1);
         laundryOrderManagementRemote.updateSharedBoxPermission(sharedBoxPermission);

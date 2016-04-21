@@ -202,6 +202,17 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
     }
     
     @Override
+    public SharedBoxPermission retrieveSharedBoxPermissionByPermissionId (Long permissionId){
+        try{
+            String jpql = "SELECT sbp FROM SharedBoxPermission sbp WHERE sbp.sharedBoxPermissionId = " + permissionId;
+            Query query = em.createQuery(jpql);
+            return (SharedBoxPermission)query.getSingleResult();
+        } catch(NoResultException ex) {
+            return null;
+        }
+    }
+    
+    @Override
     public Boolean deleteSharedBoxPermission (Long sharedBoxPermissionId){
         try {
             SharedBoxPermission sharedBoxPermission = em.find(SharedBoxPermission.class, sharedBoxPermissionId);

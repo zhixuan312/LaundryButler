@@ -47,4 +47,6 @@ public interface LaundryOrderManagementRemote {
     
     public Box retrieveBoxByBoxId (Long boxId);
     
+    public SharedBoxPermission retrieveSharedBoxPermissionByPermissionId (Long permissionId);
+    
 }
