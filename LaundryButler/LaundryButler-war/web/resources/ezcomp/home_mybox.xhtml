@@ -291,7 +291,7 @@
                               </a>
                               <h:outputText id="box_sharing_with"
                                               rendered="#{box.allowSharing and box.isShared and box.sharedBoxPermissions ne null}"
-                                              value="Shared with XXX">
+                                              value="Shared with #{customerBoxManagedBean.sharingCustomer(box).firstName} #{customerBoxManagedBean.sharingCustomer(box).lastName}">
                               </h:outputText>
                               
                               <!-- Request Selection windows-->
@@ -306,7 +306,7 @@
                                     <h:form id='sharingRequestForm' class="form">
                                       <div class="modal-body">
                                         <ui:fragment rendered="#{box.sharedBoxPermissions.size() eq 0}">
-                                          <h4>You don't have sharing request. Sad~</h4>
+                                          <p>You don't have sharing request. Sad~</p>
                                         </ui:fragment>
                                         <ui:fragment rendered="#{box.sharedBoxPermissions.size() gt 0}">
                                           <table class="table table-hover text-center">
@@ -361,17 +361,17 @@
                                       
                                       <div class="modal-footer">
                                         <h:form id='updaterequestStatusForm'>
-                                          <h:inputText id='updateRequestStatusAcceptReqId' binding='#{inputAcceptReqId}'>
+                                          <h:inputText id='updateRequestStatusAcceptReqId' class="hide" binding='#{inputAcceptReqId}'>
                                           </h:inputText>
                                           <h:commandButton id='updateRequestStatusButton'
-                                                           type="button"
+                                                           type="submit"
                                                            class="btn btn-default page_button"
                                                            style="width:100px;" actionListener="#{customerBoxManagedBean.updateSharedBoxPermission(inputAcceptReqId.value)}"
                                                            value="Update">
                                             <f:ajax execute="updaterequestStatusForm" render="#{cc.clientId}:customer_box_list:#{st.index}:box_sharing_request #{cc.clientId}:customer_box_list:#{st.index}:box_sharing_with"/>
                                           </h:commandButton>
                                         </h:form>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" style="width:100px;">Cancel</button>
+                                        <button id="sharingRequestCancelButton#{box.boxId}" type="button" class="btn btn-default" data-dismiss="modal" style="width:100px;">Cancel</button>
                                       </div>
                                       
                                     </h:form>
