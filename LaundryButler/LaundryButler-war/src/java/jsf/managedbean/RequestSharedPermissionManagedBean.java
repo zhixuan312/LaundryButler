@@ -71,7 +71,6 @@ public class RequestSharedPermissionManagedBean implements Serializable {
         customer = accountManagementRemote.getCustomer();
         if (laundryOrderManagementRemote.viewAllBox() != null){
             allowedSharingBoxes = retrieveAllAvailableBoxes();
-            
         }
     }
     
@@ -107,7 +106,6 @@ public class RequestSharedPermissionManagedBean implements Serializable {
                 answer = "Send Request";
             }
         } else {
-            createRequest(box);
             answer = "Send Request";
         }
         return answer;
