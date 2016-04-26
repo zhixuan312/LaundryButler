@@ -86,6 +86,9 @@ public class SignUpAndLoginManagedBean implements Serializable {
                 accountManagementRemote.updateCutomerProfile(customer);
                 ec.getSessionMap().put("login", true);
                 ec.redirect("home.xhtml?faces-redirect=true");
+            } else {
+                ec.getSessionMap().put("login", true);
+                ec.redirect("verification.xhtml?faces-redirect=true");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
