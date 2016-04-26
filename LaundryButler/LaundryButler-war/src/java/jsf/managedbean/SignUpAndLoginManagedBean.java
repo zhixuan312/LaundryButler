@@ -38,6 +38,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     private String first_name;
     private String gender;
     private String mobile;
+    private String verificationCode;
     
     @PostConstruct
     public void init() {
@@ -53,6 +54,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
         first_name = "";
         gender = "";
         mobile = "";
+        verificationCode = "";
     }
     
     public void customerLogin(ActionEvent event) {
@@ -60,13 +62,32 @@ public class SignUpAndLoginManagedBean implements Serializable {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             
             if (accountManagementRemote.customerLogin(email, password)) {
-                ec.getSessionMap().put("login", true);
-                ec.redirect("home.xhtml?faces-redirect=true");
+                if (accountManagementRemote.getCustomer().getAccountStatus().equals("Pending Verification")){
+                    ec.getSessionMap().put("login", true);
+                    ec.redirect("verification.xhtml?faces-redirect=true");
+                } else {
+                    ec.getSessionMap().put("login", true);
+                    ec.redirect("home.xhtml?faces-redirect=true");
+                }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential", "Invalid login credential"));
             }
             
         } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void verification(){
+        try {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            if (verificationCode.equals(accountManagementRemote.getCustomer().getVerificationCode())){
+                accountManagementRemote.getCustomer().setAccountStatus("Verified");
+                accountManagementRemote.updateCutomerProfile(customer);
+                ec.getSessionMap().put("login", true);
+                ec.redirect("home.xhtml?faces-redirect=true");
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -229,13 +250,21 @@ public class SignUpAndLoginManagedBean implements Serializable {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
-
+    
     public LaundryOrderManagementRemote getLaundryOrderManagementRemote() {
         return laundryOrderManagementRemote;
     }
-
+    
     public void setLaundryOrderManagementRemote(LaundryOrderManagementRemote laundryOrderManagementRemote) {
         this.laundryOrderManagementRemote = laundryOrderManagementRemote;
+    }
+    
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+    
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
     
 }
