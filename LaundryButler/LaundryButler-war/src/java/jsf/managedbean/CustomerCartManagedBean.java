@@ -5,7 +5,6 @@
 */
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
 import ProductManagement.ProductManagementRemote;
 import TransactionManagement.TransactionManagementRemote;
 import entity.CartLineItem;
@@ -23,6 +22,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
@@ -33,11 +33,12 @@ import javax.faces.context.FacesContext;
 public class CustomerCartManagedBean implements Serializable {
     
     @EJB
-    private AccountManagementRemote accountManagementRemote;
-    @EJB
     private ProductManagementRemote productManagementRemote;
     @EJB
     private TransactionManagementRemote transactionManagementRemote;
+    
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
     
     private Customer customer;
     private List<CartLineItem> cartLineItems;
@@ -91,7 +92,7 @@ public class CustomerCartManagedBean implements Serializable {
         {
             ex.printStackTrace();
         }
-        customer = accountManagementRemote.getCustomer();
+        customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
         if (productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()) != null){
             cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         }
@@ -172,10 +173,10 @@ public class CustomerCartManagedBean implements Serializable {
         cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         retrieveTotalPrice ();
     }
-
+    
     public boolean isCartEmpty(){
-      if (cartLineItems == null || cartLineItems.size() == 0)
-        return true;
+        if (cartLineItems == null || cartLineItems.size() == 0)
+            return true;
         for (int i = 0; i < cartLineItems.size(); i ++){
             if (cartLineItems.get(i).getQuantity() != 0){
                 return false;
@@ -190,7 +191,7 @@ public class CustomerCartManagedBean implements Serializable {
             tempPrice = tempPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
         }
         totalPrice = tempPrice;
-
+        
         stripeAmount = String.valueOf(totalPrice * 100);
         stripeAmount = stripeAmount.substring(0, stripeAmount.indexOf("."));
     }

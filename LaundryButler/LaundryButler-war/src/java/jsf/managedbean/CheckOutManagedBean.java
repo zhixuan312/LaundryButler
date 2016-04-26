@@ -5,8 +5,6 @@
 */
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
-import LaundryOrderManagement.LaundryOrderManagementRemote;
 import ProductManagement.ProductManagementRemote;
 import TransactionManagement.TransactionManagementRemote;
 import entity.Customer;
@@ -43,11 +41,7 @@ import javax.inject.Inject;
 public class CheckOutManagedBean implements Serializable {
     
     @EJB
-    private AccountManagementRemote accountManagementRemote;
-    @EJB
     private TransactionManagementRemote transactionManagementRemote;
-    @EJB
-    private LaundryOrderManagementRemote laundryOrderManagementRemote;
     @EJB
     private ProductManagementRemote productManagementRemote;
     
@@ -55,6 +49,8 @@ public class CheckOutManagedBean implements Serializable {
     private CustomerCartManagedBean customerCartManagedBean;
     @Inject
     private CustomerBoxManagedBean customerBoxManagedBean;
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
     
     private Customer customer;
     private List<TransactionLineItem> transactionLineItemsForOneTransaction;
@@ -85,7 +81,7 @@ public class CheckOutManagedBean implements Serializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        customer = accountManagementRemote.getCustomer();
+        customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
     }
     
     public void checkOut() {
@@ -178,7 +174,7 @@ public class CheckOutManagedBean implements Serializable {
                                     price = transactionLineItemsForOneTransaction.get(i).getProduct().getPrice() / transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits();
                                 }
                                 box.setPrice(price);
-                                laundryOrderManagementRemote.createBox(box);
+                                signUpAndLoginManagedBean.getLaundryOrderManagementRemote().createBox(box);
                                 
                                 c.setTime(deliveryDate);
                                 c.add(Calendar.DATE, 7);
@@ -195,19 +191,19 @@ public class CheckOutManagedBean implements Serializable {
                             int dryCleaning = customer.getDryCleaning();
                             dryCleaning += transactionLineItemsForOneTransaction.get(i).getQuantity();
                             customer.setDryCleaning(dryCleaning);
-                            accountManagementRemote.updateCutomerProfile(customer);
+                            signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer);
                         }
                         if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("5"))){
                             int express = customer.getExpress();
                             express += transactionLineItemsForOneTransaction.get(i).getQuantity();
                             customer.setExpress(express);
-                            accountManagementRemote.updateCutomerProfile(customer);
+                            signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer);
                         }
                     }
                 }
                 customerCartManagedBean.setCartLineItems(productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()));
                 customerCartManagedBean.setTotalPrice(0);
-                customerBoxManagedBean.setBoxes(laundryOrderManagementRemote.viewAllBoxByCustomerId(customer.getCustomerId()));
+                customerBoxManagedBean.setBoxes(signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllBoxByCustomerId(customer.getCustomerId()));
                 ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
             }
         } else {
@@ -254,6 +250,46 @@ public class CheckOutManagedBean implements Serializable {
     
     public void setTempList(List<Long> tempList) {
         this.tempList = tempList;
+    }
+
+    public TransactionManagementRemote getTransactionManagementRemote() {
+        return transactionManagementRemote;
+    }
+
+    public void setTransactionManagementRemote(TransactionManagementRemote transactionManagementRemote) {
+        this.transactionManagementRemote = transactionManagementRemote;
+    }
+
+    public ProductManagementRemote getProductManagementRemote() {
+        return productManagementRemote;
+    }
+
+    public void setProductManagementRemote(ProductManagementRemote productManagementRemote) {
+        this.productManagementRemote = productManagementRemote;
+    }
+
+    public CustomerCartManagedBean getCustomerCartManagedBean() {
+        return customerCartManagedBean;
+    }
+
+    public void setCustomerCartManagedBean(CustomerCartManagedBean customerCartManagedBean) {
+        this.customerCartManagedBean = customerCartManagedBean;
+    }
+
+    public CustomerBoxManagedBean getCustomerBoxManagedBean() {
+        return customerBoxManagedBean;
+    }
+
+    public void setCustomerBoxManagedBean(CustomerBoxManagedBean customerBoxManagedBean) {
+        this.customerBoxManagedBean = customerBoxManagedBean;
+    }
+
+    public SignUpAndLoginManagedBean getSignUpAndLoginManagedBean() {
+        return signUpAndLoginManagedBean;
+    }
+
+    public void setSignUpAndLoginManagedBean(SignUpAndLoginManagedBean signUpAndLoginManagedBean) {
+        this.signUpAndLoginManagedBean = signUpAndLoginManagedBean;
     }
     
 }

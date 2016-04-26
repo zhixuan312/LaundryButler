@@ -5,22 +5,20 @@
 */
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
 import entity.Address;
 import entity.Customer;
-import invoiceGenerator.PDFTest1;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,9 +27,9 @@ import javax.faces.event.ActionEvent;
 @Named(value = "customerProfileManagedBean")
 @SessionScoped
 public class CustomerProfileManagedBean implements Serializable {
-    
-    @EJB
-    private AccountManagementRemote accountManagementRemote;
+
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
     
     private Customer customer;
     private Address address;
@@ -65,9 +63,9 @@ public class CustomerProfileManagedBean implements Serializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        customer = accountManagementRemote.getCustomer();
-        if (accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId()) != null) {
-            addresses = accountManagementRemote.viewAllAddressByCustomerId(customer.getCustomerId());
+        customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
+        if (signUpAndLoginManagedBean.getAccountManagementRemote().viewAllAddressByCustomerId(customer.getCustomerId()) != null) {
+            addresses = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllAddressByCustomerId(customer.getCustomerId());
             if(!addresses.isEmpty()){
                 hasAddress = true;
             }
@@ -76,7 +74,7 @@ public class CustomerProfileManagedBean implements Serializable {
     
     public void updateCustomerProfile(ActionEvent event) {
         
-        if (accountManagementRemote.updateCutomerProfile(customer)) {
+        if (signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer)) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             try {
                 ec.redirect("home.xhtml?faces-redirect=true");
@@ -94,7 +92,7 @@ public class CustomerProfileManagedBean implements Serializable {
         if (customer.getIsFaceBook()) {
             customer.setIsFaceBook(false);
             customer.setPassword(newPassword);
-            if (accountManagementRemote.updateCutomerProfile(customer)) {
+            if (signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer)) {
                 ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                 try {
                     ec.redirect("home.xhtml?faces-redirect=true");
@@ -111,7 +109,7 @@ public class CustomerProfileManagedBean implements Serializable {
         } else {
             if (customer.getPassword().equals(oldPassword)) {
                 customer.setPassword(newPassword);
-                if (accountManagementRemote.updateCutomerProfile(customer)) {
+                if (signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer)) {
                     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                     try {
                         ec.redirect("home.xhtml?faces-redirect=true");
@@ -146,7 +144,7 @@ public class CustomerProfileManagedBean implements Serializable {
     
     public void createAddress(ActionEvent event) {
         address.setCustomer(customer);
-        if (accountManagementRemote.createAddress(address)) {
+        if (signUpAndLoginManagedBean.getAccountManagementRemote().createAddress(address)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create", "Fail to create"));
@@ -165,24 +163,34 @@ public class CustomerProfileManagedBean implements Serializable {
     }
     
     public void updateAddress(Address currentAddress) {
-      System.out.println("##### Update Address");
-        if (accountManagementRemote.updateAddress(currentAddress)) {
-          System.out.println("##### Update Address success");
+        System.out.println("##### Update Address");
+        if (signUpAndLoginManagedBean.getAccountManagementRemote().updateAddress(currentAddress)) {
+            System.out.println("##### Update Address success");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
-          System.out.println("##### Update Address fail");
+            System.out.println("##### Update Address fail");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
     }
     
     public void deleteAddress(ActionEvent event) {
         Address addressToDelete = (Address) event.getComponent().getAttributes().get("addressToDelete");
-        if (accountManagementRemote.deleteAddress(addressToDelete.getAddressId())) {
+        if (signUpAndLoginManagedBean.getAccountManagementRemote().deleteAddress(addressToDelete.getAddressId())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
     }
+    
+    public boolean verificationProcess(String code){
+        if (code.equals(signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer().getVerificationCode())){
+            signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer().setAccountStatus("Verified");
+            signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer());
+            return true;
+        } else {
+            return false;
+        }
+    } 
     
     public Customer getCustomer() {
         return customer;

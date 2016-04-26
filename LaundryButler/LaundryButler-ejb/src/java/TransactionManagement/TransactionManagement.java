@@ -34,7 +34,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
             em.flush();
             return transaction.getTransactionId();
         } catch (Exception e) {
-            return null;
+            return new Long(-1);
         }
     }
     
@@ -59,11 +59,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (transactions.isEmpty()){
-            return null;
-        } else {
-            return transactions;
-        }
+        return transactions;
     }
     
     @Override
@@ -76,11 +72,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (transactions.isEmpty()){
-            return null;
-        } else {
-            return transactions;
-        }
+        return transactions;
     }
     
     @Override
@@ -126,11 +118,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (transactionLineItems.isEmpty()){
-            return null;
-        } else {
-            return transactionLineItems;
-        }
+        return transactionLineItems;
     }
     
     @Override
@@ -143,11 +131,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (transactionLineItems.isEmpty()){
-            return null;
-        } else {
-            return transactionLineItems;
-        }
+        return transactionLineItems;
     }
     
     @Override
@@ -160,11 +144,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (transactionLineItems.isEmpty()){
-            return null;
-        } else {
-            return transactionLineItems;
-        }
+        return transactionLineItems;
     }
     
     @Override
@@ -210,11 +190,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (cartLineItems.isEmpty()){
-            return null;
-        } else {
-            return cartLineItems;
-        }
+        return cartLineItems;
     }
     
     @Override
@@ -227,11 +203,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (cartLineItems.isEmpty()){
-            return null;
-        } else {
-            return cartLineItems;
-        }
+        return cartLineItems;
     }
     
     @Override
@@ -244,11 +216,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (cartLineItems.isEmpty()){
-            return null;
-        } else {
-            return cartLineItems;
-        }
+        return cartLineItems;
     }
     
     @Override

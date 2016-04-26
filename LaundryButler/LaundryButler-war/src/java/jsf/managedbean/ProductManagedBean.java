@@ -5,7 +5,6 @@
 */
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
 import ProductManagement.ProductManagementRemote;
 import entity.Employee;
 import entity.Product;
@@ -21,6 +20,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 
 @Named(value = "productManagedBean")
 @SessionScoped
@@ -29,8 +29,8 @@ public class ProductManagedBean implements Serializable{
     
     @EJB
     private ProductManagementRemote productManagmentRemote;
-    @EJB
-    private AccountManagementRemote accountManagementRemote;
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
     
     private Employee admin;
     private Product product;
@@ -67,7 +67,7 @@ public class ProductManagedBean implements Serializable{
         {
             ex.printStackTrace();
         }
-        admin = accountManagementRemote.getEmployee();
+        admin = signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
         productsTotal = productManagmentRemote.viewAllProduct();
         for (int i= 0; i < 6; i ++) {
             if (i < 3){

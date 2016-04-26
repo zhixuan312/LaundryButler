@@ -5,7 +5,6 @@
 */
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
 import TransactionManagement.TransactionManagementRemote;
 import entity.Employee;
 import entity.Transaction;
@@ -19,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,9 +29,9 @@ import javax.faces.context.FacesContext;
 public class TransactionManagedBean implements Serializable {
     
     @EJB
-    private AccountManagementRemote accountManagementRemote;
-    @EJB
     private TransactionManagementRemote transactionManagementLocal;
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
     
     private Employee admin;
     private List<Transaction> transactions;
@@ -65,7 +65,7 @@ public class TransactionManagedBean implements Serializable {
             ex.printStackTrace();
         }
         
-        admin = accountManagementRemote.getEmployee();
+        admin = signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
         transactions = transactionManagementLocal.viewAllTransaction();
     }
 

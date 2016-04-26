@@ -8,7 +8,7 @@ package LaundryOrderManagement;
 import entity.Box;
 import entity.SharedBoxPermission;
 import java.util.List;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -18,7 +18,7 @@ import javax.persistence.Query;
  *
  * @author XUAN
  */
-@Stateless
+@Stateful
 public class LaundryOrderManagement implements LaundryOrderManagementRemote, LaundryOrderManagementLocal {
     
     @PersistenceContext
@@ -56,11 +56,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (boxes.isEmpty()){
-            return null;
-        } else {
-            return boxes;
-        }
+        return boxes;
     }
     
     @Override
@@ -73,11 +69,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (boxes.isEmpty()){
-            return null;
-        } else {
-            return boxes;
-        }
+        return boxes;
     }
     
     @Override
@@ -90,11 +82,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (boxes.isEmpty()){
-            return null;
-        } else {
-            return boxes;
-        }
+        return boxes;
     }
     
     @Override
@@ -104,7 +92,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
             Query query = em.createQuery(jpql);
             return (Box)query.getSingleResult();
         } catch(NoResultException ex) {
-            return null;
+            return new Box();
         }
         
     }
@@ -160,11 +148,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (sharedBoxPermissions.isEmpty()){
-            return null;
-        } else {
-            return sharedBoxPermissions;
-        }
+        return sharedBoxPermissions;
     }
     
     @Override
@@ -177,11 +161,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (sharedBoxPermissions.isEmpty()){
-            return null;
-        } else {
-            return sharedBoxPermissions;
-        }
+        return sharedBoxPermissions;
     }
     
     @Override
@@ -194,11 +174,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (sharedBoxPermissions.isEmpty()){
-            return null;
-        } else {
-            return sharedBoxPermissions;
-        }
+        return sharedBoxPermissions;
     }
     
     @Override
@@ -208,7 +184,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
             Query query = em.createQuery(jpql);
             return (SharedBoxPermission)query.getSingleResult();
         } catch(NoResultException ex) {
-            return null;
+            return new SharedBoxPermission();
         }
     }
     

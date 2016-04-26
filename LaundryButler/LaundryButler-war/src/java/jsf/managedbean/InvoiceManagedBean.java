@@ -5,7 +5,6 @@
 */
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
 import entity.Customer;
 import java.io.IOException;
 import javax.inject.Named;
@@ -17,9 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -36,8 +35,8 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 @RequestScoped
 public class InvoiceManagedBean{
     
-    @EJB
-    private AccountManagementRemote accountManagementRemote;
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
     
     private Customer customer;
     String name;
@@ -81,7 +80,7 @@ public class InvoiceManagedBean{
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        customer = accountManagementRemote.getCustomer();
+        customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
     }
     
     public void generate() throws IOException, ParseException {

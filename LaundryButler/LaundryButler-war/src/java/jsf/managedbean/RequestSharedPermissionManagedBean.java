@@ -5,8 +5,6 @@
 */
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
-import LaundryOrderManagement.LaundryOrderManagementRemote;
 import entity.Box;
 import entity.Customer;
 import entity.SharedBoxPermission;
@@ -17,9 +15,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
@@ -29,10 +27,10 @@ import javax.faces.context.FacesContext;
 @RequestScoped
 public class RequestSharedPermissionManagedBean implements Serializable {
     
-    @EJB
-    private LaundryOrderManagementRemote laundryOrderManagementRemote;
-    @EJB
-    private AccountManagementRemote accountManagementRemote;
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
+    @Inject
+    private CustomerBoxManagedBean customerBoxManagedBean;
     
     private Customer customer;
     private List<Box> allowedSharingBoxes;
@@ -68,14 +66,14 @@ public class RequestSharedPermissionManagedBean implements Serializable {
             ex.printStackTrace();
         }
         
-        customer = accountManagementRemote.getCustomer();
-        if (laundryOrderManagementRemote.viewAllBox() != null){
+        customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
+        if (signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllBox() != null){
             allowedSharingBoxes = retrieveAllAvailableBoxes();
         }
     }
     
     public List<Box> retrieveAllAvailableBoxes (){
-        List<Box> tempAllowedSharingBoxes = laundryOrderManagementRemote.viewAllBox();
+        List<Box> tempAllowedSharingBoxes = signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllBox();
         List<Box> answerBoxes = new ArrayList<>();
         for (int i = 0; i < tempAllowedSharingBoxes.size(); i ++) {
             System.out.println("is allowed sharing = " + tempAllowedSharingBoxes.get(i).getAllowSharing() + "Customer id = " + tempAllowedSharingBoxes.get(i).getCustomer().getCustomerId() + "my id = " + customer.getCustomerId());
@@ -88,8 +86,8 @@ public class RequestSharedPermissionManagedBean implements Serializable {
     
     public String requestStatus (Box box){
         List<SharedBoxPermission> sharedBoxPermissions = new ArrayList<>();
-        if (laundryOrderManagementRemote.viewAllSharedBoxPermissionByBoxId(box.getBoxId()) != null){
-            sharedBoxPermissions = laundryOrderManagementRemote.viewAllSharedBoxPermissionByBoxId(box.getBoxId());
+        if (signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllSharedBoxPermissionByBoxId(box.getBoxId()) != null){
+            sharedBoxPermissions = signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllSharedBoxPermissionByBoxId(box.getBoxId());
             boolean myRequest = false;
             for (int i = 0; i < sharedBoxPermissions.size(); i ++){
                 if (sharedBoxPermissions.get(i).getNeighbour().equals(customer) && sharedBoxPermissions.get(i).getBox().equals(box)){
@@ -115,8 +113,8 @@ public class RequestSharedPermissionManagedBean implements Serializable {
     public void sendRequest (Box box){
         
         List<SharedBoxPermission> sharedBoxPermissions = new ArrayList<>();
-        if (laundryOrderManagementRemote.viewAllSharedBoxPermissionByBoxId(box.getBoxId()) != null){
-            sharedBoxPermissions = laundryOrderManagementRemote.viewAllSharedBoxPermissionByBoxId(box.getBoxId());
+        if (signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllSharedBoxPermissionByBoxId(box.getBoxId()) != null){
+            sharedBoxPermissions = signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllSharedBoxPermissionByBoxId(box.getBoxId());
             boolean myRequest = false;
             for (int i = 0; i < sharedBoxPermissions.size(); i ++){
                 if (sharedBoxPermissions.get(i).getNeighbour().equals(customer) && sharedBoxPermissions.get(i).getBox().equals(box)){
@@ -129,7 +127,7 @@ public class RequestSharedPermissionManagedBean implements Serializable {
                 sharedBoxPermission.setCustomer(box.getCustomer());
                 sharedBoxPermission.setNeighbour(customer);
                 sharedBoxPermission.setStatus(0);
-                laundryOrderManagementRemote.createSharedBoxPermission(sharedBoxPermission);
+                signUpAndLoginManagedBean.getLaundryOrderManagementRemote().createSharedBoxPermission(sharedBoxPermission);
             }
         } else {
             SharedBoxPermission sharedBoxPermission = new SharedBoxPermission();
@@ -137,7 +135,7 @@ public class RequestSharedPermissionManagedBean implements Serializable {
             sharedBoxPermission.setCustomer(box.getCustomer());
             sharedBoxPermission.setNeighbour(customer);
             sharedBoxPermission.setStatus(0);
-            laundryOrderManagementRemote.createSharedBoxPermission(sharedBoxPermission);
+            signUpAndLoginManagedBean.getLaundryOrderManagementRemote().createSharedBoxPermission(sharedBoxPermission);
         }
     }
     

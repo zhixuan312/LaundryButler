@@ -7,6 +7,7 @@ package ProductManagement;
 
 import entity.CartLineItem;
 import entity.Product;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Remote;
@@ -37,7 +38,7 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             em.flush();
             return product.getProductId();
         } catch (Exception e) {
-            return null;
+            return new Long(-1);
         }
     }
     
@@ -62,11 +63,7 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (products.isEmpty()){
-            return null;
-        } else {
-            return products;
-        }
+        return products;
     }
     
     @Override
@@ -95,7 +92,7 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             em.flush();
             return cartLineItem.getCartLineItemId();
         } catch (Exception e) {
-            return null;
+            return new Long(-1);
         }
     }
     
@@ -112,7 +109,7 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
     
     @Override
     public List<CartLineItem> viewAllCartLineItemByCustomerId (Long customerId){
-        List<CartLineItem> cartLineItems = null;
+        List<CartLineItem> cartLineItems = new ArrayList<>();
         try{
             String jpql = "SELECT cli FROM CartLineItem cli WHERE cli.customer.customerId = '" + customerId + "'";
             Query query = em.createQuery(jpql);
@@ -120,11 +117,7 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
         } catch(NoResultException ex) {
             ex.printStackTrace();
         }
-        if (cartLineItems.isEmpty()){
-            return null;
-        } else {
-            return cartLineItems;
-        }
+        return cartLineItems;
     }
     
     @Override
