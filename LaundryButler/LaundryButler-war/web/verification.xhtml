@@ -28,10 +28,9 @@
             </div>
             <div class="panel-body text-center">
               
-                <h:form>
-                    <h:outputLabel for="verificationCode"></h:outputLabel>
-                    <h:inputText id="verificationCode" a:placeholder="Enter your verification code" value="#{signUpAndLoginManagedBean.verificationCode}"></h:inputText>
-                    <h:commandButton class="btn btn-lg page_button" type="submit" value="Verify" actionListener="#{signUpAndLoginManagedBean.verification()}">
+                <h:form style="display: inline; vertical-align: middle;">
+                    <h:inputText id="verificationCode" class="input_text" a:placeholder="Enter your code here" value="#{signUpAndLoginManagedBean.verificationCode}"></h:inputText>
+                    <h:commandButton class="btn page_button" type="submit" value="Verify" style="margin-left: 20px;" actionListener="#{signUpAndLoginManagedBean.verification()}">
                         <f:ajax execute="@form"/>
                     </h:commandButton>
                 </h:form>
