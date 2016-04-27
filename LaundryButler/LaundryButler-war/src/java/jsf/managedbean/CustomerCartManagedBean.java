@@ -93,6 +93,7 @@ public class CustomerCartManagedBean implements Serializable {
             ex.printStackTrace();
         }
         customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
+//        System.out.println("customerId = " + signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer().getEmail());
         if (productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()) != null){
             cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         }

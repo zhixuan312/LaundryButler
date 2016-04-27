@@ -150,6 +150,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             this.customer = customer;
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

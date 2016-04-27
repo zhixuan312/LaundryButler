@@ -39,6 +39,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     private String gender;
     private String mobile;
     private String verificationCode;
+    private ExternalContext ec;
     
     @PostConstruct
     public void init() {
@@ -55,12 +56,12 @@ public class SignUpAndLoginManagedBean implements Serializable {
         gender = "";
         mobile = "";
         verificationCode = "";
+        ec = FacesContext.getCurrentInstance().getExternalContext();
     }
     
-    public void customerLogin(ActionEvent event) {
+    public void customerLogin() {
         try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            
+            ec = FacesContext.getCurrentInstance().getExternalContext();
             if (accountManagementRemote.customerLogin(email, password)) {
                 if (accountManagementRemote.getCustomer().getAccountStatus().equals("Pending Verification")){
                     ec.getSessionMap().put("login", true);
@@ -80,12 +81,13 @@ public class SignUpAndLoginManagedBean implements Serializable {
     
     public void verification(){
         try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec = FacesContext.getCurrentInstance().getExternalContext();
             if (verificationCode.equals(accountManagementRemote.getCustomer().getVerificationCode())){
-                accountManagementRemote.getCustomer().setAccountStatus("Verified");
-                accountManagementRemote.updateCutomerProfile(customer);
-                ec.getSessionMap().put("login", true);
-                ec.redirect("home.xhtml?faces-redirect=true");
+                System.out.println("verificationCode = "+verificationCode + " verificationCodeTrue = " + accountManagementRemote.getCustomer().getVerificationCode());
+                Customer newCustomer = accountManagementRemote.getCustomer();
+                newCustomer.setAccountStatus("Verified");
+                accountManagementRemote.updateCutomerProfile(newCustomer);
+                customerLogin();
             } else {
                 ec.getSessionMap().put("login", true);
                 ec.redirect("verification.xhtml?faces-redirect=true");
@@ -97,8 +99,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     
     public void customerLoginByFaceBook(ActionEvent event) {
         try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            
+            ec = FacesContext.getCurrentInstance().getExternalContext();
             if (accountManagementRemote.customerLoginByFaceBook(email)) {
                 ec.getSessionMap().put("login", true);
                 ec.redirect("home.xhtml?faces-redirect=true");
@@ -120,8 +121,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     
     public void employeeLogin(ActionEvent event) {
         try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            
+            ec = FacesContext.getCurrentInstance().getExternalContext();
             if (accountManagementRemote.employeeLogin(email, password)) {
                 ec.getSessionMap().put("login", true);
                 ec.redirect("employee.xhtml?faces-redirect=true");
@@ -136,8 +136,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     
     public void cancelLogin(ActionEvent event) {
         try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            
+            ec = FacesContext.getCurrentInstance().getExternalContext();
             ec.redirect("SignUpAndLogin.xhtml?faces-redirect=true");
             
         } catch (IOException ex) {
@@ -147,8 +146,8 @@ public class SignUpAndLoginManagedBean implements Serializable {
     
     public void logout(ActionEvent event) {
         try {
+            ec = FacesContext.getCurrentInstance().getExternalContext();
             accountManagementRemote.logout();
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             
             ((HttpSession) ec.getSession(true)).invalidate();
             ec.invalidateSession();
@@ -176,7 +175,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
             
             customer = new Customer();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New customer registered successfully!", "Your registration verification code is " + verificationCode));
-            this.customerLogin(event);
+            this.customerLogin();
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email is been registered", "Email is been registered"));
         }
