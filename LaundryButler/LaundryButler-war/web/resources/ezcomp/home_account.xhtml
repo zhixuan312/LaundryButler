@@ -7,355 +7,342 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
 
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
-    <div id="myaccount" class="container-fluid subscreen subscreen-full ">
-      <h2 class="text-center">My Account</h2>
-      <div class="row">
-        <div class="col-sm-8">
-          <h2>Hi, <h:outputText value="#{customerProfileManagedBean.customer.firstName}"/>!</h2><br/>
-          <h4>Welcome to Laundry Butler home page.</h4><br/>
-          <button class="btn btn-lg page_button" data-toggle="modal" data-target="#myProfile">My Profile</button>
-          <button class="btn btn-lg page_button" data-toggle="modal" data-target="#myAddress">My Address Book</button>
-          <button class="btn btn-lg page_button" data-toggle="modal" data-target="#myPassword">Change Password</button>
-          <h:form>
-            <h:commandButton class="btn btn-lg page_button" value="Download" actionListener="#{invoiceManagedBean.generate()}"><f:ajax execute="@form"/></h:commandButton>
-          </h:form>
-        </div>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div id="myaccount" class="container container-fluid subscreen subscreen-full ">
 
-        <!-- My Profile Window-->
-        <div class="modal fade" id="myProfile" role="dialog" style="padding-top:100px;">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header themeBg">
-                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-center">My Profile</h4>
-              </div>
-              <h:form class="form">
-                <div class="modal-body">
-                  <h3 class="themeC">Account</h3>
-                  <div class="form-group">
-                    <h:outputLabel class="control-label" for="profile_email" value="Email: "/>
-                    <h:outputText id="profile_email"  class="input_text"  value="   #{customerProfileManagedBean.customer.email}"/>
-                  </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h2><h:outputText value="#{customerProfileManagedBean.customer.firstName} #{customerProfileManagedBean.customer.lastName}"/> &nbsp;&nbsp;&nbsp;&nbsp; <small><h:outputText id="profile_email" class="input_text" value="#{customerProfileManagedBean.customer.email}"/></small></h2>
 
-                  <h3 class="themeC">Basic</h3>
-                  <div class="form-group">
-                    <h:outputLabel class="control-label" for="profile_firstName" value="First Name"/>
-                    <h:inputText id="profile_firstName"
-                                 class="form-control input_text"
-                                 value="#{customerProfileManagedBean.customer.firstName}"
-                                 maxlength="32"
-                                 required="true"
-                                 requiredMessage="First Name is required"/>
-                  </div>
-                  <div class="form-group">
-                    <h:outputLabel class="control-label" for="profile_lastName" value="Last Name"/>
-                    <h:inputText id="profile_lastName"
-                                 class="form-control input_text"
-                                 value="#{customerProfileManagedBean.customer.lastName}"
-                                 maxlength="32"
-                                 required="true"
-                                 requiredMessage="Last Name is required"/>
-                  </div>
-                  <h3 class="themeC">Contact</h3>
-                  <div class="form-group">
-                    <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
-                    <h:inputText id="profile_mobile"
-                                 class="form-control input_text"
-                                 value="#{customerProfileManagedBean.customer.mobile}"
-                                 maxlength="32"
-                                 required="true"
-                                 requiredMessage="Last Name is required"/>
-                  </div>
-                </div>
-                
-                <div class="modal-footer">
-                  <h:commandButton type="button"
-                                   class="btn btn-default page_button"
-                                   style="width:80px;"
-                                   value="Save"
-                                   actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
-                    <f:ajax execute="@form"/>
-                  </h:commandButton>
-                  <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
-                </div>
-                
-              </h:form>
-            </div>
-          </div>
-        </div>
-        <!--End of Profile Window-->
 
-        <!-- My Address Window-->
-        <div class="modal fade" id="myAddress" role="dialog" style="padding-top:100px;">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header themeBg">
-                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-center">My Address Book</h4>
-              </div>
-              <h:form id="myAddressForm" class="form">
-                <div class="modal-body">
-                  <h3 class="themeC">Existing Address</h3>
-                  <ui:fragment rendered="#{(customerProfileManagedBean.addresses ne null) and (customerProfileManagedBean.addresses.size() gt 0)}">
-                    <h:form id="currentAddress">
-                      <table class="table text-center">
-                        <tr>
-                          <th></th>
-                          <th style="font-weight:bold; color:#000000;">Block</th>
-                          <th style="font-weight:bold; color:#000000;">Street</th>
-                          <th style="font-weight:bold; color:#000000;">Floor</th>
-                          <th style="font-weight:bold; color:#000000;">Unit</th>
-                          <th style="font-weight:bold; color:#000000;">Country</th>
-                          <th style="font-weight:bold; color:#000000;">Postal Code</th>
-                          <th class="text-right"></th>
-                        </tr>
-                        <h:panelGroup id="currentAddressList">
-                          <ui:repeat var="address" value="#{customerProfileManagedBean.customer.addresses}" varStatus="st">
-                            <tr data-toggle="collapse" data-target="#myAddressToggle#{address.addressId}" class="accordion-toggle">
-                              <td><h:outputText value="#{st.index + 1}"></h:outputText></td>
-                              <td><h:outputText id="output_address_block" value="#{address.block}"></h:outputText></td>
-                              <td><h:outputText id="output_address_street" value="#{address.street}"></h:outputText></td>
-                              <td><h:outputText id="output_address_floor" value="#{address.floor}"></h:outputText></td>
-                              <td><h:outputText id="output_address_unit" value="#{address.unit}"></h:outputText></td>
-                              <td><h:outputText id="output_address_country" value="#{address.country}"></h:outputText></td>
-                              <td><h:outputText id="output_address_postcode" value="#{address.postalCode}"></h:outputText></td>
-                              <td><i class="indicator glyphicon chevron_toggleable chevron_toggleable_add glyphicon-chevron-up pull-right"></i></td>
-                            </tr>
-                            <tr>
-                              <td colspan="8" class="hiddenRow">
-                                <div id="myAddressToggle#{address.addressId}" class="accordian-body collapse">    
-                                  <div class="row" style="padding:10px 0px; text-align: left;">
-                                    <div class="col-md-6" >
-                                      <h:outputLabel class="control-label" for="updateAddress_block" value="Block"/><br/>
-                                      <h:inputText id="updateAddress_block" a:placeholder="#{address.block}" value="#{address.block}"/>
-                                    </div>
-                                    <div class="col-md-6" > 
-                                      <h:outputLabel class="control-label" for="updateAddress_unit" value="Unit"/>  <br/>
-                                      <h:inputText id="updateAddress_unit" a:placeholder="#{address.unit}" value="#{address.unit}"/> 
-                                    </div>  
-                                  </div>
-
-                                  <div class="row" style="padding:10px 0px; text-align: left;">
-                                    <div class="col-md-6" >
-                                      <h:outputLabel class="control-label" for="updateAddress_street" value="Street"/>  <br/>
-                                      <h:inputText id="updateAddress_street" a:placeholder="#{address.street}" value="#{address.street}"/>
-                                    </div>
-                                    <div class="col-md-6">
-                                      <h:outputLabel class="control-label" for="updateAddress_floor" value="Floor"/>  <br/>
-                                      <h:inputText id="updateAddress_floor" a:placeholder="#{address.floor}" value="#{address.floor}"/> 
-                                    </div>  
-                                  </div>
-
-                                  <div class="row" style="padding:10px 0px; text-align: left;">
-                                    <div class="col-md-6">  
-                                      <h:outputLabel class="control-label" for="updateAddress_postalCode" value="Postal Code"/>   <br/> 
-                                      <h:inputText id="updateAddress_postalCode" a:placeholder="#{address.postalCode}" value="#{address.postalCode}"/>
-                                    </div>
-                                    <div class="col-md-6"> 
-                                      <h:outputLabel class="control-label" for="updateAddress_country" value="Country"/>    <br/>
-                                      <h:inputText id="updateAddress_country" a:placeholder="#{address.country}" value="#{address.country}"/>
-                                    </div>  
-                                  </div>  
-
-                                  <div class="row" style="padding:20px 0px;">
-                                    <div class="col-md-12">
-                                      <div class="text-right">
-                                        <h:commandButton type="button"
-                                                         class="btn btn-default page_button"
-                                                         style="width:80px;"
-                                                         value="Update"
-                                                         actionListener="#{customerProfileManagedBean.updateAddress(address)}" >
-                                          <f:ajax execute="@form" render="output_address_block output_address_street output_address_floor output_address_unit output_address_country output_address_postcode"/>
-                                        </h:commandButton>
-                                      </div>
-                                    </div>    
-                                  </div> 
-
-                                </div>
-                              </td>
-                            </tr>
-                          </ui:repeat>
-                          </h:panelGroup>
-                      </table>
-                      
+                    <p><button class="btn btn-lg btn-block page_button" data-toggle="modal" data-target="#myProfile">Update Profile</button></p>
+                    <p><button class="btn btn-lg btn-block page_button" data-toggle="modal" data-target="#myAddress">Update Addresses</button></p>
+                    <p><button class="btn btn-lg btn-block page_button" data-toggle="modal" data-target="#myPassword">Change Password</button></p>
+                    <h:form>
+                        <h:commandButton class="btn btn-lg btn-block page_button" value="Download" actionListener="#{invoiceManagedBean.generate()}"><f:ajax execute="@form"/></h:commandButton>
                     </h:form>
-                    <script>
-                      $('.chevron_toggleable').on('click', function () {
-                        $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-                      });
-                    </script>
-                  </ui:fragment>
-                  <ui:fragment rendered="#{(customerProfileManagedBean.addresses eq null) or (customerProfileManagedBean.addresses.size() lt 1)}">
-                    <p class="text-center">You don't have any address record yet.</p>
-                  </ui:fragment>
+                </div>
 
-                  <!-- Create new address Area-->
-                  <h:form id='createNewAddress'>
-                    <h3 class="themeC">Add New Address</h3>
-                    <div class="form-group">
-                      <h:outputLabel class="control-label" for="newAddress_block" value="Block"/>
-                      <h:inputText id="newAddress_block"  
-                                   class="form-control input_text"  
-                                   value="#{customerProfileManagedBean.address.block}"
-                                   maxlength="32"
-                                   required="true"
-                                   requiredMessage="Block is required"/>
+                <!-- My Profile Window-->
+                <div class="modal fade" id="myProfile" role="dialog" style="padding-top:100px;">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header themeBg">
+                                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title text-center">My Profile</h4>
+                            </div>
+                            <h:form class="form">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="profile_firstName" value="First Name"/>
+                                            <h:inputText id="profile_firstName"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.customer.firstName}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="First Name is required"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="profile_lastName" value="Last Name"/>
+                                            <h:inputText id="profile_lastName"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.customer.lastName}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Last Name is required"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
+                                            <h:inputText id="profile_mobile"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.customer.mobile}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Last Name is required"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <h:commandButton type="button"
+                                                     class="btn btn-default page_button"
+                                                     value="Update Profile"
+                                                     actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
+                                        <f:ajax execute="@form"/>
+                                    </h:commandButton>
+                                </div>
+
+                            </h:form>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <h:outputLabel class="control-label" for="newAddress_street" value="Street"/>
-                      <h:inputText id="newAddress_street"
-                                   class="form-control input_text"
-                                   value="#{customerProfileManagedBean.address.street}"
-                                   maxlength="32"
-                                   required="true"
-                                   requiredMessage="Street is required"/>
-                    </div>
-                    <div class="form-group">
-                      <h:outputLabel class="control-label" for="newAddress_floor" value="Floor"/>
-                      <h:inputText id="newAddress_floor"
-                                   class="form-control input_text"
-                                   value="#{customerProfileManagedBean.address.floor}"
-                                   maxlength="32"
-                                   required="true"
-                                   requiredMessage="Floor is required"/>
-                    </div>
-                    <div class="form-group">
-                      <h:outputLabel class="control-label" for="newAddress_unit" value="Unit"/>
-                      <h:inputText id="newAddress_unit"
-                                   class="form-control input_text"
-                                   value="#{customerProfileManagedBean.address.unit}"
-                                   maxlength="32"
-                                   required="true"
-                                   requiredMessage="Unit is required"/>
-                    </div>
-                    <div class="form-group">
-                      <h:outputLabel class="control-label" for="newAddress_country" value="Country"/>
-                      <h:inputText id="newAddress_country"
-                                   class="form-control input_text"
-                                   value="#{customerProfileManagedBean.address.country}"
-                                   maxlength="32"
-                                   required="true"
-                                   requiredMessage="Address is required"/>
-                    </div>
-                    <div class="form-group">
-                      <h:outputLabel class="control-label" for="newAddress_postalCode" value="Postal Code"/>
-                      <h:inputText id="newAddress_postalCode"
-                                   class="form-control input_text"
-                                   value="#{customerProfileManagedBean.address.postalCode}"
-                                   maxlength="32"
-                                   required="true"
-                                   requiredMessage="Postal Code is required"/>
-                    </div>
-                    <div class="form-group">
-                      <h:commandButton type="button"
-                                       class="btn btn-default page_button"
-                                       style="width:120px;"
-                                       value="Add Address"
-                                       actionListener="#{customerProfileManagedBean.createAddress}" >
-                        <f:ajax execute="@form" render="#{cc.clientId}:myAddressForm:currentAddress"/>
-                      </h:commandButton>
-                    </div>
-                  </h:form>
-                  <!--End of Create New Address-->
+                    <br/>
                 </div>
-                <div class="modal-footer">
-                  <h:commandButton type="button"
-                                   class="btn btn-default page_button"
-                                   style="width:80px;"
-                                   value="Save"
-                                   actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
-                    <f:ajax execute="@form"/>
-                  </h:commandButton>
-                  <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
+                <!--End of Profile Window-->
+
+                <!-- My Address Window-->
+                <div class="modal fade" id="myAddress" role="dialog" style="padding-top:100px;">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header themeBg">
+                                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title text-center">My Address Book</h4>
+                            </div>
+                            <h:form id="myAddressForm" class="form">
+                                <div class="modal-body">
+                                    <h3 class="themeC">Existing Address</h3>
+                                    <ui:fragment rendered="#{(customerProfileManagedBean.addresses ne null) and (customerProfileManagedBean.addresses.size() gt 0)}">
+                                        <h:form id="currentAddress">
+                                            <table class="table text-center">
+                                                <tr>
+                                                    <th></th>
+                                                    <th style="font-weight:bold; color:#000000;">Block</th>
+                                                    <th style="font-weight:bold; color:#000000;">Street</th>
+                                                    <th style="font-weight:bold; color:#000000;">Floor</th>
+                                                    <th style="font-weight:bold; color:#000000;">Unit</th>
+                                                    <th style="font-weight:bold; color:#000000;">Country</th>
+                                                    <th style="font-weight:bold; color:#000000;">Postal Code</th>
+                                                    <th class="text-right"></th>
+                                                </tr>
+                                                <h:panelGroup id="currentAddressList">
+                                                    <ui:repeat var="address" value="#{customerProfileManagedBean.customer.addresses}" varStatus="st">
+                                                        <tr data-toggle="collapse" data-target="#myAddressToggle#{address.addressId}" class="accordion-toggle">
+                                                            <td><h:outputText value="#{st.index + 1}"></h:outputText></td>
+                                                            <td><h:outputText id="output_address_block" value="#{address.block}"></h:outputText></td>
+                                                            <td><h:outputText id="output_address_street" value="#{address.street}"></h:outputText></td>
+                                                            <td><h:outputText id="output_address_floor" value="#{address.floor}"></h:outputText></td>
+                                                            <td><h:outputText id="output_address_unit" value="#{address.unit}"></h:outputText></td>
+                                                            <td><h:outputText id="output_address_country" value="#{address.country}"></h:outputText></td>
+                                                            <td><h:outputText id="output_address_postcode" value="#{address.postalCode}"></h:outputText></td>
+                                                            <td><i class="indicator glyphicon chevron_toggleable chevron_toggleable_add glyphicon-chevron-up pull-right"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="8" class="hiddenRow">
+                                                                <div id="myAddressToggle#{address.addressId}" class="accordian-body collapse">    
+                                                                    <div class="row" style="padding:10px 0px; text-align: left;">
+                                                                        <div class="col-md-6" >
+                                                                            <h:outputLabel class="control-label" for="updateAddress_block" value="Block"/><br/>
+                                                                            <h:inputText id="updateAddress_block" a:placeholder="#{address.block}" value="#{address.block}"/>
+                                                                        </div>
+                                                                        <div class="col-md-6" > 
+                                                                            <h:outputLabel class="control-label" for="updateAddress_unit" value="Unit"/>  <br/>
+                                                                            <h:inputText id="updateAddress_unit" a:placeholder="#{address.unit}" value="#{address.unit}"/> 
+                                                                        </div>  
+                                                                    </div>
+
+                                                                    <div class="row" style="padding:10px 0px; text-align: left;">
+                                                                        <div class="col-md-6" >
+                                                                            <h:outputLabel class="control-label" for="updateAddress_street" value="Street"/>  <br/>
+                                                                            <h:inputText id="updateAddress_street" a:placeholder="#{address.street}" value="#{address.street}"/>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <h:outputLabel class="control-label" for="updateAddress_floor" value="Floor"/>  <br/>
+                                                                            <h:inputText id="updateAddress_floor" a:placeholder="#{address.floor}" value="#{address.floor}"/> 
+                                                                        </div>  
+                                                                    </div>
+
+                                                                    <div class="row" style="padding:10px 0px; text-align: left;">
+                                                                        <div class="col-md-6">  
+                                                                            <h:outputLabel class="control-label" for="updateAddress_postalCode" value="Postal Code"/>   <br/> 
+                                                                            <h:inputText id="updateAddress_postalCode" a:placeholder="#{address.postalCode}" value="#{address.postalCode}"/>
+                                                                        </div>
+                                                                        <div class="col-md-6"> 
+                                                                            <h:outputLabel class="control-label" for="updateAddress_country" value="Country"/>    <br/>
+                                                                            <h:inputText id="updateAddress_country" a:placeholder="#{address.country}" value="#{address.country}"/>
+                                                                        </div>  
+                                                                    </div>  
+
+                                                                    <div class="row" style="padding:20px 0px;">
+                                                                        <div class="col-md-12">
+                                                                            <div class="text-right">
+                                                                                <h:commandButton type="button"
+                                                                                                 class="btn btn-default page_button"
+                                                                                                 style="width:80px;"
+                                                                                                 value="Update"
+                                                                                                 actionListener="#{customerProfileManagedBean.updateAddress(address)}" >
+                                                                                    <f:ajax execute="@form" render="output_address_block output_address_street output_address_floor output_address_unit output_address_country output_address_postcode"/>
+                                                                                </h:commandButton>
+                                                                            </div>
+                                                                        </div>    
+                                                                    </div> 
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                </h:panelGroup>
+                                            </table>
+
+                                        </h:form>
+                                        <script>
+                                            $('.chevron_toggleable').on('click', function () {
+                                                $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+                                            });
+                                        </script>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{(customerProfileManagedBean.addresses eq null) or (customerProfileManagedBean.addresses.size() lt 1)}">
+                                        <p class="text-center">You don't have any address record yet.</p>
+                                    </ui:fragment>
+
+                                    <!-- Create new address Area-->
+                                    <h:form id='createNewAddress'>
+                                        <h3 class="themeC">Add New Address</h3>
+                                        <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_block" value="Block"/>
+                                            <h:inputText id="newAddress_block"  
+                                                         class="form-control input_text"  
+                                                         value="#{customerProfileManagedBean.address.block}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Block is required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_street" value="Street"/>
+                                            <h:inputText id="newAddress_street"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.address.street}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Street is required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_floor" value="Floor"/>
+                                            <h:inputText id="newAddress_floor"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.address.floor}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Floor is required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_unit" value="Unit"/>
+                                            <h:inputText id="newAddress_unit"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.address.unit}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Unit is required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_country" value="Country"/>
+                                            <h:inputText id="newAddress_country"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.address.country}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Address is required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_postalCode" value="Postal Code"/>
+                                            <h:inputText id="newAddress_postalCode"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.address.postalCode}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Postal Code is required"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <h:commandButton type="button"
+                                                             class="btn btn-default page_button"
+                                                             style="width:120px;"
+                                                             value="Add Address"
+                                                             actionListener="#{customerProfileManagedBean.createAddress}" >
+                                                <f:ajax execute="@form" render="#{cc.clientId}:myAddressForm:currentAddress"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </h:form>
+                                    <!--End of Create New Address-->
+                                </div>
+                                <div class="modal-footer">
+                                    <h:commandButton type="button"
+                                                     class="btn btn-default page_button"
+                                                     value="Save"
+                                                     actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
+                                        <f:ajax execute="@form"/>
+                                    </h:commandButton>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
                 </div>
-              </h:form>
+                <!--End of Address Window-->
+
+                <!-- Change Password Window-->
+                <div class="modal fade" id="myPassword" role="dialog" style="padding-top:100px;">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header themeBg">
+                                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title text-center">Change Password</h4>
+                            </div>
+                            <h:form class="form" rendered="#{!customerProfileManagedBean.customer.isFaceBook}">
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <h:outputLabel class="control-label" for="password_old" value="Old Password"/>
+                                        <h:inputSecret id="password_old"  class="form-control input_text"  value="#{customerProfileManagedBean.oldPassword}" maxlength="32" required="true" requiredMessage="First name is required"/>
+                                    </div>
+                                    <h:messages id="password_error" class="error_message"/>
+
+                                    <div class="form-group">
+                                        <h:outputLabel class="control-label" for="password_new" value="New Password"/>
+                                        <h:inputSecret id="password_new"  class="form-control input_text"  value="#{customerProfileManagedBean.newPassword}" maxlength="32" required="true" requiredMessage="Last name is required"/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <h:commandButton type="button" class="btn btn-default page_button" value="Change Password" actionListener="#{customerProfileManagedBean.checkPassword}" >
+                                        <f:ajax execute="@form" render="password_error"/>
+                                    </h:commandButton>
+                                </div>              
+                            </h:form>
+
+                            <h:form class="form" rendered="#{customerProfileManagedBean.customer.isFaceBook}">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <h:outputLabel class="control-label" for="password_new" value="New Password"/>
+                                        <h:inputSecret id="password_new"  class="form-control input_text"  value="#{customerProfileManagedBean.newPassword}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.checkPassword}" >
+                                        <f:ajax execute="@form"/>
+                                    </h:commandButton>
+                                </div>              
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                <!--End of All Windows-->
+
+                <div class="col-md-8">
+                    <h2>Get Free Dry Cleaning</h2>
+                    <p>Share this signup link with your friend and both of you earn one free dry cleaning each.</p>
+                    <h:outputText id="sharingLink" class="hide" value="http://localhost:8080/LaundryButler-war/index.xhtml?referrerid=#{customerProfileManagedBean.customer.customerId}"/>
+                    <div class="input-group">
+                        <input id='sharingLink_copy' type="text" class="form-control"/>
+                        <span class="input-group-btn">
+                            <button id='sharingLinkCopyButton' class="btn btn-secondary page_button" data-clipboard-target="#sharingLink_copy" type="button">Copy</button>
+                        </span>
+                        <script>
+                            $(function () {
+                                var clipboard = new Clipboard('#sharingLinkCopyButton');
+                                $('#sharingLink_copy').val(document.getElementById('#{cc.clientId}:sharingLink').innerHTML);
+                            });
+                        </script>
+                    </div>
+                </div>
+
             </div>
-          </div>
         </div>
-        <!--End of Address Window-->
-
-        <!-- Change Password Window-->
-        <div class="modal fade" id="myPassword" role="dialog" style="padding-top:100px;">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header themeBg">
-                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title text-center">Change Password</h4>
-              </div>
-              <h:form class="form" rendered="#{!customerProfileManagedBean.customer.isFaceBook}">
-
-                <div class="modal-body">
-                  <div class="form-group">
-                    <h:outputLabel class="control-label" for="password_old" value="Old Password"/>
-                    <h:inputSecret id="password_old"  class="form-control input_text"  value="#{customerProfileManagedBean.oldPassword}" maxlength="32" required="true" requiredMessage="First Name is required"/>
-                  </div>
-                  <h:messages id="password_error" class="error_message"/>
-
-                  <div class="form-group">
-                    <h:outputLabel class="control-label" for="password_new" value="New Password"/>
-                    <h:inputSecret id="password_new"  class="form-control input_text"  value="#{customerProfileManagedBean.newPassword}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.checkPassword}" >
-                    <f:ajax execute="@form" render="password_error"/>
-                  </h:commandButton>
-                  <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
-                </div>              
-              </h:form>
-
-              <h:form class="form" rendered="#{customerProfileManagedBean.customer.isFaceBook}">
-
-                <div class="modal-body">
-                  <div class="form-group">
-                    <h:outputLabel class="control-label" for="password_new" value="New Password"/>
-                    <h:inputSecret id="password_new"  class="form-control input_text"  value="#{customerProfileManagedBean.newPassword}" maxlength="32" required="true" requiredMessage="Last Name is required"/>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <h:commandButton type="button" class="btn btn-default page_button" style="width:80px;" value="Save" actionListener="#{customerProfileManagedBean.checkPassword}" >
-                    <f:ajax execute="@form"/>
-                  </h:commandButton>
-                  <button type="button" class="btn btn-default" data-dismiss="modal" style="width:80px;">Cancel</button>
-                </div>              
-              </h:form>
-            </div>
-          </div>
-        </div>
-        <!--End of All Windows-->
-        
-        <div class="col-sm-4"/>
-      </div>
-      <div class="row text-center">
-        <div class="col-md-2"/>
-        <div class="col-md-8">
-          <h2>Free Dry Cleaning</h2>
-          <p>Share the signup link with your friend and both of you earn one free dry cleaning each.</p>
-          <h:outputText id="sharingLink" class="hide" value="http://localhost:8080/LaundryButler-war/index.xhtml?referrerid=#{customerProfileManagedBean.customer.customerId}"/>
-          <div class="input-group">
-            <input id='sharingLink_copy' type="text" class="form-control"/>
-            <span class="input-group-btn">
-              <button id='sharingLinkCopyButton' class="btn btn-secondary page_button" data-clipboard-target="#sharingLink_copy" type="button">Copy</button>
-            </span>
-            <script>
-              $(function () {
-                var clipboard = new Clipboard('#sharingLinkCopyButton');
-                $('#sharingLink_copy').val(document.getElementById('#{cc.clientId}:sharingLink').innerHTML);
-              });
-            </script>
-          </div>
-        </div>
-        <div class="col-md-2"/>
-      </div>
-    </div>
-  </cc:implementation>
+    </cc:implementation>
 </html>

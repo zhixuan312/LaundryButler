@@ -6,74 +6,78 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
 
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
 
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>                        
-          </button>
-          <a id='nav_logo' class="navbar-brand" href="#homePage"><img height="20px" src="resources/images/laundrybutler_logo_white_transparent.png" /></a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav navbar-right" >
-            <li><a id="nav_mybox" href="#mybox">BOXES</a></li>
-            <li><a id="nav_myaccount" href="#myaccount">ACCOUNT</a></li>
-            <li><a id="nav_explore" href="#explore">EXPLORE</a></li>
-            <li><a id="nav_contact" href="#contact">CONTACT</a></li>
-            <li><a id="nav_buy" href="#buy">BUY</a></li>
-            <li>
-              <h:form id="updatebutton">
-                <h:commandButton id='cartLineItemsUpdate' actionListener="#{customerCartManagedBean.refreshList()}" class="hide">
-                <f:ajax execute="@form" render="cartLineItemListView"/>
-              </h:commandButton>
-              </h:form>
-              <button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" onclick="cartButtonClick()" style="margin-left: 40px; padding: 3px; border: 0; background: transparent;">
-                <i class="glyphicon glyphicon-shopping-cart text-center" style="color:white; font-size: 1.5em; padding: 0; margin: 0; border: 0;"></i>
-              </button>
-            </li>
-            <script>
-              function cartButtonClick(){
-                document.getElementById('#{cc.clientId}:updatebutton:cartLineItemsUpdate').click();
-                console.log("Cart Button Click");
-              }
-            </script>
-            <li style="margin-left: 40px;">
-              <h:form id="fbLogout" class="form hide" style="display: inline-block">
-                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}">
-                  <f:ajax execute="@form"/>
-                </h:commandButton>
-              </h:form>
-              <button class="btn navbar-btn command_button" onclick="fbLogoutButtonClick()">LOGOUT</button>
-              <script>
-                function fbLogoutButtonClick() {
-                  FB.getLoginStatus(function (response) {
-                    if(response.status === 'connected'){
-                      customerLogout();
-                    }
-                  });
-                  
-                  document.getElementById('#{cc.clientId}:fbLogout:logoutButton').click();
-                  console.log("finished!");
-                }
-              </script>
-            </li>
-            
-          </ul>
-        </div>
-      </div>
-    </nav>
-    
-    
-    
-    
-  </cc:implementation>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>                        
+                    </button>
+                    <a id='nav_logo' class="navbar-brand" href="#homePage"><img height="20px" src="resources/images/laundrybutler_logo_white_transparent.png" /></a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right" >
+                        <li><a id="nav_mybox" href="#mybox">BOXES</a></li>
+                        <li>
+                            <a id="nav_buy" href="#buy">BUY</a>
+                            
+                        </li>
+                        <li>
+                            <h:form id="updatebutton">
+                                <h:commandButton id='cartLineItemsUpdate' actionListener="#{customerCartManagedBean.refreshList()}" class="hide">
+                                    <f:ajax execute="@form" render="cartLineItemListView"/>
+                                </h:commandButton>
+                            </h:form>
+                            <button class="btn navbar-btn text-center" data-toggle="modal" data-target="#myShoppingCart" onclick="cartButtonClick()" style="padding: 0px; background: transparent;">
+                                <i class="glyphicon glyphicon-shopping-cart text-center" style="color:white; font-size: 1.3em; padding: 0; margin: 5px 15px 0px 0px; border: 0;"></i>
+                            </button>
+                        </li>
+                        <li><a id="nav_explore" href="#explore">COMBINE</a></li>
+                        <li><a id="nav_contact" href="#contact">GET HELP</a></li>
+                        <li><a id="nav_myaccount" href="#myaccount"><h:outputText value="#{customerProfileManagedBean.customer.firstName}"/></a></li>
+
+                        <script>
+                            function cartButtonClick() {
+                                document.getElementById('#{cc.clientId}:updatebutton:cartLineItemsUpdate').click();
+                                console.log("Cart Button Click");
+                            }
+                        </script>
+                        <li style="margin-left: 40px;">
+                            <h:form id="fbLogout" class="form hide" style="display: inline-block">
+                                <h:commandButton id="logoutButton" class="btn navbar-btn command_button" style="margin-left: 40px;" value="LOGOUT" actionListener="#{signUpAndLoginManagedBean.logout}">
+                                    <f:ajax execute="@form"/>
+                                </h:commandButton>
+                            </h:form>
+                            <button class="btn navbar-btn command_button" onclick="fbLogoutButtonClick()">LOGOUT</button>
+                            <script>
+                                function fbLogoutButtonClick() {
+                                    FB.getLoginStatus(function (response) {
+                                        if (response.status === 'connected') {
+                                            customerLogout();
+                                        }
+                                    });
+
+                                    document.getElementById('#{cc.clientId}:fbLogout:logoutButton').click();
+                                    console.log("finished!");
+                                }
+                            </script>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+
+    </cc:implementation>
 </html>
