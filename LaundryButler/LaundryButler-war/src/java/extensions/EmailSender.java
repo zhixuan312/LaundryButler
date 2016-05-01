@@ -19,7 +19,7 @@ public class EmailSender {
     public EmailSender() {
     }
 
-    public void createEmail() {
+    public void sendEmail() {
         try {
             Properties properties = System.getProperties();
             properties.put("mail.smtp.host", HOST);
