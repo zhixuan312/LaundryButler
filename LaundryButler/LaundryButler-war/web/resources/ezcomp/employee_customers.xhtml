@@ -1,7 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -9,6 +13,62 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        Customers
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Customers</h2>
+                <h:form id="form1">
+                    <p:contextMenu for="customers" widgetVar="cMenu">   
+                        <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellCustomers').showCellEditor();
+                                return false;"/>  
+                        <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+                    </p:contextMenu> 
+
+                    <p:dataTable id="customers" var="customer" value="#{adminCustomerManagedBean.customers}" editable="true" editMode="cell" widgetVar="cellCustomers">
+                        <p:ajax event="cellEdit" listener="#{adminCustomerManagedBean.onCellEdit}" />
+
+                        <p:column headerText="ID" style="width:50px">
+                            <h:outputText value="#{customer.customerId}" />
+                        </p:column>
+
+                        <p:column headerText="Status" style="width:180px">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{customer.accountStatus}" /><br/>
+                                    <small>Code: <h:outputText value="#{customer.verificationCode}" /></small>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{customer.accountStatus}" style="width:100%">
+                                        <f:selectItem itemLabel="Pending Verification" itemValue="Pending Verification" />
+                                        <f:selectItem itemLabel="Verified" itemValue="Verified" />
+                                        <f:selectItem itemLabel="Suspended" itemValue="Suspended" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Customer Information">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{customer.firstName} " />
+                                    <h:outputText value="#{customer.lastName}" /> <small>(<h:outputText value="#{customer.email}" />, <h:outputText value="#{customer.mobile}" />)</small><br/>
+                                    <small>Registered <h:outputText value="#{customer.dateRegistered}"><f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" /></h:outputText></small>&nbsp;
+                                    <h:graphicImage rendered="#{customer.isFaceBook}" url="https://logo.clearbit.com/facebook.com" height="15px"></h:graphicImage>
+                                </f:facet>
+                                
+                                <f:facet name="input">
+                                    <p:inputText value="#{customer.firstName}" /> <p:inputText value="#{customer.lastName}" /> <p:inputText value="#{customer.mobile}" />
+                                </f:facet>  
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Balance" style="width:230px">
+                            Dry Cleaning: <h:outputText value="#{customer.dryCleaning} " /> pieces<br/>
+                            Express Service: <h:outputText value="#{customer.express} " /> times<br/>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </cc:implementation>
 </html>
