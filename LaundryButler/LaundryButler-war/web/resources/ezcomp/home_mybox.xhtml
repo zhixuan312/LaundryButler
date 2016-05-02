@@ -6,387 +6,382 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-  <!-- INTERFACE -->
-  <cc:interface>
-  </cc:interface>
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
 
-  <!-- IMPLEMENTATION -->
-  <cc:implementation>
-    <div id="mybox" class="container container-fluid subscreen subscreen-full">
-      <div class="row">
-        <div class="col-md-3">
-          
-          <!--Summary Area-->
-          <h:form id="customer_spec_details">
-                <h:outputText id="customer_box_number" value="#{customerBoxManagedBean.getNumberOfUnscheduledBoxes()}" style="font-size:38px; color:#5A6297" />
-                <br/><h:outputLabel for="customer_box_number" value="Unscheduled Boxes"/>
-                <br/>
-                <h:outputText id="customer_dryCleaning_number" value="#{customerBoxManagedBean.customer.dryCleaning}" style="font-size:38px; color:#D17286" />
-                <br/><h:outputLabel for="customer_dryCleaning_number" value="Unused Dry Cleaning"/>
-                <br/>
-                <h:outputText id="customer_express_number" value="#{customerBoxManagedBean.customer.express}" style="font-size:38px; color:#A8C673" />
-                <br/><h:outputLabel for="customer_express_number" value="Unused Express Services"/>
-            </h:form>
-        </div>
-          
-        <div class="col-md-9">
-          <!--Table-->
-          
-            <ui:fragment rendered="#{customerBoxManagedBean.boxes.size() &gt; 0}">
-              <table class="table table-hover text-center">
-                <thead>
-                  <td></td>
-                  <td style="font-weight:bold; color:#000000;">Pick Up</td>
-                  <td style="font-weight:bold; color:#000000;">Delivery</td>
-                  <td style="font-weight:bold; color:#000000;">Status</td>
-                  <td class="text-right">
-                  </td>
-                </thead>
-                <tbody>
-                  <ui:repeat id="customer_box_list" var="box" value="#{customerBoxManagedBean.boxes}" varStatus="st">
-                    
-                    <!--Visible Row-->
-                    <tr data-toggle="collapse" data-target="#myBoxToggle#{box.boxId}" class="accordion-toggle">
-                      <td style="font-weight: bold;color:#000000;">#{st.index + 1}</td>
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div id="mybox" class="container container-fluid subscreen subscreen-full">
+            <div class="row">
+                <div class="col-md-3">
 
-                      <td>
-                        <h:form id="pickUpTimeDisplayForm">
-                          <h:outputText id="box_pickupTime_notScheduled"
-                                        value="Not Scheduled" 
-                                        rendered="#{box.pickupDateTime == null or box.pickupDateTime.time &lt; 946684800}">
-                          </h:outputText>
-                          <h:outputText id="box_pickupTime"
-                                        class="pTime"
-                                        value="#{box.pickupDateTime}"
-                                        rendered="#{box.pickupDateTime.time &gt; 946684800}">
-                            <f:convertDateTime type="date" timeZone="Singapore" pattern="HH:00, dd MMM yyyy, E" />
-                          </h:outputText>
-                        </h:form>
-                      </td>
+                    <!--Summary Area-->
+                    <h:form id="customer_spec_details">
+                        <h:outputText id="customer_box_number" value="#{customerBoxManagedBean.getNumberOfUnscheduledBoxes()}" style="font-size:38px; color:#5A6297" />
+                        <br/><h:outputLabel for="customer_box_number" value="Unscheduled Boxes"/>
+                        <br/>
+                        <h:outputText id="customer_dryCleaning_number" value="#{customerBoxManagedBean.customer.dryCleaning}" style="font-size:38px; color:#D17286" />
+                        <br/><h:outputLabel for="customer_dryCleaning_number" value="Unused Dry Cleaning"/>
+                        <br/>
+                        <h:outputText id="customer_express_number" value="#{customerBoxManagedBean.customer.express}" style="font-size:38px; color:#A8C673" />
+                        <br/><h:outputLabel for="customer_express_number" value="Unused Express Services"/>
+                    </h:form>
+                </div>
 
-                      <td>
-                        <h:form id="deliveryTimeDisplayForm">
-                          <h:outputText id="box_deliveryTime_notScheduled"
-                                        value="Not Scheduled"
-                                        rendered="#{box.deliveryDateTime.time == null or box.deliveryDateTime.time &lt; 946684800}">
-                          </h:outputText>
-                          <h:outputText id="box_deliveryTime"
-                                        class="dTime"
-                                        value="#{box.deliveryDateTime}"
-                                        rendered="#{box.deliveryDateTime.time &gt; 946684800}">
-                            <f:convertDateTime type="date" timeZone="Singapore" pattern="HH:00, dd MMM yyyy, E" />
-                          </h:outputText>
-                        </h:form>
-                      </td>
+                <div class="col-md-9">
+                    <!--Table-->
 
-                      <td>
-                        <h:outputText id="box_status" value="#{box.status}"/>
-                      </td>
-                      
-                      <td>
-                        <i class="indicator glyphicon chevron_toggleable chevron_toggleable_box glyphicon-chevron-up pull-right"></i>
-                      </td>
-                      
-                    </tr>
-                    
-                    <!--Hidden Row-->
-                    <tr>
-                      <td colspan="6" class="hiddenRow">
-                        
-                        <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
-                          <div class="row" style="padding-left:50px;padding-right:40px;text-align:left;">
-                            
-                            <!--Passcode-->
-                            <p>
-                              <h:outputLabel for="box_passcode" value="Passcode:"/>
-                              <h:outputText id="box_passcode" value="#{box.boxPasscode}"/>
-                            </p>
-                            
-                            <!--Collected By-->
-                            <p>
-                              <h:outputLabel for="box_collectedBy" value="Collected by:"/>
-                              <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/> 
-                            </p>
-                            
-                            <!--Contact-->
-                            <p>
-                              <h:outputLabel for="box_contact" value="Contact:"/>
-                              <h:outputText id="box_contact" value="#{box.employee.mobile}"/>
-                            </p>
-                            
-                            <!--Price-->
-                            <p>
-                              <h:outputLabel for="box_price" value="Price:"/>
-                              $
-                              <h:outputText id="box_price" value="#{box.price}">
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                              </h:outputText>                
-                            </p>
-                            
-                            <!--Payer-->
-                            <p>
-                              <h:outputLabel for="box_payer" value="Paid By:"/>
-                              <h:outputText id="box_payer" value="#{box.payer.firstName} #{box.payer.lastName}"/>
-                            </p>
-                            
-                            <!--Rating-->
-                            <p>
-                              <h:outputLabel for="box_rating" value="Rating:" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
-                              <h:outputText id="box_rating" value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
-                            </p>
-                            
-                            <!--Pick Up Time-->
-                            <p>Pick up Time:
-                              <div class='input-group date' id='datetimepicker#{box.boxId}'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                  <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                              </div>
-                              <script type="text/javascript">
-                                var today = new Date();
-                                $(function () {
-                                  $('#datetimepicker#{box.boxId}').datetimepicker({
-                                    format: 'HH:00, DD MMM YYYY',
-                                    minDate: today.setDate(today.getDate() + 1),
-                                    enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
-                                  }).on('dp.change', function (e) {
-                                    document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_pickupTime_detail_mSec').value = e.date + 0;
-                                    document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_deliveryTime_detail_mSec').value = e.date + 604800000;
-                                    document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_status_detail').value = (e.date + 0 == 0) ? 'Unscheduled' : 'Scheduled';
-                                    //document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_pickupDateTimeButton').click();
-                                    //console.log('datetime changed to mSec ' + e.date);
+                    <ui:fragment rendered="#{customerBoxManagedBean.boxes.size() &gt; 0}">
+                        <table class="table table-hover text-center">
+                            <thead>
+                                <td style="font-weight:bold; color:#000000;">ID</td>
+                                <td style="font-weight:bold; color:#000000;">Pick Up</td>
+                                <td style="font-weight:bold; color:#000000;">Delivery</td>
+                                <td style="font-weight:bold; color:#000000;">Status</td>
+                                <td class="text-right">
+                                </td>
+                            </thead>
+                            <tbody>
+                                <ui:repeat id="customer_box_list" var="box" value="#{customerBoxManagedBean.boxes}" varStatus="st">
 
-                                  });
-                                  $('#datetimepicker#{box.boxId}').data("DateTimePicker").clear();
-                                });
-                              </script>
-                              
-                              <h:form id="pickUpTimeForm" style="display:inline-block;">
-                                <!--Hidden Area-->
-                                <h:inputText id="box_pickupTime_detail_mSec" class="hide" value="#{box.pickupDateTime.time}"/>
-                                <h:inputText id="box_deliveryTime_detail_mSec" class="hide" value="#{box.deliveryDateTime.time}"/>
-                                <h:inputText id="box_status_detail" class="hide" value="#{box.status}"/>
-                                <!--Update Button-->
-                                <h:commandButton  id="box_pickupDateTimeButton"
-                                                  type="button"
-                                                  value="Update"
-                                                  class="btn page_button"
-                                                  actionListener="#{customerBoxManagedBean.updateBox(box)}">
-                                  <f:ajax execute="pickUpTimeForm" render="#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:deliveryTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:box_status"/>
-                                </h:commandButton>
-                              </h:form>
-                            </p>
-                            
-                            <!--Dry Cleaning-->
-                            <p>
-                              <h:form id="dryCleanForm" style="display:inline-block;">
-                                <h:outputLabel for="box_dryCleaning" value="Dry Cleaning:"/>
-                                <h:inputText id="box_dryCleaning" value="#{box.dryCleaning}"/>
-                                <h:commandButton  id="box_dryCleanningButton"
-                                                  type="button"
-                                                  value="Update"
-                                                  class="btn page_button"
-                                                  actionListener="#{customerBoxManagedBean.updateBoxDryCleaning(box)}">
-                                  <f:ajax execute="dryCleanForm" render="no_enough_dryCleaning_error #{cc.clientId}:customer_spec_details:customer_dryCleaning_number"/>
-                                </h:commandButton>
-                                <h:messages id="no_enough_dryCleaning_error" class="error_message"/>
-                              </h:form>
-                            </p>
-                            
-                            <!--Express-->
-                            <p>
-                              <h:outputLabel for="box_isExpress" value="Express:"/>
-                              <input id="express_checkbox#{box.boxId}" type="checkbox"/>
-                              <script>
-                                $(function(){
-                                  $('#express_checkbox#{box.boxId}').bootstrapSwitch({
-                                    size:'small',
-                                    handleWidth: 80,
-                                    onColor:'info',
-                                    onText:'Express',
-                                    offText:'Normal',
-                                    offColor:'default',
-                                    state : #{box.isExpress}             
-                                  }).on('switchChange.bootstrapSwitch', function(event, state) {
-                                    if(state){
-                                      if(document.getElementById("#{cc.clientId}:customer_spec_details:customer_express_number").innerHTML &lt; 1){
-                                        console.log(this);
-                                        $(this).bootstrapSwitch('toggleState');
-                                        document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_express_switchButton").click();
-                                        console.log('No enough Express quota');
-                                      } else {
-                                        document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_express_switchButton").click();
-                                        console.log('Set as Express');
-                                      }
-                                    }else{
-                                      document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_express_switchButton").click();
-                                      console.log('Set as Normal');
-                                    }
-                                  });
-                                });
-                              </script>
-                              <!--Update Button-->
-                              <h:commandButton  id="box_express_switchButton"
-                                                type="button"
-                                                value="Express Switch"
-                                                class="btn page_button hide"
-                                                actionListener="#{customerBoxManagedBean.updateBoxIsExpress(box)}">
-                                <f:ajax render="box_isExpress no_enough_express_error #{cc.clientId}:customer_spec_details:customer_express_number"/>
-                              </h:commandButton>
-                              
-                              <!--Hidden Area-->
-                              <h:outputText id="box_isExpress" class="hide" value="#{box.isExpress?'Yes':'No'}"/>
-                              <h:messages id="no_enough_express_error" class="error_message"/>
-                            </p>
-                            
-                            <!--Sharing-->
-                            <p>
-                              <h:outputLabel for="box_sharing" value="Sharing:"/>
-                              <h:outputText id="box_sharing" class="hide" value="#{box.allowSharing}"/>
-                              <input id="sharing_checkbox#{box.boxId}" type="checkbox"/>
-                              <script>
-                                $(function(){
-                                  $('#sharing_checkbox#{box.boxId}').bootstrapSwitch({
-                                    size:'small',
-                                    handleWidth: 80,
-                                    onColor:'info',
-                                    onText:'Enabled',
-                                    offText:'Disabled',
-                                    offColor:'default',
-                                    state : #{box.allowSharing}             
-                                  }).on('switchChange.bootstrapSwitch', function(event, state) {
-                                    document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:box_sharing_switchButton').click();
-                                  });
-                                });
-                              </script>
-                              <h:commandButton  id="box_sharing_switchButton"
-                                                type="button"
-                                                value="Sharing Switch"
-                                                class="btn page_button hide"
-                                                actionListener="#{customerBoxManagedBean.updateBoxAllowSharing(box)}">
-                                <f:ajax render="box_sharing box_sharing_request box_sharing_request_no"/>
-                              </h:commandButton>
-                              <br/>
-                              <a data-toggle="modal" data-target="#box_sharing_request#{box.boxId}">
-                                <h:outputText id="box_sharing_request"
-                                              rendered="#{box.allowSharing and (!box.isShared) and box.sharedBoxPermissions ne null}"
-                                              value="#{box.sharedBoxPermissions.size()} sharing request">
-                                </h:outputText>
-                              </a>
-                              <h:outputText id="box_sharing_with"
-                                              rendered="#{box.allowSharing and box.isShared and box.sharedBoxPermissions ne null}"
-                                              value="Shared with #{customerBoxManagedBean.sharingCustomer(box).firstName} #{customerBoxManagedBean.sharingCustomer(box).lastName}">
-                              </h:outputText>
-                              
-                              <!-- Request Selection windows-->
-                              <div class="modal fade text-left" id="box_sharing_request#{box.boxId}" role="dialog" style="padding-top:80px;">
-                                <div class="modal-dialog">
-                                  <!-- Modal content-->
-                                  <div class="modal-content">
-                                    <div class="modal-header themeBg">
-                                      <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-                                      <h4 class="modal-title text-center">Sharing</h4>
-                                    </div>
-                                    <h:form id='sharingRequestForm' class="form">
-                                      <div class="modal-body">
-                                        <ui:fragment rendered="#{box.sharedBoxPermissions.size() eq 0}">
-                                          <p>You don't have sharing request. Sad~</p>
-                                        </ui:fragment>
-                                        <ui:fragment rendered="#{box.sharedBoxPermissions.size() gt 0}">
-                                          <table class="table table-hover text-center">
-                                            <thead>
-                                              <td>Request From</td>
-                                              <td>Mobile</td>
-                                              <td></td>
-                                            </thead>
-                                            <tbody>
-                                              <ui:repeat id="customer_box_sharing_list" var="req" value="#{box.sharedBoxPermissions}" varStatus="st2">
-                                                <tr>
-                                                  <td>
-                                                    <h:outputText id="box_sharing_request_from" value="#{req.neighbour.firstName} #{req.neighbour.lastName}"></h:outputText>
-                                                  </td>
-                                                  <td>
-                                                    <h:outputText id="box_sharing_request_mobile" value="#{req.neighbour.mobile}"></h:outputText>
-                                                  </td>
-                                                  <td>
-                                                    <input id="checkboxForReq#{req.sharedBoxPermissionId}" type="radio" name="sharing_checkbox#{box.boxId}"/>
-                                                    <script>
-                                                      $(function(){
-                                                        $('#checkboxForReq#{req.sharedBoxPermissionId}').bootstrapSwitch({
-                                                          size:'small',
-                                                          onColor:'info',
-                                                          onText:'Accept',
-                                                          offText:'No Way',
-                                                          offColor:'default',
-                                                          radioAllOff:true,
-                                                          state:#{req.status eq '1'}
-                                                        }).on('switchChange.bootstrapSwitch', function(event, state) {
-                                                          var acceptReqId = document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:sharingRequestForm:updaterequestStatusForm:updateRequestStatusAcceptReqId");
-                                                          console.log('changed for box No.' + #{box.boxId} + ' request No.' + #{st2.index} + ' to ' + state);
-                                                          if(state){
-                                                           acceptReqId.value = #{req.sharedBoxPermissionId};
-                                                          }
-                                                          else{
-                                                            if(acceptReqId.value == #{req.sharedBoxPermissionId}){
-                                                              acceptReqId.value = '';
-                                                            }
-                                                          }
+                                    <!--Visible Row-->
+                                    <tr data-toggle="collapse" data-target="#myBoxToggle#{box.boxId}" class="accordion-toggle" style="background-color: #fff;">
+                                        <td style="font-weight: bold;color:#cccccc;">#{box.boxId}</td>
+
+                                        <td>
+                                            <h:form id="pickUpTimeDisplayForm">
+                                                <h:outputText id="box_pickupTime_notScheduled"
+                                                              value="Not Scheduled" 
+                                                              rendered="#{box.pickupDateTime == null or box.pickupDateTime.time &lt; 946684800}">
+                                                </h:outputText>
+                                                <h:outputText id="box_pickupTime"
+                                                              class="pTime"
+                                                              value="#{box.pickupDateTime}"
+                                                              rendered="#{box.pickupDateTime.time &gt; 946684800}">
+                                                    <f:convertDateTime type="date" timeZone="Singapore" pattern="E, dd MMM yyyy, HH:00" />
+                                                </h:outputText>
+                                            </h:form>
+                                        </td>
+
+                                        <td>
+                                            <h:form id="deliveryTimeDisplayForm">
+                                                <h:outputText id="box_deliveryTime_notScheduled"
+                                                              value="Not Scheduled"
+                                                              rendered="#{box.deliveryDateTime.time == null or box.deliveryDateTime.time &lt; 946684800}">
+                                                </h:outputText>
+                                                <h:outputText id="box_deliveryTime"
+                                                              class="dTime"
+                                                              value="#{box.deliveryDateTime}"
+                                                              rendered="#{box.deliveryDateTime.time &gt; 946684800}">
+                                                    <f:convertDateTime type="date" timeZone="Singapore" pattern="E, dd MMM yyyy, HH:00" />
+                                                </h:outputText>
+                                            </h:form>
+                                        </td>
+
+                                        <td>
+                                            <h:outputText id="box_status" value="#{box.status}"/>
+                                        </td>
+
+                                        <td>
+                                            <i class="indicator glyphicon chevron_toggleable chevron_toggleable_box glyphicon-chevron-up pull-right"></i>
+                                        </td>
+
+                                    </tr>
+
+                                    <!--Hidden Row-->
+                                    <tr>
+                                        <td colspan="6" class="hiddenRow well" style="padding: 0px;">
+
+                                            <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
+                                                <div class="row" style="margin: 15px; text-align:left;">
+
+                                                    <div class="col-md-8">
+                                                        <small>PICKUP/DELIVERY ADDRESS</small>
+                                                        <p style="font-size: 20px;">(Block) (Street Address), #(Floor)-(Unit)<br/>Singapore (Postal Code)</p>
+
+                                                        <small>This box will be handled by: <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/>  (<h:outputText id="box_contact" value="#{box.employee.mobile}"/>)</small>
+
+                                                        <p>
+                                                            <h:outputLabel for="box_rating" value="Rating:" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
+                                                            <h:outputText id="box_rating" value="#{box.rating}" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
+                                                        </p>
+
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <small>BOX PASSCODE</small>
+                                                        <p style="font-size: 40px;"><h:outputText id="box_passcode" value="#{box.boxPasscode}"/></p>
+
+                                                        <small><h:outputText id="box_price" value="#{box.price}"><f:convertNumber type="currency"/></h:outputText> paid by <h:outputText id="box_payer" value="#{box.payer.firstName} #{box.payer.lastName}"/>.</small>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <hr/>
+
+                                                <div class="row" style="margin: 15px;">
+                                                    <div class="col-md-6">
+                                                        <div class='input-group date' id='datetimepicker#{box.boxId}'>
+                                                            <input type='text' class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                            </span>
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            var today = new Date();
+                                                                    $(function () {
+                                                                    $('#datetimepicker#{box.boxId}').datetimepicker({
+                                                                    format: 'HH:00, DD MMM YYYY',
+                                                                            minDate: today.setDate(today.getDate() + 1),
+                                                                            enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+                                                                    }).on('dp.change', function (e) {
+                                                                    document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_pickupTime_detail_mSec').value = e.date + 0;
+                                                                            document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_deliveryTime_detail_mSec').value = e.date + 604800000;
+                                                                            document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_status_detail').value = (e.date + 0 == 0) ? 'Unscheduled' : 'Scheduled';
+                                                                            //document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeForm:box_pickupDateTimeButton').click();
+                                                                            //console.log('datetime changed to mSec ' + e.date);
+
+                                                                    });
+                                                                            $('#datetimepicker#{box.boxId}').data("DateTimePicker").clear();
+                                                                    });
+                                                        </script>
+
+                                                        <h:form id="pickUpTimeForm">
+                                                            <!--Hidden Area-->
+                                                            <h:inputText id="box_pickupTime_detail_mSec" class="hide" value="#{box.pickupDateTime.time}"/>
+                                                            <h:inputText id="box_deliveryTime_detail_mSec" class="hide" value="#{box.deliveryDateTime.time}"/>
+                                                            <h:inputText id="box_status_detail" class="hide" value="#{box.status}"/>
+                                                            <!--Update Button-->
+                                                            <h:commandButton  id="box_pickupDateTimeButton" type="button" value="Set Pickup Date" class="btn btn-block page_button" actionListener="#{customerBoxManagedBean.updateBox(box)}">
+                                                                <f:ajax execute="pickUpTimeForm" render="#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:deliveryTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:box_status"/>
+                                                            </h:commandButton>
+                                                        </h:form>
+                                                        
+                                                        <br/>
+                                                        
+                                                        <h:form id="addressForm">
                                                             
-                                                        });
-                                                      });
-                                                    </script>
-                                                  </td>
-                                                </tr>
-                                              </ui:repeat>
-                                            </tbody>
-                                          </table>
-                                        </ui:fragment>
-                                      </div>
-                                      
-                                      <div class="modal-footer">
-                                        <h:form id='updaterequestStatusForm'>
-                                          <h:inputText id='updateRequestStatusAcceptReqId' class="hide" binding='#{inputAcceptReqId}'>
-                                          </h:inputText>
-                                          <h:commandButton id='updateRequestStatusButton'
-                                                           type="submit"
-                                                           class="btn btn-default page_button"
-                                                           style="width:100px;" actionListener="#{customerBoxManagedBean.updateSharedBoxPermission(inputAcceptReqId.value)}"
-                                                           value="Update">
-                                            <f:ajax execute="updaterequestStatusForm" render="#{cc.clientId}:customer_box_list:#{st.index}:box_sharing_request #{cc.clientId}:customer_box_list:#{st.index}:box_sharing_with"/>
-                                          </h:commandButton>
-                                        </h:form>
-                                        <button id="sharingRequestCancelButton#{box.boxId}" type="button" class="btn btn-default" data-dismiss="modal" style="width:100px;">Cancel</button>
-                                      </div>
-                                      
-                                    </h:form>
-                                  </div>
-                                </div>
-                              </div>
-                              <!--End of Selection Window-->
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <!--End of Hidden Row-->
-                  </ui:repeat>	
-                </tbody>	
-              </table>
-              <!--End of Box Table-->
-              <script>
-                $('.chevron_toggleable_box').on('click', function () {
-                  $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-                });
-              </script>
-            </ui:fragment>
-            <ui:fragment rendered="#{customerBoxManagedBean.boxes == null or customerBoxManagedBean.boxes.size() &lt; 1}">
-              <p class="text-center" style="padding-top: 30vh;">No Boxes.</p>
-            </ui:fragment>
-          
+                                                            <select id="addressDropdown" class="dropdown" data-style="btn-primary">
+                                                                <option></option>
+                                                            </select>
+                                                            
+                                                            <h:commandButton  id="box_addressButton" type="button" value="Set Address" class="btn btn-block page_button" />
+                                                        </h:form>
+
+                                                    </div>
+
+                                                    <div class="col-md-6 text-right">
+                                                        <p>
+                                                            <h:form id="dryCleanForm" style="display:inline-block;">
+                                                                <h:outputLabel for="box_dryCleaning" value="Number of pieces for dry cleaning "/>&nbsp;
+                                                                <h:inputText id="box_dryCleaning" value="#{box.dryCleaning}" style="width: 40px;"/>&nbsp;
+                                                                <h:commandButton  id="box_dryCleanningButton" type="button" value="Set" class="btn page_button" actionListener="#{customerBoxManagedBean.updateBoxDryCleaning(box)}">
+                                                                    <f:ajax execute="dryCleanForm" render="no_enough_dryCleaning_error #{cc.clientId}:customer_spec_details:customer_dryCleaning_number"/>
+                                                                </h:commandButton>
+                                                                <h:messages id="no_enough_dryCleaning_error" class="error_message"/>
+                                                            </h:form>
+                                                        </p>
+
+                                                        <p>
+                                                            <h:outputLabel for="box_isExpress" value="Service Type "/>&nbsp;
+                                                            <input id="express_checkbox#{box.boxId}" type="checkbox"/>
+                                                            <script>
+                                                                        $(function(){
+                                                                        $('#express_checkbox#{box.boxId}').bootstrapSwitch({
+                                                                        size:'small',
+                                                                                handleWidth: 80,
+                                                                                onColor:'info',
+                                                                                onText:'Express',
+                                                                                offText:'Normal',
+                                                                                offColor:'default',
+                                                                                state : #{box.isExpress}
+                                                                        }).on('switchChange.bootstrapSwitch', function(event, state) {
+                                                                        if (state){
+                                                                        if (document.getElementById("#{cc.clientId}:customer_spec_details:customer_express_number").innerHTML &lt; 1){
+                                                                        console.log(this);
+                                                                                $(this).bootstrapSwitch('toggleState');
+                                                                                document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_express_switchButton").click();
+                                                                                console.log('No enough Express quota');
+                                                                        } else {
+                                                                        document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_express_switchButton").click();
+                                                                                console.log('Set as Express');
+                                                                        }
+                                                                        } else{
+                                                                        document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_express_switchButton").click();
+                                                                                console.log('Set as Normal');
+                                                                        }
+                                                                        });
+                                                                        });</script>
+                                                            <!--Update Button-->
+                                                            <h:commandButton  id="box_express_switchButton"
+                                                                              type="button"
+                                                                              value="Express Switch"
+                                                                              class="btn page_button hide"
+                                                                              actionListener="#{customerBoxManagedBean.updateBoxIsExpress(box)}">
+                                                                <f:ajax render="box_isExpress no_enough_express_error #{cc.clientId}:customer_spec_details:customer_express_number"/>
+
+                                                            </h:commandButton>
+
+                                                            <!--Hidden Area-->
+                                                            <h:outputText id="box_isExpress" class="hide" value="#{box.isExpress?'Yes':'No'}"/>
+                                                            <h:messages id="no_enough_express_error" class="error_message"/>
+                                                        </p>
+
+
+                                                        <p>
+                                                            <h:outputLabel for="box_sharing" value="Sharing "/>&nbsp;
+                                                            <h:outputText id="box_sharing" class="hide" value="#{box.allowSharing}"/>
+                                                            <input id="sharing_checkbox#{box.boxId}" type="checkbox"/>
+                                                            <script>
+                                                                        $(function(){
+                                                                        $('#sharing_checkbox#{box.boxId}').bootstrapSwitch({
+                                                                        size:'small',
+                                                                                handleWidth: 80,
+                                                                                onColor:'info',
+                                                                                onText:'Enabled',
+                                                                                offText:'Disabled',
+                                                                                offColor:'default',
+                                                                                state : #{box.allowSharing}
+                                                                        }).on('switchChange.bootstrapSwitch', function(event, state) {
+                                                                        document.getElementById('#{cc.clientId}:customer_box_list:#{st.index}:box_sharing_switchButton').click();
+                                                                        });
+                                                                        });
+                                                            </script>
+                                                            <h:commandButton  id="box_sharing_switchButton"
+                                                                              type="button"
+                                                                              value="Sharing Switch"
+                                                                              class="btn page_button hide"
+                                                                              actionListener="#{customerBoxManagedBean.updateBoxAllowSharing(box)}">
+                                                                <f:ajax render="box_sharing box_sharing_request box_sharing_request_no"/>
+                                                            </h:commandButton>
+                                                            <br/>
+                                                            <a data-toggle="modal" data-target="#box_sharing_request#{box.boxId}">
+                                                                <h:outputText id="box_sharing_request"
+                                                                              rendered="#{box.allowSharing and (!box.isShared) and box.sharedBoxPermissions ne null}"
+                                                                              value="#{box.sharedBoxPermissions.size()} sharing request">
+                                                                </h:outputText>
+                                                            </a>
+                                                            <h:outputText id="box_sharing_with"
+                                                                          rendered="#{box.allowSharing and box.isShared and box.sharedBoxPermissions ne null}"
+                                                                          value="Shared with #{customerBoxManagedBean.sharingCustomer(box).firstName} #{customerBoxManagedBean.sharingCustomer(box).lastName}">
+                                                            </h:outputText>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                                
+                                                
+                                                <div class="row" style="margin: 15px 15px 0px 15px;">
+                                                    <p>
+                                                        <!-- Request Selection windows-->
+                                                        <div class="modal fade text-left" id="box_sharing_request#{box.boxId}" role="dialog" style="padding-top:80px;">
+                                                            <div class="modal-dialog">
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header themeBg">
+                                                                        <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                                                                        <h4 class="modal-title text-center">Sharing</h4>
+                                                                    </div>
+                                                                    <h:form id='sharingRequestForm' class="form">
+                                                                        <div class="modal-body">
+                                                                            <ui:fragment rendered="#{box.sharedBoxPermissions.size() eq 0}">
+                                                                                <p>You don't have sharing request. Sad~</p>
+                                                                            </ui:fragment>
+                                                                            <ui:fragment rendered="#{box.sharedBoxPermissions.size() gt 0}">
+                                                                                <table class="table table-hover text-center">
+                                                                                    <thead>
+                                                                                        <td>Request From</td>
+                                                                                        <td>Mobile</td>
+                                                                                        <td></td>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <ui:repeat id="customer_box_sharing_list" var="req" value="#{box.sharedBoxPermissions}" varStatus="st2">
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <h:outputText id="box_sharing_request_from" value="#{req.neighbour.firstName} #{req.neighbour.lastName}"></h:outputText>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <h:outputText id="box_sharing_request_mobile" value="#{req.neighbour.mobile}"></h:outputText>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input id="checkboxForReq#{req.sharedBoxPermissionId}" type="radio" name="sharing_checkbox#{box.boxId}"/>
+                                                                                                    <script>
+                                                                                                                $(function(){
+                                                                                                                $('#checkboxForReq#{req.sharedBoxPermissionId}').bootstrapSwitch({
+                                                                                                                size:'small',
+                                                                                                                        onColor:'info',
+                                                                                                                        onText:'Accept',
+                                                                                                                        offText:'No Way',
+                                                                                                                        offColor:'default',
+                                                                                                                        radioAllOff:true,
+                                                                                                                        state:#{req.status eq '1'}
+                                                                                                                }).on('switchChange.bootstrapSwitch', function(event, state) {
+                                                                                                                var acceptReqId = document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:sharingRequestForm:updaterequestStatusForm:updateRequestStatusAcceptReqId");
+                                                                                                                        console.log('changed for box No.' + #{box.boxId} + ' request No.' + #{st2.index} + ' to ' + state);
+                                                                                                                        if (state){
+                                                                                                                acceptReqId.value = #{req.sharedBoxPermissionId};
+                                                                                                                }
+                                                                                                                else{
+                                                                                                                if (acceptReqId.value == #{req.sharedBoxPermissionId}){
+                                                                                                                acceptReqId.value = '';
+                                                                                                                }
+                                                                                                                }
+
+                                                                                                                });
+                                                                                                                });</script>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </ui:repeat>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </ui:fragment>
+                                                                        </div>
+
+                                                                        <div class="modal-footer">
+                                                                            <h:form id='updaterequestStatusForm'>
+                                                                                <h:inputText id='updateRequestStatusAcceptReqId' class="hide" binding='#{inputAcceptReqId}'>
+                                                                                </h:inputText>
+                                                                                <h:commandButton id='updateRequestStatusButton'
+                                                                                                 type="submit"
+                                                                                                 class="btn btn-default page_button"
+                                                                                                 style="width:100px;" actionListener="#{customerBoxManagedBean.updateSharedBoxPermission(inputAcceptReqId.value)}"
+                                                                                                 value="Update">
+                                                                                    <f:ajax execute="updaterequestStatusForm" render="#{cc.clientId}:customer_box_list:#{st.index}:box_sharing_request #{cc.clientId}:customer_box_list:#{st.index}:box_sharing_with"/>
+                                                                                </h:commandButton>
+                                                                            </h:form>
+                                                                            <button id="sharingRequestCancelButton#{box.boxId}" type="button" class="btn btn-default" data-dismiss="modal" style="width:100px;">Cancel</button>
+                                                                        </div>
+
+                                                                    </h:form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--End of Selection Window-->
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--End of Hidden Row-->
+                                </ui:repeat>	
+                            </tbody>	
+                        </table>
+                        <!--End of Box Table-->
+                        <script>
+                                    $('.chevron_toggleable_box').on('click', function () {
+                            $(this).toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+                            });
+                        </script>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{customerBoxManagedBean.boxes == null or customerBoxManagedBean.boxes.size() &lt; 1}">
+                        <p class="text-center" style="padding-top: 30vh;">No Boxes.</p>
+                    </ui:fragment>
+
+                </div>
+
+            </div>
         </div>
-        
-      </div>
-    </div>
-  </cc:implementation>
+    </cc:implementation>
 </html>
