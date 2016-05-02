@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  
-      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
 
     <!-- INTERFACE -->
@@ -12,34 +10,41 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-
         
-        <div id="backend_home" class="container-fluid subscreen subscreen-full">
-            Home
+        <div id="employee_boxes" class="container-fluid subscreen subscreen-full">
+            <div class="container">
+                <ezcomp:employee_boxes/>
+            </div>
         </div>
         
-        <div id="backend_boxes" class="container-fluid subscreen subscreen-full">
-            <ezcomp:employee_box/>
+        <div id="employee_employees" class="container-fluid subscreen subscreen-full">
+            <div class="container">
+                <ezcomp:employee_employees/>
+            </div>
         </div>
         
-        <div id="backend_employees" class="container-fluid subscreen subscreen-full">
-            Employees
+        <div id="employee_customers" class="container-fluid subscreen subscreen-full">
+            <div class="container">
+                <ezcomp:employee_customers/>
+            </div>
         </div>
         
-        <div id="backend_customers" class="container-fluid subscreen subscreen-full">
-            Customers
+        <div id="employee_transactions" class="container-fluid subscreen subscreen-full">
+            <div class="container">
+                <ezcomp:employee_transactions/>
+            </div>
         </div>
         
-        <div id="backend_transactions" class="container-fluid subscreen subscreen-full">
-            Transactions
+        <div id="employee_products" class="container-fluid subscreen subscreen-full">
+            <div class="container">
+                <ezcomp:employee_products/>
+            </div>
         </div>
         
-        <div id="backend_products" class="container-fluid subscreen subscreen-full">
-            Products
-        </div>
-        
-        <div id="backend_account" class="container-fluid subscreen subscreen-full">
-            <ezcomp:employee_profile/>
+        <div id="employee_account" class="container-fluid subscreen subscreen-full">
+            <div class="container">
+                <ezcomp:employee_account/>
+            </div>
         </div>
         
 

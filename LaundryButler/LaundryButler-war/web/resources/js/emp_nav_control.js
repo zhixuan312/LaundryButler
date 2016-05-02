@@ -1,35 +1,35 @@
 $(function(){
           $(".subscreen").hide();
-          $("#home").show();
+          $("#employee_boxes").show();
           
-          $("#nav_home").click(function(){
+          $("#nav_boxes").click(function(){
             $(".subscreen").hide();
-            $("#home").show();
+            $("#employee_boxes").show();
           });
           
-          $("#nav_mybox").click(function(){
+          $("#nav_employees").click(function(){
             $(".subscreen").hide();
-            $("#mybox").show();
+            $("#employee_employees").show();
           });
           
-          $("#footer_up").click(function(){
+          $("#nav_customers").click(function(){
             $(".subscreen").hide();
-            $("#home").show();
+            $("#employee_customers").show();
           });
           
-          $("#nav_mybox").click(function(){
+          $("#nav_transactions").click(function(){
             $(".subscreen").hide();
-            $("#mybox").show();
+            $("#employee_transactions").show();
           });
           
-          $("#nav_management").click(function(){
+          $("#nav_products").click(function(){
             $(".subscreen").hide();
-            $("#management").show();
+            $("#employee_products").show();
           });
           
-          $("#nav_product").click(function(){
+          $("#nav_account").click(function(){
             $(".subscreen").hide();
-            $("#product").show();
+            $("#employee_account").show();
           });
           
         });

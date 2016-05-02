@@ -22,13 +22,23 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a id="nav_manage_boxes" href="#backend_boxes">Boxes</a></li>
-                        <li><a id="nav_manage_employees" href="#backend_employees">Employees</a></li>
-                        <li><a id="nav_manage_customers" href="#backend_customers">Customers</a></li>
-                        <li><a id="nav_manage_transactions" href="#backend_transactions">Transactions</a></li>
-                        <li><a id="nav_manage_pricing" href="#backend_products">Pricing</a></li>
                         <li>
-                            <a id="nav_manage_account" href="#backend_account">
+                            <a id="nav_boxes" href="#employee_boxes">Boxes</a>
+                        </li>
+                        <li>
+                            <a id="nav_employees" href="#employee_employees">Employees</a>
+                        </li>
+                        <li>
+                            <a id="nav_customers" href="#employee_customers">Customers</a>
+                        </li>
+                        <li>
+                            <a id="nav_transactions" href="#employee_transactions">Transactions</a>
+                        </li>
+                        <li>
+                            <a id="nav_products" href="#employee_products">Products</a>
+                        </li>
+                        <li>
+                            <a id="nav_account" href="#employee_account">
                                 <h:outputText value="#{adminEmployeeManagedBean.admin.firstName}"/>
                                 <ui:fragment rendered="#{adminEmployeeManagedBean.admin.isAdmin}">
                                     <span class="label label-default">Admin</span>

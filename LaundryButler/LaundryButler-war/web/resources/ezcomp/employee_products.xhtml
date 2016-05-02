@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Subscription Plans</h2>
+                <p>Click on cell to edit.</p>
+                <h:form id="form1">
+                    <p:contextMenu for="products1" widgetVar="cMenu">   
+                        <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellProducts1').showCellEditor();
+                                return false;"/>  
+                        <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+                    </p:contextMenu> 
+
+                    <p:dataTable id="products1" var="product" value="#{productManagedBean.products1}" editable="true" editMode="cell" widgetVar="cellProducts1">
+                        <p:ajax event="cellEdit" listener="#{productManagedBean.onCellEdit}" />
+
+                        <p:column headerText="Id" style="width:32px" rendered="false">
+                            <p:cellEditor rendered="false">
+                                <f:facet name="output"><h:outputText value="#{product.productId}" /></f:facet>
+                                <f:facet name="input"><h:inputHidden id="modelInput" value="#{product.productId}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Name" style="width:150px">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.name}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.name}" style="width:100%; height: 100%;" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Description">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.description}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.description}" style="width:100%; height: 100%;" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Units" style="width:100px">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.numberOfUnits}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.numberOfUnits}" style="width:100%; height: 100%;"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Price" style="width:100px">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.price}"><f:convertNumber type="currency" /></h:outputText></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.price}" style="width:100%; height: 100%;"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+        
+        <hr/>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Add-on Services</h2>
+                <p>Click on cell to edit.</p>
+                <h:form id="form2">
+                    <p:contextMenu for="products2" widgetVar="cMenu">   
+                        <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellProducts2').showCellEditor();
+                                return false;"/>  
+                        <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+                    </p:contextMenu> 
+
+                    <p:dataTable id="products2" var="product" value="#{productManagedBean.products2}" editable="true" editMode="cell" widgetVar="cellProducts2">
+                        <p:ajax event="cellEdit" listener="#{productManagedBean.onCellEdit}" />
+
+                        <p:column headerText="Id" style="width:32px" rendered="false">
+                            <p:cellEditor rendered="false">
+                                <f:facet name="output"><h:outputText value="#{product.productId}" /></f:facet>
+                                <f:facet name="input"><h:inputHidden id="modelInput" value="#{product.productId}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Name" style="width:150px">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.name}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.name}" style="width:100%; height: 100%;" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Description">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.description}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.description}" style="width:100%; height: 100%;" /></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Units" style="width:100px">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.numberOfUnits}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.numberOfUnits}" style="width:100%; height: 100%;"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Price" style="width:100px">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{product.price}"><f:convertNumber type="currency" /></h:outputText></f:facet>
+                                <f:facet name="input"><p:inputText value="#{product.price}" style="width:100%; height: 100%;"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </cc:implementation>
+</html>
