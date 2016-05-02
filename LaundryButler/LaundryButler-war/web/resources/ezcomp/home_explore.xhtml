@@ -23,6 +23,7 @@
                   <thead>
                     <td></td>
                     <td style="font-weight:bold; color:#000000;">Owner</td>
+                    <td style="font-weight:bold; color:#000000;">Address</td>
                     <td></td>
                   </thead>
                   <tbody>
@@ -33,6 +34,9 @@
                         </td>
                         <td>
                           <h:outputText value="#{box.customer.firstName} #{box.customer.lastName}"></h:outputText>
+                        </td>
+                        <td>
+                            <h:outputText value="#{box.address.block} #{box.address.street}, ##{box.address.unit}-#{box.address.floor}, #{box.address.country} #{box.address.postalCode} "></h:outputText>
                         </td>
                         <td>
                           <h:form id='sharingRequestSendingForm'>
