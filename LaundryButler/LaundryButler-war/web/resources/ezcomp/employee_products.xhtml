@@ -15,7 +15,6 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Subscription Plans</h2>
-                <p>Click on cell to edit.</p>
                 <h:form id="form1">
                     <p:contextMenu for="products1" widgetVar="cMenu">   
                         <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellProducts1').showCellEditor();
@@ -26,11 +25,8 @@
                     <p:dataTable id="products1" var="product" value="#{productManagedBean.products1}" editable="true" editMode="cell" widgetVar="cellProducts1">
                         <p:ajax event="cellEdit" listener="#{productManagedBean.onCellEdit}" />
 
-                        <p:column headerText="Id" style="width:32px" rendered="false">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{product.productId}" /></f:facet>
-                                <f:facet name="input"><h:inputText id="modelInput" value="#{product.productId}"/></f:facet>
-                            </p:cellEditor>
+                        <p:column headerText="ID" style="width:32px">
+                            <h:outputText value="#{product.productId}" />
                         </p:column>
                         
                         <p:column headerText="Name" style="width:150px">
@@ -71,7 +67,6 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Add-on Services</h2>
-                <p>Click on cell to edit.</p>
                 <h:form id="form2">
                     <p:contextMenu for="products2" widgetVar="cMenu">   
                         <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellProducts2').showCellEditor();
@@ -82,11 +77,8 @@
                     <p:dataTable id="products2" var="product" value="#{productManagedBean.products2}" editable="true" editMode="cell" widgetVar="cellProducts2">
                         <p:ajax event="cellEdit" listener="#{productManagedBean.onCellEdit}" />
 
-                        <p:column headerText="Id" style="width:32px" rendered="false">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{product.productId}" /></f:facet>
-                                <f:facet name="input"><h:inputText id="modelInput" value="#{product.productId}"/></f:facet>
-                            </p:cellEditor>
+                        <p:column headerText="ID" style="width:32px">
+                            <h:outputText value="#{product.productId}" />
                         </p:column>
                         
                         <p:column headerText="Name" style="width:150px">
