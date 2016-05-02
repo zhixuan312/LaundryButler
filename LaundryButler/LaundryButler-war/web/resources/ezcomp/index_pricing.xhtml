@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
@@ -22,7 +21,7 @@
 
                 <div class="row">
                     <ui:repeat var="current1" value="#{productManagedBean.products1}" size="3">
-                        <div class="col-sm-4 col-xs-12">
+                        <div class="col-md-4">
                             <div class="panel panel-default text-center">
                                 <div class="panel-heading">
                                     <h1><h:outputText value="#{current1.name}"/></h1>
@@ -51,7 +50,7 @@
                     </div>
 
                     <ui:repeat var="current2" value="#{productManagedBean.products2}" size="3">
-                        <div class="col-sm-4 col-xs-12">
+                        <div class="col-md-4">
                             <div class="panel panel-default text-center">
                                 <div class="panel-heading">
                                     <h1><h:outputText value="#{current2.name}"/></h1>

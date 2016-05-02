@@ -27,9 +27,9 @@
                         <p:ajax event="cellEdit" listener="#{productManagedBean.onCellEdit}" />
 
                         <p:column headerText="Id" style="width:32px" rendered="false">
-                            <p:cellEditor rendered="false">
+                            <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{product.productId}" /></f:facet>
-                                <f:facet name="input"><h:inputHidden id="modelInput" value="#{product.productId}"/></f:facet>
+                                <f:facet name="input"><h:inputText id="modelInput" value="#{product.productId}"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         
@@ -83,9 +83,9 @@
                         <p:ajax event="cellEdit" listener="#{productManagedBean.onCellEdit}" />
 
                         <p:column headerText="Id" style="width:32px" rendered="false">
-                            <p:cellEditor rendered="false">
+                            <p:cellEditor>
                                 <f:facet name="output"><h:outputText value="#{product.productId}" /></f:facet>
-                                <f:facet name="input"><h:inputHidden id="modelInput" value="#{product.productId}"/></f:facet>
+                                <f:facet name="input"><h:inputText id="modelInput" value="#{product.productId}"/></f:facet>
                             </p:cellEditor>
                         </p:column>
                         

@@ -114,6 +114,10 @@ public class ProductManagedBean implements Serializable {
         Object newValue = event.getNewValue();
          
         if(newValue != null && !newValue.equals(oldValue)) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Product p = context.getApplication().evaluateExpressionGet(context, "#{product}", Product.class);
+            productManagmentRemote.updateProduct(p);
+            
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
