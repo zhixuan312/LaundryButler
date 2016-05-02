@@ -12,6 +12,7 @@ import javax.ejb.Remote;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -131,10 +132,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
 
     @Override
     public Boolean logout() {
-        em.merge(customer);
-        em.flush();
-        customer = null;
-        employee = null;
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return true;
     }
 
