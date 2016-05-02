@@ -64,7 +64,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
         try {
             ec = FacesContext.getCurrentInstance().getExternalContext();
             if (accountManagementRemote.customerLogin(email, password)) {
-                if (accountManagementRemote.getCustomer().getAccountStatus().equals("Pending Verification")) {
+                if (accountManagementRemote.getCustomer().getAccountStatus().equalsIgnoreCase("Pending Verification")) {
                     ec.getSessionMap().put("login", true);
                     ec.redirect("verification.xhtml?faces-redirect=true");
                 } else {
