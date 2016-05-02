@@ -1,4 +1,3 @@
-
 package entity;
 
 import java.io.Serializable;
@@ -11,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class TransactionLineItem implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionLineItemId;
@@ -98,5 +97,5 @@ public class TransactionLineItem implements Serializable {
     public String toString() {
         return "entity.TransactionLineItem[ id=" + transactionLineItemId + " ]";
     }
-    
+
 }

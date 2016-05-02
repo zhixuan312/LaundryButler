@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package jsf.managedbean;
 
 import ProductManagement.ProductManagementRemote;
@@ -32,32 +27,28 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 
-/**
- *
- * @author XUAN
- */
 @Named(value = "checkOutManagedBean")
 @RequestScoped
 public class CheckOutManagedBean implements Serializable {
-    
+
     @EJB
     private TransactionManagementRemote transactionManagementRemote;
     @EJB
     private ProductManagementRemote productManagementRemote;
-    
+
     @Inject
     private CustomerCartManagedBean customerCartManagedBean;
     @Inject
     private CustomerBoxManagedBean customerBoxManagedBean;
     @Inject
     private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
-    
+
     private Customer customer;
     private List<TransactionLineItem> transactionLineItemsForOneTransaction;
     private Transaction transaction;
     private Box box;
     private List<Long> tempList;
-    
+
     public CheckOutManagedBean() {
         customer = new Customer();
         transactionLineItemsForOneTransaction = new ArrayList<>();
@@ -65,11 +56,11 @@ public class CheckOutManagedBean implements Serializable {
         box = new Box();
         tempList = new ArrayList<>();
     }
-    
+
     @PostConstruct
     public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        
+
         try {
             if (ec.getSessionMap().get("login") == null) {
                 ec.redirect("index.xhtml?faces-redirect=true");
@@ -83,18 +74,18 @@ public class CheckOutManagedBean implements Serializable {
         }
         customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
     }
-    
+
     public void checkOut() {
-        
+
         List<CartLineItem> cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         transaction.setCustomer(customer);
         transaction.setTotalCharge(customerCartManagedBean.getTotalPrice());
         transaction.setTransactionDateTime(new Date());
         Long transactionId = transactionManagementRemote.createTransaction(transaction);
         transaction.setTransactionId(transactionId);
-        
-        if(!cartLineItems.isEmpty()){
-            for(int i = 0; i < cartLineItems.size(); i ++) {
+
+        if (!cartLineItems.isEmpty()) {
+            for (int i = 0; i < cartLineItems.size(); i++) {
                 TransactionLineItem transactionLineItem = new TransactionLineItem();
                 transactionLineItem.setQuantity(cartLineItems.get(i).getQuantity());
                 transactionLineItem.setUnitCharge(cartLineItems.get(i).getProduct().getPrice());
@@ -105,21 +96,21 @@ public class CheckOutManagedBean implements Serializable {
                 transactionLineItemsForOneTransaction.add(transactionLineItem);
                 tempList.add(cartLineItems.get(i).getCartLineItemId());
             }
-            for (int i = 0; i < tempList.size(); i ++){
+            for (int i = 0; i < tempList.size(); i++) {
                 productManagementRemote.deleteCartLineItem(tempList.get(i));
             }
         }
-        try{
+        try {
             createStripeCharge();
-        } catch (Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
-    
+
     public void createStripeCharge() throws Exception {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
-        
+
         String stripeToken = ec.getRequestParameterMap().get("stripeToken");
         if (stripeToken != null && stripeToken.trim().length() > 0) {
             Stripe.apiKey = ec.getInitParameter("StripeTestSecretKey");
@@ -127,17 +118,17 @@ public class CheckOutManagedBean implements Serializable {
             chargeParams.put("amount", customerCartManagedBean.getStripeAmount());
             chargeParams.put("currency", customerCartManagedBean.getStripeCurrency());
             chargeParams.put("source", stripeToken);
-            chargeParams.put("description", "PURCHASED");
-            
+            chargeParams.put("description", "LaundryButler purchase");
+
             Charge charge = null;
-            try{
+            try {
                 charge = Charge.create(chargeParams);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            
-            if(charge.getStatus().equals("succeeded")){
-                if (!transactionLineItemsForOneTransaction.isEmpty()){
+
+            if (charge.getStatus().equals("succeeded")) {
+                if (!transactionLineItemsForOneTransaction.isEmpty()) {
                     Date dt = new Date();
                     Calendar c = Calendar.getInstance();
                     c.setTime(dt);
@@ -149,13 +140,13 @@ public class CheckOutManagedBean implements Serializable {
                     c.add(Calendar.DATE, 7);
                     dt = c.getTime();
                     Date pickUpDate = sdfDate.parse(sdfDate.format(dt));
-                    
-                    for (int i = 0; i < transactionLineItemsForOneTransaction.size(); i ++) {
-                        for (int j =0; j <transactionLineItemsForOneTransaction.get(i).getQuantity(); j++){
-                            for (int k =0; k < transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits(); k ++){
-                                
+
+                    for (int i = 0; i < transactionLineItemsForOneTransaction.size(); i++) {
+                        for (int j = 0; j < transactionLineItemsForOneTransaction.get(i).getQuantity(); j++) {
+                            for (int k = 0; k < transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits(); k++) {
+
                                 box.setAllowSharing(false);
-                                box.setBoxPasscode(Integer.toString((int)(Math.random() * (1000 - 100) + 100)));
+                                box.setBoxPasscode(Integer.toString((int) (Math.random() * (1000 - 100) + 100)));
                                 box.setCreatedDateTime(new Date());
                                 box.setCustomer(customer);
                                 box.setDeliveryDateTime(null);
@@ -165,17 +156,17 @@ public class CheckOutManagedBean implements Serializable {
                                 box.setDryCleaning(0);
                                 box.setPayer(customer);
                                 box.setIsExpress(false);
-                                box.setStatus("Unschedule");
+                                box.setStatus("Unscheduled");
                                 box.setSharedBoxPermissions(new ArrayList<SharedBoxPermission>());
                                 double price = 0;
-                                if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))){
+                                if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))) {
                                     price = transactionLineItemsForOneTransaction.get(i).getProduct().getPrice();
                                 } else {
                                     price = transactionLineItemsForOneTransaction.get(i).getProduct().getPrice() / transactionLineItemsForOneTransaction.get(i).getProduct().getNumberOfUnits();
                                 }
                                 box.setPrice(price);
                                 signUpAndLoginManagedBean.getLaundryOrderManagementRemote().createBox(box);
-                                
+
                                 c.setTime(deliveryDate);
                                 c.add(Calendar.DATE, 7);
                                 dt = c.getTime();
@@ -184,16 +175,16 @@ public class CheckOutManagedBean implements Serializable {
                                 c.add(Calendar.DATE, 7);
                                 dt = c.getTime();
                                 pickUpDate = sdfDate.parse(sdfDate.format(dt));
-                                
+
                             }
                         }
-                        if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))){
+                        if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("6"))) {
                             int dryCleaning = customer.getDryCleaning();
                             dryCleaning += transactionLineItemsForOneTransaction.get(i).getQuantity();
                             customer.setDryCleaning(dryCleaning);
                             signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer);
                         }
-                        if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("5"))){
+                        if (transactionLineItemsForOneTransaction.get(i).getProduct().getProductId().equals(new Long("5"))) {
                             int express = customer.getExpress();
                             express += transactionLineItemsForOneTransaction.get(i).getQuantity();
                             customer.setExpress(express);
@@ -211,43 +202,43 @@ public class CheckOutManagedBean implements Serializable {
             System.out.println("Invalid credit card details. Payment is declined.");
         }
     }
-    
+
     public Customer getCustomer() {
         return customer;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
+
     public List<TransactionLineItem> getTransactionLineItemsForOneTransaction() {
         return transactionLineItemsForOneTransaction;
     }
-    
+
     public void setTransactionLineItemsForOneTransaction(List<TransactionLineItem> transactionLineItemsForOneTransaction) {
         this.transactionLineItemsForOneTransaction = transactionLineItemsForOneTransaction;
     }
-    
+
     public Transaction getTransaction() {
         return transaction;
     }
-    
+
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
-    
+
     public Box getBox() {
         return box;
     }
-    
+
     public void setBox(Box box) {
         this.box = box;
     }
-    
+
     public List<Long> getTempList() {
         return tempList;
     }
-    
+
     public void setTempList(List<Long> tempList) {
         this.tempList = tempList;
     }
@@ -291,5 +282,5 @@ public class CheckOutManagedBean implements Serializable {
     public void setSignUpAndLoginManagedBean(SignUpAndLoginManagedBean signUpAndLoginManagedBean) {
         this.signUpAndLoginManagedBean = signUpAndLoginManagedBean;
     }
-    
+
 }

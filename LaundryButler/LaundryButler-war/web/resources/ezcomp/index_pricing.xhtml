@@ -14,12 +14,12 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div id="pricing" class="container-fluid subscreen">
-            <div class="text-center">
-                <h2 style="color: #fff !important;">Pricing</h2>
-                <h4 style="color: #fff !important;">Choose the plan and additional services that work for you.</h4>
-            </div>
-
             <div class="container">
+
+                <div class="text-center">
+                    <h2>Subscription Plans</h2>
+                </div>
+
                 <div class="row">
                     <ui:repeat var="current1" value="#{productManagedBean.products1}" size="3">
                         <div class="col-sm-4 col-xs-12">
@@ -31,14 +31,25 @@
                                     <p><strong><h:outputText value="#{current1.description}"/></strong></p>
                                 </div>
                                 <div class="panel-footer">
-                                    <h3>$<h:outputText value="#{current1.price}"/></h3>
+                                    <h3>
+                                        <h:outputText value="#{current1.price}">
+                                            <f:convertNumber type="currency" />
+                                        </h:outputText>
+                                    </h3>
                                 </div>
                             </div>      
                         </div>  
                     </ui:repeat>
                 </div>
 
+                <br/>
+
                 <div class="row">
+
+                    <div class="text-center">
+                        <h2>Add-ons</h2>
+                    </div>
+
                     <ui:repeat var="current2" value="#{productManagedBean.products2}" size="3">
                         <div class="col-sm-4 col-xs-12">
                             <div class="panel panel-default text-center">
@@ -49,7 +60,11 @@
                                     <p><strong><h:outputText value="#{current2.description}"/></strong></p>
                                 </div>
                                 <div class="panel-footer">
-                                    <h3>$<h:outputText value="#{current2.price}"/></h3>
+                                    <h3>
+                                        <h:outputText value="#{current2.price}">
+                                            <f:convertNumber type="currency" />
+                                        </h:outputText>
+                                    </h3>
                                 </div>
                             </div>      
                         </div>  

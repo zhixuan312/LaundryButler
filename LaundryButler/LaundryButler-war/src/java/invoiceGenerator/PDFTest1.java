@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package invoiceGenerator;
 
 import java.io.IOException;
@@ -14,12 +9,9 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-/**
- *
- * @author lixinsun
- */
+
 public class PDFTest1 {
-    
+
     /**
      * @param args the command line arguments
      */
@@ -36,9 +28,9 @@ public class PDFTest1 {
         //t.generateInvoice();
     }
 
-    public void generateInvoice() throws IOException{
+    public void generateInvoice() throws IOException {
         System.out.println("hello world");
-        
+
         PDDocument document = new PDDocument();
         PDPage page = new PDPage(PDRectangle.A4);
         document.addPage(page);
@@ -51,7 +43,7 @@ public class PDFTest1 {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         contentStream.beginText();
         contentStream.setFont(font, 12);
         contentStream.setLeading(16);
@@ -61,20 +53,20 @@ public class PDFTest1 {
         contentStream.showText("This is the first pdf generated from this Laundry Butler.");
         contentStream.newLine();
         contentStream.endText();
-        
+
 // Make sure that the content stream is closed:
         contentStream.close();
 //    }
-        
+
 // Save the results and ensure that the document is properly closed:
         document.save("Hello World.pdf");
         document.close();
-        
+
         System.out.println("finished!");
     }
-    
-    public double mmToPt(double mm){
+
+    public double mmToPt(double mm) {
         return 2.83464 * mm;
     }
-    
+
 }

@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package jsf.managedbean;
 
 import entity.Customer;
@@ -27,17 +22,13 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
-/**
- *
- * @author XUAN
- */
 @Named(value = "invoiceManagedBean")
 @RequestScoped
-public class InvoiceManagedBean{
-    
+public class InvoiceManagedBean {
+
     @Inject
     private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
-    
+
     private Customer customer;
     String name;
     String add1;
@@ -60,15 +51,15 @@ public class InvoiceManagedBean{
     float subtotal;
     float gst;
     float total;
-    
+
     public InvoiceManagedBean() {
         customer = new Customer();
     }
-    
+
     @PostConstruct
     public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        
+
         try {
             if (ec.getSessionMap().get("login") == null) {
                 ec.redirect("index.xhtml?faces-redirect=true");
@@ -82,15 +73,15 @@ public class InvoiceManagedBean{
         }
         customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
     }
-    
+
     public void generate() throws IOException, ParseException {
         System.out.println("YO");
         generateContent();
         System.out.println("YOYo");
         generateInvoice("/Users/XUAN/NetBeansProjects/laundrybutler/laundrybutler/LaundryButler/LaundryButler-war/web/resources/temp/newInvoice.pdf");
     }
-    
-    public void generateContent()throws ParseException {
+
+    public void generateContent() throws ParseException {
         this.name = customer.getFirstName() + " " + customer.getLastName();
         this.add1 = "13 Computing Dr";
         this.add2 = "School of Computing, NUS";
@@ -112,15 +103,15 @@ public class InvoiceManagedBean{
         this.records.add(new Record("F-11-34", "Premium Laundry Service", 1, (float) 29.99));
         this.records.add(new Record("W-23-44", "Express Laundry Weekend", 1, (float) 39.99));
     }
-    
+
     public class Record {
-        
+
         String item;
         String description;
         float qty;
         float up;
         float ep;
-        
+
         public Record() {
             this.item = "";
             this.description = "";
@@ -128,16 +119,17 @@ public class InvoiceManagedBean{
             this.up = 0;
             this.ep = 0;
         }
-        
+
         public Record(String item, String description, float qty, float up) {
             this.item = item;
             this.description = description;
             this.qty = qty;
             this.up = up;
             this.ep = qty * up;
-            
+
         }
     }
+
     public void generateInvoice(String exportFile) throws IOException {
         PDDocument document = new PDDocument();
         PDPage page = new PDPage(PDRectangle.A4);
@@ -151,9 +143,7 @@ public class InvoiceManagedBean{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        
-        
+
         //Sold-To
         ArrayList<String> soldTo = new ArrayList<String>();
         soldTo.add(name);
@@ -162,7 +152,7 @@ public class InvoiceManagedBean{
         soldTo.add(city + " " + postcode);
         soldTo.add(country);
         insert(cs, 52, 696, 30, soldTo);
-        
+
         //Invoice Number
         ArrayList<String> rightUp = new ArrayList<String>();
         rightUp.add(gstRegNo);
@@ -170,18 +160,18 @@ public class InvoiceManagedBean{
         rightUp.add(sdf.format(invoiceDate));
         rightUp.add(pageNo);
         insert(cs, 420, 674, 15, rightUp);
-        
+
         //Order Titile
         insert(cs, 58, 568, 15, customerNo);
         insert(cs, 181, 568, 15, orderNo);
         insert(cs, 304, 568, 30, paymentMethod);
-        
+
         insert(cs, 58, 530, 15, sdf.format(orderDate));
         insert(cs, 181, 530, 45, status);
-        
+
         //Order item
         int i = 0;
-        for (Record current : records){
+        for (Record current : records) {
             int inc = 0;
             insert(cs, 58, 450 - 12 * i, 15, current.item);
             inc += insert(cs, 181, 450 - 12 * i, 20, current.description);
@@ -190,7 +180,7 @@ public class InvoiceManagedBean{
             insert(cs, 474, 450 - 12 * i, 10, "" + String.format("%.2f", current.ep));
             i += inc + 2;
         }
-        
+
         //total
         float subtotal = sum();
         float gst = (float) (0.07 * subtotal);
@@ -198,21 +188,23 @@ public class InvoiceManagedBean{
         insert(cs, 474, 210, 6, "" + String.format("%.2f", subtotal));
         insert(cs, 474, 196, 6, "" + String.format("%.2f", gst));
         insert(cs, 474, 156, 6, "" + String.format("%.2f", total));
-        
+
         cs.close();
-        
+
         document.save(exportFile);
         document.close();
-        
+
         System.out.println("finished!");
     }
-    public float sum (){
+
+    public float sum() {
         float result = 0;
-        for(Record record : records){
+        for (Record record : records) {
             result += record.ep;
         }
         return result;
     }
+
     public String space(int number) {
         String result = "";
         for (int i = 0; i < number; i++) {
@@ -220,13 +212,13 @@ public class InvoiceManagedBean{
         }
         return result;
     }
-    
+
     public int insert(PDPageContentStream cs, float x, float y, int width, String input) throws IOException {
         ArrayList<String> temp = new ArrayList<String>();
         temp.add(input);
         return insert(cs, x, y, width, temp);
     }
-    
+
     public int insert(PDPageContentStream cs, float x, float y, int width, ArrayList<String> inputs) throws IOException {
         int lines = 1;
         cs.moveTo(0, 0);
@@ -238,9 +230,9 @@ public class InvoiceManagedBean{
             int w = width;
             boolean ini = true;
             while (input.length() > w) {
-                if(ini){
+                if (ini) {
                     cs.showText(input.substring(0, width));
-                }else{
+                } else {
                     cs.showText("  " + input.substring(0, w));
                 }
                 input = input.substring(w);
@@ -249,21 +241,21 @@ public class InvoiceManagedBean{
                 w = width - 2;
                 ini = false;
             }
-            if(ini){
+            if (ini) {
                 cs.showText(input);
-            }else{
-                cs.showText("  "+ input);
+            } else {
+                cs.showText("  " + input);
             }
             cs.newLine();
         }
         cs.endText();
         return lines;
     }
-    
+
     public Customer getCustomer() {
         return customer;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }

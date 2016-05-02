@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package jsf.managedbean;
 
 import TransactionManagement.TransactionManagementRemote;
@@ -20,51 +15,39 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-/**
- *
- * @author XUAN
- */
 @Named(value = "transactionManagedBean")
 @SessionScoped
 public class TransactionManagedBean implements Serializable {
-    
+
     @EJB
     private TransactionManagementRemote transactionManagementLocal;
     @Inject
     private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
-    
+
     private Employee admin;
     private List<Transaction> transactions;
-    
+
     public TransactionManagedBean() {
         admin = new Employee();
         transactions = new ArrayList<>();
     }
-    
+
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        
-        try
-        {
-            if(ec.getSessionMap().get("login") == null)
-            {
+
+        try {
+            if (ec.getSessionMap().get("login") == null) {
                 ec.redirect("index.xhtml?faces-redirect=true");
-            }
-            else
-            {
-                if(ec.getSessionMap().get("login").equals(false))
-                {
+            } else {
+                if (ec.getSessionMap().get("login").equals(false)) {
                     ec.redirect("index.xhtml?faces-redirect=true");
                 }
             }
-        }
-        catch(IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
+
         admin = signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
         transactions = transactionManagementLocal.viewAllTransaction();
     }

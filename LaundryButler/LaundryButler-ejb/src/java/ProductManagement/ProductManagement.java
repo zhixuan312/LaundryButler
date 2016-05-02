@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package ProductManagement;
 
 import entity.CartLineItem;
@@ -17,22 +12,18 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author XUAN
- */
 @Stateless
 @Local(ProductManagementLocal.class)
 @Remote(ProductManagementRemote.class)
 public class ProductManagement implements ProductManagementRemote, ProductManagementLocal {
-    
+
     @PersistenceContext
     private EntityManager em;
-    
+
     private CartLineItem cartLineItem;
-    
+
     @Override
-    public Long createProduct (Product product) {
+    public Long createProduct(Product product) {
         try {
             em.persist(product);
             em.flush();
@@ -41,9 +32,9 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             return new Long(-1);
         }
     }
-    
+
     @Override
-    public Boolean updateProduct (Product product){
+    public Boolean updateProduct(Product product) {
         try {
             em.merge(product);
             em.flush();
@@ -52,22 +43,22 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             return false;
         }
     }
-    
+
     @Override
-    public List<Product> viewAllProduct (){
+    public List<Product> viewAllProduct() {
         List<Product> products = null;
-        try{
+        try {
             String jpql = "SELECT p FROM Product p";
             Query query = em.createQuery(jpql);
             products = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
         return products;
     }
-    
+
     @Override
-    public Boolean deleteProduct (Long productId){
+    public Boolean deleteProduct(Long productId) {
         try {
             Product product = em.find(Product.class, productId);
             em.remove(product);
@@ -76,17 +67,17 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             return false;
         }
     }
-    
+
     @Override
-    public Boolean deleteProducts (List<Product> products){
-        for (Product product:products){
+    public Boolean deleteProducts(List<Product> products) {
+        for (Product product : products) {
             deleteProduct(product.getProductId());
         }
         return true;
     }
-    
+
     @Override
-    public Long createCartLineItem (CartLineItem cartLineItem) {
+    public Long createCartLineItem(CartLineItem cartLineItem) {
         try {
             em.persist(cartLineItem);
             em.flush();
@@ -95,9 +86,9 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             return new Long(-1);
         }
     }
-    
+
     @Override
-    public Boolean updateCartLineItem (CartLineItem cartLineItem){
+    public Boolean updateCartLineItem(CartLineItem cartLineItem) {
         try {
             em.merge(cartLineItem);
             em.flush();
@@ -106,22 +97,22 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             return false;
         }
     }
-    
+
     @Override
-    public List<CartLineItem> viewAllCartLineItemByCustomerId (Long customerId){
+    public List<CartLineItem> viewAllCartLineItemByCustomerId(Long customerId) {
         List<CartLineItem> cartLineItems = new ArrayList<>();
-        try{
+        try {
             String jpql = "SELECT cli FROM CartLineItem cli WHERE cli.customer.customerId = '" + customerId + "'";
             Query query = em.createQuery(jpql);
             cartLineItems = query.getResultList();
-        } catch(NoResultException ex) {
+        } catch (NoResultException ex) {
             ex.printStackTrace();
         }
         return cartLineItems;
     }
-    
+
     @Override
-    public Boolean deleteCartLineItem (Long cartLineItemId){
+    public Boolean deleteCartLineItem(Long cartLineItemId) {
         try {
             CartLineItem cartLineItem = em.find(CartLineItem.class, cartLineItemId);
             em.remove(cartLineItem);
@@ -130,12 +121,12 @@ public class ProductManagement implements ProductManagementRemote, ProductManage
             return false;
         }
     }
-    
+
     @Override
     public CartLineItem getCartLineItem() {
         return cartLineItem;
     }
-    
+
     @Override
     public void setCartLineItem(CartLineItem cartLineItem) {
         this.cartLineItem = cartLineItem;

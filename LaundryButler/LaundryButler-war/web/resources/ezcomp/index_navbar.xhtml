@@ -70,10 +70,16 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12 form-group">
+                                <div class="col-md-6 form-group">
                                     <h:outputLabel class="control-label" for="profile_mobile" value="Mobile"/>
                                     <h:inputText id="profile_mobile" class="form-control input_text" value="#{signUpAndLoginManagedBean.customer.mobile}" maxlength="32" required="true" requiredMessage="Mobile is required"/>
-                                    <small style="color: gray;">Phone number requires area code without dashes, brackets or periods e.g. +6591234567</small>
+                                    <small style="color: gray;">Requires area code without spaces</small>
+                                </div>
+                                
+                                <div class="col-md-6 form-group">
+                                    <h:outputLabel class="control-label" for="profile_referring_id" value="Referring ID"/>
+                                    <!--<h:inputText id="profile_referringId" class="form-control input_text" value="" required="false"/>-->
+                                    <small style="color: gray;">Enter your friend's ID to get a free dry cleaning</small>
                                 </div>
                             </div>
 

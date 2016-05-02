@@ -12,41 +12,26 @@
 
   <!-- IMPLEMENTATION -->
   <cc:implementation>
-    <div id="mybox" class="container-fluid subscreen subscreen-full">
-      <h2 class="text-center">MY BOX</h2>
+    <div id="mybox" class="container container-fluid subscreen subscreen-full">
       <div class="row">
-        <div class="col-sm-2"/>
-        <div class="col-sm-8">
+        <div class="col-md-3">
           
           <!--Summary Area-->
-          <div class="row text-center">
-            <h:form id="customer_spec_details">
-              <div class="col-sm-4">
-                <h:outputText id="customer_box_number"
-                              value="#{customerBoxManagedBean.boxes.size()}"
-                              style="font-size:48px; color:#5A6297">
-                </h:outputText><br/>
-                <h:outputLabel for="customer_box_number" value="Boxes"/>
-              </div>
-              <div class="col-sm-4">
-                <h:outputText id="customer_dryCleaning_number"
-                              value="#{customerBoxManagedBean.customer.dryCleaning}"
-                              style="font-size:48px; color:#D17286">
-                </h:outputText><br/>
-                <h:outputLabel for="customer_dryCleaning_number" value="Unused Dry Cleaning"/>
-              </div>
-              <div class="col-sm-4">
-                <h:outputText id="customer_express_number"
-                              value="#{customerBoxManagedBean.customer.express}"
-                              style="font-size:48px; color:#A8C673">
-                </h:outputText><br/>
-                <h:outputLabel for="customer_express_number" value="Unused Express"/>
-              </div>
+          <h:form id="customer_spec_details">
+                <h:outputText id="customer_box_number" value="#{customerBoxManagedBean.getNumberOfUnscheduledBoxes()}" style="font-size:38px; color:#5A6297" />
+                <br/><h:outputLabel for="customer_box_number" value="Unscheduled Boxes"/>
+                <br/>
+                <h:outputText id="customer_dryCleaning_number" value="#{customerBoxManagedBean.customer.dryCleaning}" style="font-size:38px; color:#D17286" />
+                <br/><h:outputLabel for="customer_dryCleaning_number" value="Unused Dry Cleaning"/>
+                <br/>
+                <h:outputText id="customer_express_number" value="#{customerBoxManagedBean.customer.express}" style="font-size:38px; color:#A8C673" />
+                <br/><h:outputLabel for="customer_express_number" value="Unused Express Services"/>
             </h:form>
-          </div>
+        </div>
           
+        <div class="col-md-9">
           <!--Table-->
-          <div class="row" style="padding-top: 20px;height: 60vh;overflow: auto;">
+          
             <ui:fragment rendered="#{customerBoxManagedBean.boxes.size() &gt; 0}">
               <table class="table table-hover text-center">
                 <thead>
@@ -67,7 +52,7 @@
                       <td>
                         <h:form id="pickUpTimeDisplayForm">
                           <h:outputText id="box_pickupTime_notScheduled"
-                                        value="NOT SCHEDULED" 
+                                        value="Not Scheduled" 
                                         rendered="#{box.pickupDateTime == null or box.pickupDateTime.time &lt; 946684800}">
                           </h:outputText>
                           <h:outputText id="box_pickupTime"
@@ -82,7 +67,7 @@
                       <td>
                         <h:form id="deliveryTimeDisplayForm">
                           <h:outputText id="box_deliveryTime_notScheduled"
-                                        value="NOT SCHEDULED"
+                                        value="Not Scheduled"
                                         rendered="#{box.deliveryDateTime.time == null or box.deliveryDateTime.time &lt; 946684800}">
                           </h:outputText>
                           <h:outputText id="box_deliveryTime"
@@ -396,11 +381,11 @@
               </script>
             </ui:fragment>
             <ui:fragment rendered="#{customerBoxManagedBean.boxes == null or customerBoxManagedBean.boxes.size() &lt; 1}">
-              <p class="text-center" style="padding-top: 30vh;">No box currently. Sad~</p>
+              <p class="text-center" style="padding-top: 30vh;">No Boxes.</p>
             </ui:fragment>
-          </div>
+          
         </div>
-        <div class="col-sm-2"/>
+        
       </div>
     </div>
   </cc:implementation>
