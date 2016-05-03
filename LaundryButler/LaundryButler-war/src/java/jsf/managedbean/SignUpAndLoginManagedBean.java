@@ -41,7 +41,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     private String mobile;
     private String verificationCode;
     private ExternalContext ec;
-    private String referrringId; 
+    private String referringId; 
     
     @PostConstruct
     public void init() {
@@ -58,7 +58,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
         gender = "";
         mobile = "";
         verificationCode = "";
-        referrringId = "";
+        referringId = "";
         ec = FacesContext.getCurrentInstance().getExternalContext();
     }
     
@@ -190,7 +190,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
             }
             customer.setDryCleaning(customer.getDryCleaning()+1);
             accountManagementRemote.updateCutomerProfile(customer);
-            Customer customerExist = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referrringId).longValue());
+            Customer customerExist = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referringId).longValue());
             customerExist.setDryCleaning(customerExist.getDryCleaning()+1);
             accountManagementRemote.updateCutomerProfile(customerExist);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New customer registered successfully!", "Your registration verification code is " + verificationCode));
@@ -288,12 +288,12 @@ public class SignUpAndLoginManagedBean implements Serializable {
         this.verificationCode = verificationCode;
     }
 
-    public String getReferrringId() {
-        return referrringId;
+    public String getReferringId() {
+        return referringId;
     }
 
-    public void setReferrringId(String referrringId) {
-        this.referrringId = referrringId;
+    public void setReferringId(String referringId) {
+        this.referringId = referringId;
     }
-    
+ 
 }
