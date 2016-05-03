@@ -16,6 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.event.CellEditEvent;
 
 @Named(value = "adminEmployeeManagedBean")
 @SessionScoped
@@ -69,6 +70,17 @@ public class AdminEmployeeManagedBean implements Serializable {
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please login with admin account!", "Please login with admin account!"));
+        }
+    }
+    
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+         
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            selectedEmployee = context.getApplication().evaluateExpressionGet(context, "#{employee}", Employee.class);
+            accountManagementRemote.updateEmployeeProfile(selectedEmployee);
         }
     }
 

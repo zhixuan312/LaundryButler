@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -9,6 +12,79 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        Employees
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Employees</h2>
+                <h:form id="form9">
+                    <p:contextMenu for="employees" widgetVar="cMenu">   
+                        <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellEmployees').showCellEditor(); return false;"/>  
+                        <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+                    </p:contextMenu> 
+
+                    <p:dataTable id="employees" var="employee" value="#{adminEmployeeManagedBean.employees}" editable="true" editMode="cell" widgetVar="cellEmployees">
+                        <p:ajax event="cellEdit" listener="#{adminEmployeeManagedBean.onCellEdit}" />
+
+                        <p:column headerText="ID" style="width:50px">
+                            <h:outputText value="#{employee.employeeId}" />
+                        </p:column>
+
+                        <p:column headerText="Employed On" style="width:170px">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{employee.dateEmployed}" >
+                                        <f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" />
+                                    </h:outputText>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:inputText value="#{employee.dateEmployed}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Name">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{employee.firstName}" />
+                                    <h:outputText value="#{employee.lastName}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:inputText value="#{employee.firstName}" />
+                                    <h:inputText value="#{employee.lastName}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Contact">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{employee.email}" />
+                                    <h:outputText value="#{employee.mobile}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:inputText value="#{employee.email}" />
+                                    <h:inputText value="#{employee.mobile}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Group" style="width:130px">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="Employee" rendered="#{!employee.isAdmin}" />
+                                    <h:outputText value="Administrator" rendered="#{employee.isAdmin}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{employee.isAdmin}" style="width:100%">
+                                        <f:selectItem itemLabel="Employee" itemValue="false" />
+                                        <f:selectItem itemLabel="Administrator" itemValue="true" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </cc:implementation>
 </html>
