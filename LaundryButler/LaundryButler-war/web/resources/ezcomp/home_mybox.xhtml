@@ -154,7 +154,7 @@
                                                             <h:inputText id="box_deliveryTime_detail_mSec" class="hide" value="#{box.deliveryDateTime.time}"/>
                                                             <h:inputText id="box_status_detail" class="hide" value="#{box.status}"/>
                                                             <!--Update Button-->
-                                                            <h:commandButton  id="box_pickupDateTimeButton" type="button" value="Set Pickup Date" class="btn btn-block page_button" actionListener="#{customerBoxManagedBean.updateBox(box)}">
+                                                            <h:commandButton id="box_pickupDateTimeButton" type="button" value="Set Pickup Date" class="btn btn-block page_button" actionListener="#{customerBoxManagedBean.updateBox(box)}">
                                                                 <f:ajax execute="pickUpTimeForm" render="#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:deliveryTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:box_status"/>
                                                             </h:commandButton>
                                                         </h:form>
