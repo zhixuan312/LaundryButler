@@ -165,7 +165,6 @@ public class CheckOutManagedBean implements Serializable {
                                     box.setDryCleaning(0);
                                     box.setPayer(customer);
                                     box.setIsExpress(false);
-                                    //box.setAddress(new Address());
                                     box.setStatus("Unscheduled");
                                     box.setSharedBoxPermissions(new ArrayList<SharedBoxPermission>());
                                     double price = 0;
