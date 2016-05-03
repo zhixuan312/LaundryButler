@@ -44,7 +44,7 @@ public class TransactionManagement implements TransactionManagementRemote, Trans
     public List<Transaction> viewAllTransaction() {
         List<Transaction> transactions = null;
         try {
-            String jpql = "SELECT t FROM Transaction t";
+            String jpql = "SELECT t FROM Transaction t ORDER BY t.transactionDateTime DESC";
             Query query = em.createQuery(jpql);
             transactions = query.getResultList();
         } catch (NoResultException ex) {

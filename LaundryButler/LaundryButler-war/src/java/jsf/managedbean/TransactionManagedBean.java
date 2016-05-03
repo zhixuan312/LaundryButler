@@ -26,6 +26,7 @@ public class TransactionManagedBean implements Serializable {
 
     private Employee admin;
     private List<Transaction> transactions;
+    private Transaction selectedTransaction;
 
     public TransactionManagedBean() {
         admin = new Employee();
@@ -67,4 +68,29 @@ public class TransactionManagedBean implements Serializable {
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+    public TransactionManagementRemote getTransactionManagementLocal() {
+        return transactionManagementLocal;
+    }
+
+    public void setTransactionManagementLocal(TransactionManagementRemote transactionManagementLocal) {
+        this.transactionManagementLocal = transactionManagementLocal;
+    }
+
+    public SignUpAndLoginManagedBean getSignUpAndLoginManagedBean() {
+        return signUpAndLoginManagedBean;
+    }
+
+    public void setSignUpAndLoginManagedBean(SignUpAndLoginManagedBean signUpAndLoginManagedBean) {
+        this.signUpAndLoginManagedBean = signUpAndLoginManagedBean;
+    }
+
+    public Transaction getSelectedTransaction() {
+        return selectedTransaction;
+    }
+
+    public void setSelectedTransaction(Transaction selectedTransaction) {
+        this.selectedTransaction = selectedTransaction;
+    }
+    
 }
