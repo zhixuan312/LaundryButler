@@ -25,7 +25,9 @@
                         </p:column>
                         
                         <p:column headerText="Purchased On">
-                            <h:outputText value="#{box.createdDateTime}" />
+                            <h:outputText value="#{box.createdDateTime}">
+                                <f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" />
+                            </h:outputText>
                         </p:column>
 
                         <p:column headerText="Passcode">
@@ -48,6 +50,23 @@
                                 <f:facet name="input">
                                     Pickup on: <h:inputText style="color: black; width: 100%;" value="#{box.pickupDateTime}" /><br/>
                                     Deliver on: <h:inputText style="color: black; width: 100%;" value="#{box.deliveryDateTime}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Status">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{box.status}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:selectOneMenu value="#{box.status}" style="width:100%">
+                                        <f:selectItem itemLabel="Unscheduled" itemValue="Unscheduled" />
+                                        <f:selectItem itemLabel="Scheduled" itemValue="Scheduled" />
+                                        <f:selectItem itemLabel="Picked Up" itemValue="Picked Up" />
+                                        <f:selectItem itemLabel="Cleaned" itemValue="Cleaned" />
+                                        <f:selectItem itemLabel="Delivered" itemValue="Delivered" />
+                                    </h:selectOneMenu>
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>

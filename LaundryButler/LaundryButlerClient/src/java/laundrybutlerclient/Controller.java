@@ -56,7 +56,7 @@ public class Controller {
             address.setPostalCode(currentPostalCode);
             address.setCustomer(customer);
 
-            accountManagementRemote.register(customer);
+            //accountManagementRemote.register(customer);
 
         }
 
@@ -73,7 +73,7 @@ public class Controller {
             employee.setLastName(emLastName);
             employee.setIsAdmin(booleanArray[random.nextInt(booleanArray.length)]);
 
-            accountManagementRemote.createNewEmployee(employee);
+            //accountManagementRemote.createNewEmployee(employee);
 
         }
 
