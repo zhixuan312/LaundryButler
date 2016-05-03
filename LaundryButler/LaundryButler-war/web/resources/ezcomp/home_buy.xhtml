@@ -141,9 +141,18 @@
                                     <p class="text-center">Your cart is empty.</p>
                                 </ui:fragment>
 
+                                
+                                
                             </h:form>
                         </div>
                         <div class="modal-footer">
+                            
+                            <div style="float:left;">
+                                Giving to someone? Enter the recipient ID.
+                                <h:inputText value="#{checkOutManagedBean.recipientId}"></h:inputText>
+                            </div>
+                            
+                                
                             <h:form id="checkOutArea">
                                 <button type='button' class="btn btn-default page_button" onclick="checkoutButtonClick()">Checkout</button>
 
