@@ -20,17 +20,34 @@
                     <p:dataTable style="font-family: Lato, sans-serif;"  id="boxes" var="box" value="#{adminBoxesManagedBean.boxes}" editable="true" editMode="cell" widgetVar="cellBoxes">
                         <p:ajax event="cellEdit" listener="#{adminBoxesManagedBean.onCellEdit}" />
 
-                        <p:column headerText="ID" style="width:50px">
+                        <p:column headerText="ID" style="width:40px">
                             <h:outputText value="#{box.boxId}" />
                         </p:column>
+                        
+                        <p:column headerText="Purchased On">
+                            <h:outputText value="#{box.createdDateTime}" />
+                        </p:column>
 
-                        <p:column headerText="Passcode" style="width:180px">
+                        <p:column headerText="Passcode">
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <h:outputText value="#{box.boxPasscode}" />
                                 </f:facet>
                                 <f:facet name="input">
                                     <h:inputText style="color: black; width: 100%;" value="#{box.boxPasscode}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="Task">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    Pickup on: <h:outputText value="#{box.pickupDateTime}" /><br/>
+                                    Deliver on: <h:outputText value="#{box.deliveryDateTime}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    Pickup on: <h:inputText style="color: black; width: 100%;" value="#{box.pickupDateTime}" /><br/>
+                                    Deliver on: <h:inputText style="color: black; width: 100%;" value="#{box.deliveryDateTime}" />
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
