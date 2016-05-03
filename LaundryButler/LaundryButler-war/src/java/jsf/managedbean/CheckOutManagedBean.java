@@ -56,6 +56,7 @@ public class CheckOutManagedBean implements Serializable {
         transaction = new Transaction();
         box = new Box();
         tempList = new ArrayList<>();
+        recipientId = "";
     }
 
     @PostConstruct
