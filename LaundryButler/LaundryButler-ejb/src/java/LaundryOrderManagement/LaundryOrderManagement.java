@@ -41,7 +41,7 @@ public class LaundryOrderManagement implements LaundryOrderManagementRemote, Lau
     public List<Box> viewAllBox() {
         List<Box> boxes = null;
         try {
-            String jpql = "SELECT b FROM Box b";
+            String jpql = "SELECT b FROM Box b ORDER BY b.createdDateTime DESC";
             Query query = em.createQuery(jpql);
             boxes = query.getResultList();
         } catch (NoResultException ex) {

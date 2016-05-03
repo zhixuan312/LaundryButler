@@ -16,6 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.primefaces.event.CellEditEvent;
 
 @Named(value = "adminBoxesManagedBean")
 @SessionScoped
@@ -53,18 +54,26 @@ public class AdminBoxesManagedBean implements Serializable {
         }
 
         admin = accountManagementRemote.getEmployee();
-        if (admin.getIsAdmin()) {
-            boxes = laundryOrderManagementRemote.viewAllBox();
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please login with admin account!", "Please login with admin account!"));
-        }
+        boxes = laundryOrderManagementRemote.viewAllBox();
     }
 
-    public void updateAddress(ActionEvent event) {
+    public void updateBox(ActionEvent event) {
         if (laundryOrderManagementRemote.updateBox(selectedBox)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Update successful", "Update successful"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Update fail", "Update fail"));
+        }
+    }
+    
+    public void onCellEdit(CellEditEvent event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+         
+        if(newValue != null && !newValue.equals(oldValue)) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            selectedBox = context.getApplication().evaluateExpressionGet(context, "#{box}", Box.class);
+            laundryOrderManagementRemote.updateBox(selectedBox);
+            selectedBox = null;
         }
     }
 

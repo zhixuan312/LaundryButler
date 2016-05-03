@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -9,6 +12,32 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        Boxes
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Boxes</h2>
+                <h:form id="form1">
+
+                    <p:dataTable style="font-family: Lato, sans-serif;"  id="boxes" var="box" value="#{adminBoxesManagedBean.boxes}" editable="true" editMode="cell" widgetVar="cellBoxes">
+                        <p:ajax event="cellEdit" listener="#{adminBoxesManagedBean.onCellEdit}" />
+
+                        <p:column headerText="ID" style="width:50px">
+                            <h:outputText value="#{box.boxId}" />
+                        </p:column>
+
+                        <p:column headerText="Passcode" style="width:180px">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{box.boxPasscode}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <h:inputText style="color: black; width: 100%;" value="#{box.boxPasscode}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
     </cc:implementation>
 </html>
