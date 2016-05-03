@@ -16,12 +16,8 @@
             <div class="col-md-12">
                 <h2>Employees</h2>
                 <h:form id="form9">
-                    <p:contextMenu for="employees" widgetVar="cMenu">   
-                        <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellEmployees').showCellEditor(); return false;"/>  
-                        <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
-                    </p:contextMenu> 
 
-                    <p:dataTable id="employees" var="employee" value="#{adminEmployeeManagedBean.employees}" editable="true" editMode="cell" widgetVar="cellEmployees">
+                    <p:dataTable style="font-family: Lato, sans-serif;" id="employees" var="employee" value="#{adminEmployeeManagedBean.employees}" editable="true" editMode="cell" widgetVar="cellEmployees">
                         <p:ajax event="cellEdit" listener="#{adminEmployeeManagedBean.onCellEdit}" />
 
                         <p:column headerText="ID" style="width:50px">
@@ -29,44 +25,35 @@
                         </p:column>
 
                         <p:column headerText="Employed On" style="width:170px">
+                            <h:outputText value="#{employee.dateEmployed}" >
+                                <f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Name" style="width:200px;">
                             <p:cellEditor>
                                 <f:facet name="output">
-                                    <h:outputText value="#{employee.dateEmployed}" >
-                                        <f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" />
-                                    </h:outputText>
+                                    <h:outputText value="#{employee.firstName}" />, <h:outputText value="#{employee.lastName}" />
                                 </f:facet>
                                 <f:facet name="input">
-                                    <h:inputText value="#{employee.dateEmployed}" />
+                                    <h:inputText style="color: black;" value="#{employee.firstName}" />
+                                    <h:inputText style="color: black;" value="#{employee.lastName}" />
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
-                        
-                        <p:column headerText="Name">
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <h:outputText value="#{employee.firstName}" />
-                                    <h:outputText value="#{employee.lastName}" />
-                                </f:facet>
-                                <f:facet name="input">
-                                    <h:inputText value="#{employee.firstName}" />
-                                    <h:inputText value="#{employee.lastName}" />
-                                </f:facet>
-                            </p:cellEditor>
-                        </p:column>
-                        
+
                         <p:column headerText="Contact">
                             <p:cellEditor>
                                 <f:facet name="output">
-                                    <h:outputText value="#{employee.email}" />
-                                    <h:outputText value="#{employee.mobile}" />
+                                    <h:outputText value="#{employee.email}" />, <h:outputText value="#{employee.mobile}" />
                                 </f:facet>
                                 <f:facet name="input">
-                                    <h:inputText value="#{employee.email}" />
-                                    <h:inputText value="#{employee.mobile}" />
+                                    <h:inputText style="color: black;" value="#{employee.email}" />
+                                    <h:inputText style="color: black;" value="#{employee.mobile}" />
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
-                        
+
                         <p:column headerText="Group" style="width:130px">
                             <p:cellEditor>
                                 <f:facet name="output">

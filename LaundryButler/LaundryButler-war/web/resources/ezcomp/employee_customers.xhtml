@@ -16,13 +16,8 @@
             <div class="col-md-12">
                 <h2>Customers</h2>
                 <h:form id="form1">
-                    <p:contextMenu for="customers" widgetVar="cMenu">   
-                        <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellCustomers').showCellEditor();
-                                return false;"/>  
-                        <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
-                    </p:contextMenu> 
 
-                    <p:dataTable id="customers" var="customer" value="#{adminCustomerManagedBean.customers}" editable="true" editMode="cell" widgetVar="cellCustomers">
+                    <p:dataTable style="font-family: Lato, sans-serif;"  id="customers" var="customer" value="#{adminCustomerManagedBean.customers}" editable="true" editMode="cell" widgetVar="cellCustomers">
                         <p:ajax event="cellEdit" listener="#{adminCustomerManagedBean.onCellEdit}" />
 
                         <p:column headerText="ID" style="width:50px">
