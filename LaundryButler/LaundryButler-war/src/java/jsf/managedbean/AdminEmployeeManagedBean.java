@@ -58,10 +58,19 @@ public class AdminEmployeeManagedBean implements Serializable {
             ex.printStackTrace();
         }
         admin = signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
-        employees = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
+        employees = getEmployeeList();
         boxes = laundryOrderManagementRemote.viewAllBoxByEmployeeId(admin.getEmployeeId());
     }
 
+    public List<Employee> getEmployeeList(){
+        List<Employee> tempList = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
+        for (int i =0; i < tempList.size(); i ++) {
+            if (tempList.get(i).getEmployeeId().equals(admin.getEmployeeId())){
+                tempList.remove(i);
+            }
+        }
+        return tempList;
+    }
     public void updateEmployee(ActionEvent event) {
         if (admin.getIsAdmin()) {
             if (signUpAndLoginManagedBean.getAccountManagementRemote().updateEmployeeProfile(selectedEmployee)) {
