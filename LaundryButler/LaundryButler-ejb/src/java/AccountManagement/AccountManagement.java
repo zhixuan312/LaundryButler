@@ -179,6 +179,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             }
         }
         if (!sameEmail) {
+            employee.setDateEmployed(new Date());   // automatically register the date of employment
             em.persist(employee);
             em.flush();
             return new Long("1");
