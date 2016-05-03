@@ -36,6 +36,7 @@ public class CustomerBoxManagedBean implements Serializable {
         boxes = new ArrayList<>();
         customer = new Customer();
         boxesIsShared = new ArrayList<>();
+        addressId = new Long(-1);
     }
 
     @PostConstruct
