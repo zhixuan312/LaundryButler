@@ -78,7 +78,7 @@ public class CheckOutManagedBean implements Serializable {
     }
     
     public void checkOut() {
-        
+        System.out.println("##### checkout function called");
         List<CartLineItem> cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         transaction.setCustomer(customer);
         transaction.setTotalCharge(customerCartManagedBean.getTotalPrice());
@@ -151,7 +151,7 @@ public class CheckOutManagedBean implements Serializable {
                                     box.setAllowSharing(false);
                                     box.setBoxPasscode(Integer.toString((int) (Math.random() * (1000 - 100) + 100)));
                                     box.setCreatedDateTime(new Date());
-                                    if (recipientId.equals("")){
+                                    if (recipientId == null || recipientId.equals("")){
                                         box.setCustomer(customer);
                                     } else {
                                         Customer recipient = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveCustomerByCustomerId(Long.valueOf(recipientId).longValue());

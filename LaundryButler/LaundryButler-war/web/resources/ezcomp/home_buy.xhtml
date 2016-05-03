@@ -4,7 +4,8 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -141,27 +142,35 @@
                                     <p class="text-center">Your cart is empty.</p>
                                 </ui:fragment>
 
-                                
+                                   
                                 
                             </h:form>
                         </div>
                         <div class="modal-footer">
                             
                             <div style="float:left;">
-                                Giving to someone? Enter the recipient ID.
-                                <h:inputText value="#{checkOutManagedBean.recipientId}"></h:inputText>
-                            </div>
+                                <h:form>
+                                    Giving to someone? Enter the recipient ID: &nbsp;
+                                    <p:inputText id="home_buy_checkout_recipientId" style="width: 40px;" value="#{checkOutManagedBean.recipientId}"></p:inputText>
+                                    <p:commandButton class="btn btn-default page_button" value="Apply">
+                                            <f:ajax execute="@form"></f:ajax>
+                                        </p:commandButton>
+                                </h:form>
+                            </div> 
                             
-                                
                             <h:form id="checkOutArea">
-                                <button type='button' class="btn btn-default page_button" onclick="checkoutButtonClick()">Checkout</button>
+                                <button id="home_buy_checkout_button" type='button' class="btn btn-default page_button">Checkout</button>
 
                                 <button id='cartWindowCloseButton' type="button" class="btn btn-default hide" data-dismiss="modal" style="width:80px;">Cancel</button>
                                 <script>
-                                    function checkoutButtonClick() {
-                                        document.getElementById('cartWindowCloseButton').click();
-                                        window.open('checkout.xhtml', '_blank');
-                                    }
+                                    var recepientId;
+                                    $('#home_buy_checkout_recipientId').on('change', function() {
+                                        recepientId = $('#home_buy_checkout_recipientId').val();
+                                    });
+                                    $('#home_buy_checkout_button').click(function (){
+//                                        window.open('checkout.xhtml' + recepientId ? ('?recipientId=' + recepientId):'', '_blank');
+                                        window.open('checkout.xhtml?recipientId=' + recepientId, '_blank');
+                                    });
                                 </script>
                             </h:form>
                         </div>
