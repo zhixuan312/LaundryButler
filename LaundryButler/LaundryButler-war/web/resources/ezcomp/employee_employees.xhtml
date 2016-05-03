@@ -16,10 +16,62 @@
             <div class="col-md-12">
                 <h2>Employees</h2>
 
-                <button style="color:#6cb6f5!important;" class="btn btn-lg page_button" data-toggle="newEmployeeDialogModal" data-target="#newEmployeeTarget">
+                <button style="color:#6cb6f5!important;" class="btn btn-lg page_button" data-toggle="modal" data-target="#newEmployeeModal">
                     Register New Employee
                 </button>
-                
+
+                <div class="modal fade" id="newEmployeeModal" role="dialog" style="padding-top:100px;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header themeBg">
+                                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title text-center">New Employee Registration</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h:form class="form">
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="employee_firstName" value="First Name"/>
+                                            <h:inputText id="employee_firstName" class="form-control input_text" value="#{adminCreateEmployeeManagedBean.employee.firstName}" required="true" requiredMessage="First name is required"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="employee_lastName" value="Last Name"/>
+                                            <h:inputText id="employee_lastName" class="form-control input_text" value="#{adminCreateEmployeeManagedBean.employee.lastName}" required="true" requiredMessage="Last name is required"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="employee_email" value="Email"/>
+                                            <h:inputText id="employee_email" class="form-control input_text" value="#{adminCreateEmployeeManagedBean.employee.email}" required="true" requiredMessage="Email is required"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="employee_password" value="Password"/>
+                                            <h:inputSecret id="employee_password" class="form-control input_text" value="#{adminCreateEmployeeManagedBean.employee.password}" required="true" requiredMessage="Password is required"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="employee_mobile" value="Mobile"/>
+                                            <h:inputText id="employee_mobile" class="form-control input_text" value="#{adminCreateEmployeeManagedBean.employee.mobile}" required="true" requiredMessage="Mobile is required"/>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <h:outputLabel class="control-label" for="employee_role" value="Role"/>
+                                            <h:selectOneMenu class="form-control btn-lg" value="#{adminCreateEmployeeManagedBean.employee.isAdmin}" style="width:100%">
+                                                <f:selectItem itemLabel="Employee" itemValue="false" />
+                                                <f:selectItem itemLabel="Administrator" itemValue="true" />
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                            <div class="modal-footer">
+                                <h:commandButton type="button" class="btn btn-default btn-block btn-lg page_button" style="color:#6cb6f5!important;" value="Register" actionListener="#{adminCreateEmployeeManagedBean.createEmployee}"><f:ajax execute="@form"/></h:commandButton>
+                                <div class="text-center"><small>An email and a text message will be sent to the new employee.</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <hr/>
 
                 <h:form id="form9">
@@ -37,14 +89,14 @@
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Name" style="width:200px;">
+                        <p:column headerText="Name" style="width:300px;">
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <h:outputText value="#{employee.firstName}" />, <h:outputText value="#{employee.lastName}" />
                                 </f:facet>
                                 <f:facet name="input">
-                                    <h:inputText style="color: black;" value="#{employee.firstName}" />
-                                    <h:inputText style="color: black;" value="#{employee.lastName}" />
+                                    <h:inputText style="color: black; width: 100%;" value="#{employee.firstName}" /><br/>
+                                    <h:inputText style="color: black; width: 100%;" value="#{employee.lastName}" />
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
@@ -55,8 +107,8 @@
                                     <h:outputText value="#{employee.email}" />, <h:outputText value="#{employee.mobile}" />
                                 </f:facet>
                                 <f:facet name="input">
-                                    <h:inputText style="color: black;" value="#{employee.email}" />
-                                    <h:inputText style="color: black;" value="#{employee.mobile}" />
+                                    <h:inputText style="color: black; width: 100%;" value="#{employee.email}" /><br/>
+                                    <h:inputText style="color: black; width: 100%;" value="#{employee.mobile}" />
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>

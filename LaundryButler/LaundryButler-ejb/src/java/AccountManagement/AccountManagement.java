@@ -38,7 +38,6 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     public AccountManagement() {
         customer = new Customer();
         employee = new Employee();
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     @Override

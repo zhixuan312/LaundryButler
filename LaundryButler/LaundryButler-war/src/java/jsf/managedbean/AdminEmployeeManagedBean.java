@@ -81,6 +81,7 @@ public class AdminEmployeeManagedBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             selectedEmployee = context.getApplication().evaluateExpressionGet(context, "#{employee}", Employee.class);
             accountManagementRemote.updateEmployeeProfile(selectedEmployee);
+            selectedEmployee = null;
         }
     }
 
