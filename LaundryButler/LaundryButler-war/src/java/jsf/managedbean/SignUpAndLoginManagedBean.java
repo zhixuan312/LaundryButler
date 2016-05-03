@@ -41,7 +41,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
     private String mobile;
     private String verificationCode;
     private ExternalContext ec;
-    private String referringId; 
+    private String referringId;
     
     @PostConstruct
     public void init() {
@@ -163,6 +163,9 @@ public class SignUpAndLoginManagedBean implements Serializable {
     }
     
     public void createCustomer(ActionEvent event) {
+        Customer customerExist = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referringId).longValue());
+        if (customerExist != null )
+            customer.setDryCleaning(1);
         String verificationCode = accountManagementRemote.register(customer);
         if (!verificationCode.equals("-1")) {
             this.email = customer.getEmail();
@@ -188,11 +191,10 @@ public class SignUpAndLoginManagedBean implements Serializable {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            customer.setDryCleaning(customer.getDryCleaning()+1);
-            accountManagementRemote.updateCutomerProfile(customer);
-            Customer customerExist = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referringId).longValue());
-            customerExist.setDryCleaning(customerExist.getDryCleaning()+1);
-            accountManagementRemote.updateCutomerProfile(customerExist);
+            if (customerExist != null){
+                customerExist.setDryCleaning(customerExist.getDryCleaning()+1);
+                accountManagementRemote.updateCutomerProfile(customerExist);
+            }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New customer registered successfully!", "Your registration verification code is " + verificationCode));
             this.customerLogin();
         } else {
@@ -287,13 +289,13 @@ public class SignUpAndLoginManagedBean implements Serializable {
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
-
+    
     public String getReferringId() {
         return referringId;
     }
-
+    
     public void setReferringId(String referringId) {
         this.referringId = referringId;
     }
- 
+    
 }
