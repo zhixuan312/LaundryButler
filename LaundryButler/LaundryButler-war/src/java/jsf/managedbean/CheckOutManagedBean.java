@@ -17,7 +17,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
-import entity.Address;
 import entity.Box;
 import entity.CartLineItem;
 import entity.SharedBoxPermission;
