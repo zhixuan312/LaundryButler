@@ -48,6 +48,7 @@ public class CheckOutManagedBean implements Serializable {
     private Transaction transaction;
     private Box box;
     private List<Long> tempList;
+    private String recipientId;
 
     public CheckOutManagedBean() {
         customer = new Customer();
@@ -148,7 +149,12 @@ public class CheckOutManagedBean implements Serializable {
                                 box.setAllowSharing(false);
                                 box.setBoxPasscode(Integer.toString((int) (Math.random() * (1000 - 100) + 100)));
                                 box.setCreatedDateTime(new Date());
-                                box.setCustomer(customer);
+                                Customer recipient = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveCustomerByCustomerId(Long.valueOf(recipientId).longValue());
+                                if (recipientId.equals("")){
+                                    box.setCustomer(customer);
+                                } else {
+                                   box.setCustomer(recipient); 
+                                }
                                 box.setDeliveryDateTime(null);
                                 box.setIsShared(false);
                                 box.setDeliveryDateTime(new Date(0));
@@ -281,6 +287,14 @@ public class CheckOutManagedBean implements Serializable {
 
     public void setSignUpAndLoginManagedBean(SignUpAndLoginManagedBean signUpAndLoginManagedBean) {
         this.signUpAndLoginManagedBean = signUpAndLoginManagedBean;
+    }
+
+    public String getRecipientId() {
+        return recipientId;
+    }
+
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
     }
 
 }
