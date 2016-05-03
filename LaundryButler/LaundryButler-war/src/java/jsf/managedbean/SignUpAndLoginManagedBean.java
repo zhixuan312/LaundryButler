@@ -163,9 +163,12 @@ public class SignUpAndLoginManagedBean implements Serializable {
     }
     
     public void createCustomer(ActionEvent event) {
-        Customer customerExist = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referringId).longValue());
-        if (customerExist != null )
-            customer.setDryCleaning(1);
+        Customer customerExist = null;
+        if (!referringId.equals("")){
+            customerExist = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referringId).longValue());
+            if (customerExist != null )
+                customer.setDryCleaning(1);
+        }
         String verificationCode = accountManagementRemote.register(customer);
         if (!verificationCode.equals("-1")) {
             this.email = customer.getEmail();
