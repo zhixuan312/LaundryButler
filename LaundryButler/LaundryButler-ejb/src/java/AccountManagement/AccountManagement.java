@@ -162,7 +162,7 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     }
 
     @Override
-    public Long createNewEmployee(Employee employee) {
+    public Long createNewEmployee(Employee newEmployee) {
         boolean sameEmail = false;
         List<Employee> list = new ArrayList<>();
         try {
@@ -173,13 +173,14 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             ex.printStackTrace();
         }
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getEmail().equals(employee.getEmail())) {
+            System.out.println("email = " + newEmployee.getEmail());
+            if (list.get(i).getEmail().equals(newEmployee.getEmail())) {
                 sameEmail = true;
             }
         }
         if (!sameEmail) {
-            employee.setDateEmployed(new Date());   // automatically register the date of employment
-            em.persist(employee);
+            newEmployee.setDateEmployed(new Date());   // automatically register the date of employment
+            em.persist(newEmployee);
             em.flush();
             return new Long("1");
         } else {
