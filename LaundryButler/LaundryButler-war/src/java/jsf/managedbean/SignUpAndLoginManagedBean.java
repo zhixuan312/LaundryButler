@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -46,6 +47,11 @@ public class SignUpAndLoginManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        Map<String, String> parameters = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        referringId = parameters.get("referrerid");
+        if (referringId == null) {
+            referringId = "";
+        }
     }
     
     public SignUpAndLoginManagedBean() {
@@ -60,6 +66,7 @@ public class SignUpAndLoginManagedBean implements Serializable {
         verificationCode = "";
         referringId = "";
         ec = FacesContext.getCurrentInstance().getExternalContext();
+        
     }
     
     public void customerLogin() {
