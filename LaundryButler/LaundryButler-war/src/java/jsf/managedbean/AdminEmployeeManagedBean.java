@@ -16,14 +16,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 import org.primefaces.event.CellEditEvent;
 
 @Named(value = "adminEmployeeManagedBean")
 @SessionScoped
 public class AdminEmployeeManagedBean implements Serializable {
 
-    @EJB
-    private AccountManagementRemote accountManagementRemote;
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
     @EJB
     private LaundryOrderManagementRemote laundryOrderManagementRemote;
 
@@ -56,14 +57,14 @@ public class AdminEmployeeManagedBean implements Serializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        admin = accountManagementRemote.getEmployee();
-        employees = accountManagementRemote.viewAllRecordedEmployee();
+        admin = signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
+        employees = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
         boxes = laundryOrderManagementRemote.viewAllBoxByEmployeeId(admin.getEmployeeId());
     }
 
     public void updateEmployee(ActionEvent event) {
         if (admin.getIsAdmin()) {
-            if (accountManagementRemote.updateEmployeeProfile(selectedEmployee)) {
+            if (signUpAndLoginManagedBean.getAccountManagementRemote().updateEmployeeProfile(selectedEmployee)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
@@ -80,7 +81,7 @@ public class AdminEmployeeManagedBean implements Serializable {
         if(newValue != null && !newValue.equals(oldValue)) {
             FacesContext context = FacesContext.getCurrentInstance();
             selectedEmployee = context.getApplication().evaluateExpressionGet(context, "#{employee}", Employee.class);
-            accountManagementRemote.updateEmployeeProfile(selectedEmployee);
+            signUpAndLoginManagedBean.getAccountManagementRemote().updateEmployeeProfile(selectedEmployee);
             selectedEmployee = null;
         }
     }
@@ -89,7 +90,7 @@ public class AdminEmployeeManagedBean implements Serializable {
         if (admin.getIsAdmin()) {
             Employee employeeToDelete = (Employee) event.getComponent().getAttributes().get("employeeToDelete");
 
-            accountManagementRemote.deleteEmployee(employeeToDelete.getEmployeeId());
+            signUpAndLoginManagedBean.getAccountManagementRemote().deleteEmployee(employeeToDelete.getEmployeeId());
             employees.remove(employeeToDelete);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee " + employeeToDelete.getLastName() + " " + employeeToDelete.getLastName() + " deleted successfully", "Employee " + employeeToDelete.getLastName() + " " + employeeToDelete.getLastName() + " deleted successfully"));
