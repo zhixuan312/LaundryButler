@@ -82,10 +82,7 @@
                         </p:column>
                         
                         <p:column headerText="Name" style="width:150px">
-                            <p:cellEditor>
-                                <f:facet name="output"><h:outputText value="#{product.name}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{product.name}" style="width:100%; height: 100%;" /></f:facet>
-                            </p:cellEditor>
+                            <h:outputText value="#{product.name}" />
                         </p:column>
                         
                         <p:column headerText="Description">
