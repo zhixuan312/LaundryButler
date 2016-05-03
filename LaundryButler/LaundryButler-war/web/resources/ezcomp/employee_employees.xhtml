@@ -27,8 +27,9 @@
                                 <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title text-center">New Employee Registration</h4>
                             </div>
-                            <div class="modal-body">
-                                <h:form class="form">
+                            <h:form id="newEmployeeForm" class="form">
+                                <div class="modal-body">
+
                                     <div class="row">
                                         <div class="col-md-6 form-group">
                                             <h:outputLabel class="control-label" for="employee_firstName" value="First Name"/>
@@ -62,19 +63,24 @@
                                             </h:selectOneMenu>
                                         </div>
                                     </div>
-                                </h:form>
-                            </div>
-                            <div class="modal-footer">
-                                <h:commandButton type="button" class="btn btn-default btn-block btn-lg page_button" style="color:#6cb6f5!important;" value="Register" actionListener="#{adminCreateEmployeeManagedBean.createEmployee}"><f:ajax execute="@form"/></h:commandButton>
-                                <div class="text-center"><small>An email and a text message will be sent to the new employee.</small></div>
-                            </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <h:commandButton type="button" class="btn btn-default btn-block btn-lg page_button" style="color:#6cb6f5!important;" value="Register" actionListener="#{adminCreateEmployeeManagedBean.createEmployee}">
+                                        
+                                        <f:ajax execute="@form" render="#{cc.clientId}:existingEmployeeForm:employees"/>
+                                                            
+                                    </h:commandButton>
+                                    <div class="text-center"><small>An email and a text message will be sent to the new employee.</small></div>
+                                </div>
+                            </h:form>
                         </div>
                     </div>
                 </div>
 
                 <hr/>
 
-                <h:form id="form9">
+                <h:form id="existingEmployeeForm">
 
                     <p:dataTable style="font-family: Lato, sans-serif;" id="employees" var="employee" value="#{adminEmployeeManagedBean.employees}" editable="true" editMode="cell" widgetVar="cellEmployees">
                         <p:ajax event="cellEdit" listener="#{adminEmployeeManagedBean.onCellEdit}" />
