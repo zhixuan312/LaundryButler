@@ -23,6 +23,8 @@ public interface AccountManagementLocal {
     public Boolean logout();
 
     public Boolean updateCutomerProfile(Customer customer);
+    
+    public Customer retrieveCustomerByCustomerId(Long customerId);
 
     public List<Customer> viewAllRecordedCustomer();
 

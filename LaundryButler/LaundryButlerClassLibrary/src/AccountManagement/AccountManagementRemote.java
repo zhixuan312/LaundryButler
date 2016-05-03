@@ -22,6 +22,8 @@ public interface AccountManagementRemote {
 
     public Boolean logout();
 
+    public Customer retrieveCustomerByCustomerId(Long customerId);
+    
     public Boolean updateCutomerProfile(Customer customer);
 
     public List<Customer> viewAllRecordedCustomer();
