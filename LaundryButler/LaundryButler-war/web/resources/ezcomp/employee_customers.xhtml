@@ -43,12 +43,12 @@
                         <p:column headerText="Customer Information">
                             <p:cellEditor>
                                 <f:facet name="output">
-                                    <h:outputText value="#{customer.firstName} " />
+                                    <h:graphicImage rendered="#{customer.isFaceBook}" url="https://logo.clearbit.com/facebook.com" height="15px"></h:graphicImage>
+                                    <h:graphicImage rendered="#{!customer.isFaceBook}" url="https://logo.clearbit.com/facebook.com?greyscale=true" height="15px"></h:graphicImage>
+                                    &nbsp;<h:outputText value="#{customer.firstName} " />
                                     <h:outputText value="#{customer.lastName}" /> <small>(<h:outputText value="#{customer.email}" />, <h:outputText value="#{customer.mobile}" />)</small><br/>
                                     <small>Registered <h:outputText value="#{customer.dateRegistered}"><f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" /></h:outputText></small>&nbsp;
-                                    <h:graphicImage rendered="#{customer.isFaceBook}" url="https://logo.clearbit.com/facebook.com" height="15px"></h:graphicImage>
                                 </f:facet>
-                                
                                 <f:facet name="input">
                                     <p:inputText value="#{customer.firstName}" /> <p:inputText value="#{customer.lastName}" /> <p:inputText value="#{customer.mobile}" />
                                 </f:facet>  

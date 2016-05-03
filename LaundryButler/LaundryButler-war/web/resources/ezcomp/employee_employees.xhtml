@@ -15,6 +15,13 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Employees</h2>
+
+                <button style="color:#6cb6f5!important;" class="btn btn-lg page_button" data-toggle="newEmployeeDialogModal" data-target="#newEmployeeTarget">
+                    Register New Employee
+                </button>
+                
+                <hr/>
+
                 <h:form id="form9">
 
                     <p:dataTable style="font-family: Lato, sans-serif;" id="employees" var="employee" value="#{adminEmployeeManagedBean.employees}" editable="true" editMode="cell" widgetVar="cellEmployees">
