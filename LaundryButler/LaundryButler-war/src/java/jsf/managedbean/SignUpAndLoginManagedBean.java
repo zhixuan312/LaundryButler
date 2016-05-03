@@ -188,9 +188,11 @@ public class SignUpAndLoginManagedBean implements Serializable {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            
             customer.setDryCleaning(customer.getDryCleaning()+1);
-            Customer customer = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referrringId).longValue());
+            accountManagementRemote.updateCutomerProfile(customer);
+            Customer customerExist = accountManagementRemote.retrieveCustomerByCustomerId(Long.valueOf(referrringId).longValue());
+            customerExist.setDryCleaning(customerExist.getDryCleaning()+1);
+            accountManagementRemote.updateCutomerProfile(customerExist);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New customer registered successfully!", "Your registration verification code is " + verificationCode));
             this.customerLogin();
         } else {
