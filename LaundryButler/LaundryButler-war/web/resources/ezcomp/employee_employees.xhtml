@@ -85,10 +85,6 @@
                     <p:dataTable style="font-family: Lato, sans-serif;" id="employees" var="employee" value="#{adminEmployeeManagedBean.employees}" editable="true" editMode="cell" widgetVar="cellEmployees">
                         <p:ajax event="cellEdit" listener="#{adminEmployeeManagedBean.onCellEdit}" />
 
-                        <p:column headerText="ID" style="width:50px">
-                            <h:outputText value="#{employee.employeeId}" />
-                        </p:column>
-
                         <p:column headerText="Employed On" style="width:170px">
                             <h:outputText value="#{employee.dateEmployed}" >
                                 <f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" />
@@ -98,7 +94,7 @@
                         <p:column headerText="Name" style="width:300px;">
                             <p:cellEditor>
                                 <f:facet name="output">
-                                    <h:outputText value="#{employee.firstName}" />, <h:outputText value="#{employee.lastName}" />
+                                    <h:outputText value="#{employee.firstName}" />, <h:outputText value="#{employee.lastName}" /> <small>(ID: <h:outputText value="#{employee.employeeId}" />)</small>
                                 </f:facet>
                                 <f:facet name="input">
                                     <h:inputText style="color: black; width: 100%;" value="#{employee.firstName}" /><br/>

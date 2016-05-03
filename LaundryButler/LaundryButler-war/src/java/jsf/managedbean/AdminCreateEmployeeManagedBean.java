@@ -8,6 +8,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -22,13 +23,13 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
 
     @Inject
     private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
+    @Inject
+    private AdminEmployeeManagedBean adminEmployeeManagedBean;
 
     private Employee employee;
-    private List<Employee> employees;
             
     public AdminCreateEmployeeManagedBean() {
         employee = new Employee();
-        employees = new ArrayList<>();
     }
 
     @PostConstruct
@@ -47,18 +48,10 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
             ex.printStackTrace();
         }
         signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
-        employees = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
     }
 
     public void createEmployee(ActionEvent event) {
         
-        // Bug to fix:
-        // employee.firstName, lastName, etc everything is null.
-//        employee.setEmail("zhanghixuan");
-//        employee.setPassword("123");
-//        employee.setFirstName("happy");
-//        employee.setLastName("sad");
-//        System.out.println("Employee name = " + employee.getEmail());
         Long checkNumber = signUpAndLoginManagedBean.getAccountManagementRemote().createNewEmployee(employee);
 
         if (!checkNumber.equals(new Long("-1"))) {
@@ -82,16 +75,19 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
                 es.sendEmail();
             } catch (Exception ex) {
             }
+            
+            // Add the new employee in the frontend list of employees
+            employee.setDateEmployed(new Date());
+            adminEmployeeManagedBean.getEmployees().add(employee);
 
             // Reset entered values in the new employee registration form
             employee = new Employee();
-            employees = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New employee created successfully!", "New employee created successfully!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email is been used", "Email is been used"));
         }
 
-        // Refresh employee console
+        // Refresh LaundryButler Management Console
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("employee.xhtml?faces-redirect=true");
         } catch (Exception ex) {
@@ -114,11 +110,12 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
         this.employee = employee;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public AdminEmployeeManagedBean getAdminEmployeeManagedBean() {
+        return adminEmployeeManagedBean;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setAdminEmployeeManagedBean(AdminEmployeeManagedBean adminEmployeeManagedBean) {
+        this.adminEmployeeManagedBean = adminEmployeeManagedBean;
     }
+
 }
