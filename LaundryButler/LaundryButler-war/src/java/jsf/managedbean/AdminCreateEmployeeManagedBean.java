@@ -7,6 +7,8 @@ import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -22,9 +24,11 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
     private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
 
     private Employee employee;
-    
+    private List<Employee> employees;
+            
     public AdminCreateEmployeeManagedBean() {
         employee = new Employee();
+        employees = new ArrayList<>();
     }
 
     @PostConstruct
@@ -43,6 +47,7 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
             ex.printStackTrace();
         }
         signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
+        employees = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
     }
 
     public void createEmployee(ActionEvent event) {
@@ -80,6 +85,7 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
 
             // Reset entered values in the new employee registration form
             employee = new Employee();
+            employees = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New employee created successfully!", "New employee created successfully!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Email is been used", "Email is been used"));
@@ -106,5 +112,13 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }
