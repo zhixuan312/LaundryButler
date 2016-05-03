@@ -1,30 +1,28 @@
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
 import entity.Employee;
 import extensions.EmailSender;
 import extensions.TextSender;
 import java.io.IOException;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 
 @Named(value = "adminCreateEmployeeManagedBean")
-@SessionScoped
+@RequestScoped
 public class AdminCreateEmployeeManagedBean implements Serializable {
 
-    @EJB
-    private AccountManagementRemote accountManagementRemote;
+    @Inject
+    private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
 
-    private Employee admin;
     private Employee employee;
-
+    
     public AdminCreateEmployeeManagedBean() {
         employee = new Employee();
     }
@@ -44,15 +42,19 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        admin = accountManagementRemote.getEmployee();
+        signUpAndLoginManagedBean.getAccountManagementRemote().getEmployee();
     }
 
     public void createEmployee(ActionEvent event) {
         
         // Bug to fix:
         // employee.firstName, lastName, etc everything is null.
-
-        Long checkNumber = accountManagementRemote.createNewEmployee(employee);
+//        employee.setEmail("zhanghixuan");
+//        employee.setPassword("123");
+//        employee.setFirstName("happy");
+//        employee.setLastName("sad");
+//        System.out.println("Employee name = " + employee.getEmail());
+        Long checkNumber = signUpAndLoginManagedBean.getAccountManagementRemote().createNewEmployee(employee);
 
         if (!checkNumber.equals(new Long("-1"))) {
             String message = employee.getFirstName() + ", welcome to the LaundryButler team. Your new account has been created. Your email is " + employee.getEmail() + " and your password is " + employee.getPassword() + ". You are also advised to change your password. We look forward to see you, " + employee.getFirstName() + ".";
@@ -90,6 +92,14 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
         }
     }
 
+    public SignUpAndLoginManagedBean getSignUpAndLoginManagedBean() {
+        return signUpAndLoginManagedBean;
+    }
+
+    public void setSignUpAndLoginManagedBean(SignUpAndLoginManagedBean signUpAndLoginManagedBean) {
+        this.signUpAndLoginManagedBean = signUpAndLoginManagedBean;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -97,21 +107,4 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-
-    public AccountManagementRemote getAccountManagementRemote() {
-        return accountManagementRemote;
-    }
-
-    public void setAccountManagementRemote(AccountManagementRemote accountManagementRemote) {
-        this.accountManagementRemote = accountManagementRemote;
-    }
-
-    public Employee getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Employee admin) {
-        this.admin = admin;
-    }
-
 }
