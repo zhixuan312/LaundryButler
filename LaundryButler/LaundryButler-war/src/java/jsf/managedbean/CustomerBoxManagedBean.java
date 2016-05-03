@@ -1,5 +1,6 @@
 package jsf.managedbean;
 
+import entity.Address;
 import entity.Box;
 import entity.Customer;
 import entity.SharedBoxPermission;
@@ -28,6 +29,7 @@ public class CustomerBoxManagedBean implements Serializable {
     private Customer customer;
     private List<Box> boxes;
     private List<Box> boxesIsShared;
+    private Long addressId;
 
     public CustomerBoxManagedBean() {
         box = new Box();
@@ -194,6 +196,8 @@ public class CustomerBoxManagedBean implements Serializable {
     }
 
     public void updateBox(Box box) {
+        Address boxAddress = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveAddressByAddressId(addressId);
+        box.setAddress(boxAddress);
         signUpAndLoginManagedBean.getLaundryOrderManagementRemote().updateBox(box);
     }
 
@@ -237,4 +241,13 @@ public class CustomerBoxManagedBean implements Serializable {
     public void setBoxesIsShared(List<Box> boxesIsShared) {
         this.boxesIsShared = boxesIsShared;
     }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+    
 }

@@ -230,6 +230,17 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
     }
     
     @Override
+    public Employee retrieveEmployeeByEmployeeId (Long employeeId) {
+        try {
+            String jpql = "SELECT e FROM Employee e WHERE e.employeeId = " + employeeId;
+            Query query = em.createQuery(jpql);
+            return (Employee)query.getSingleResult();
+        } catch (NoResultException ex) {
+            return new Employee();
+        }
+    }
+    
+    @Override
     public Employee retrieveEmployeeByEmail(String email) {
         try {
             String jpql = "SELECT e FROM Employee e WHERE e.email = " + "'" + email + "'";
@@ -314,6 +325,17 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
             ex.printStackTrace();
         }
         return addresses;
+    }
+    
+    @Override
+    public Address retrieveAddressByAddressId (Long addressId) {
+        try {
+            String jpql = "SELECT a FROM Address a WHERE a.addressId = " + addressId;
+            Query query = em.createQuery(jpql);
+            return (Address)query.getSingleResult();
+        } catch (NoResultException ex) {
+            return new Address();
+        }
     }
     
     @Override

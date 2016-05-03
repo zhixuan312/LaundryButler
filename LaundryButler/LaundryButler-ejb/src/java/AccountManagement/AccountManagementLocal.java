@@ -60,4 +60,7 @@ public interface AccountManagementLocal {
 
     public Employee retrieveEmployeeByEmail(String email);
 
+    public Employee retrieveEmployeeByEmployeeId (Long employeeId);
+    
+    public Address retrieveAddressByAddressId (Long addressId);
 }
