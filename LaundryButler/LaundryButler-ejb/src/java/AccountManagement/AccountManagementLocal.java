@@ -9,6 +9,8 @@ import java.util.List;
 public interface AccountManagementLocal {
 
     public String register(Customer customer);
+    
+    public void createCustomer(Customer customer);
 
     public Boolean activate(long customerId, long verificationCode);
 

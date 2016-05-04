@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class Address implements Serializable {
     private String postalCode;
     private String country;
     private Boolean isAirbnbRental;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false,  cascade = CascadeType.PERSIST)
     private Customer customer;
 
     public Address() {

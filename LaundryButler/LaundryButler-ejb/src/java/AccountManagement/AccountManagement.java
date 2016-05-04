@@ -70,6 +70,12 @@ public class AccountManagement implements AccountManagementRemote, AccountManage
         }
     }
     
+    @Override 
+    public void createCustomer(Customer customer) {
+        em.persist(customer);
+        em.flush();
+    }
+    
     @Override
     public Boolean activate(long customerId, long verificationCode) {
         try {

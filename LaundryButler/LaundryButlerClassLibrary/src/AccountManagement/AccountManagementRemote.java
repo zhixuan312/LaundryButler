@@ -10,6 +10,10 @@ public interface AccountManagementRemote {
     
     public String register(Customer customer);
     
+
+    public void createCustomer(Customer customer);
+
+
     public Boolean activate(long customerId, long verificationCode);
     
     public Boolean customerLogin(String email, String password);
