@@ -102,6 +102,7 @@
                                     <h3 class="themeC">Existing Address</h3>
                                     <ui:fragment rendered="#{(customerProfileManagedBean.addresses ne null) and (customerProfileManagedBean.addresses.size() gt 0)}">
                                         <h:form id="currentAddress">
+                                            <h:outputText value="#{customerProfileManagedBean.addresses.size()}"></h:outputText>
                                             <table class="table text-center">
                                                 <tr>
                                                     <th></th>
@@ -195,26 +196,11 @@
 
                                     <!-- Create new address Area-->
                                     <h:form id='createNewAddress'>
-                                        <h3 class="themeC">Add New Address</h3>
-                                        <div class="form-group">
-                                            <h:outputLabel class="control-label" for="newAddress_block" value="Block"/>
-                                            <h:inputText id="newAddress_block"  
-                                                         class="form-control input_text"  
-                                                         value="#{customerProfileManagedBean.address.block}"
-                                                         maxlength="32"
-                                                         required="true"
-                                                         requiredMessage="Block is required"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <h:outputLabel class="control-label" for="newAddress_street" value="Street"/>
-                                            <h:inputText id="newAddress_street"
-                                                         class="form-control input_text"
-                                                         value="#{customerProfileManagedBean.address.street}"
-                                                         maxlength="32"
-                                                         required="true"
-                                                         requiredMessage="Street is required"/>
-                                        </div>
-                                        <div class="form-group">
+
+                                      <h3 class="themeC">Add New Address</h3>
+                                      <div class="row">
+                                      <div class="col-sm-2">
+                                          <div class="form-group">
                                             <h:outputLabel class="control-label" for="newAddress_floor" value="Floor"/>
                                             <h:inputText id="newAddress_floor"
                                                          class="form-control input_text"
@@ -222,8 +208,10 @@
                                                          maxlength="32"
                                                          required="true"
                                                          requiredMessage="Floor is required"/>
-                                        </div>
-                                        <div class="form-group">
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-2">
+                                          <div class="form-group">
                                             <h:outputLabel class="control-label" for="newAddress_unit" value="Unit"/>
                                             <h:inputText id="newAddress_unit"
                                                          class="form-control input_text"
@@ -231,8 +219,35 @@
                                                          maxlength="32"
                                                          required="true"
                                                          requiredMessage="Unit is required"/>
+                                          </div>
+                                      </div>
+                                        <div class="col-sm-2">
+                                          <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_block" value="Block"/>
+                                            <h:inputText id="newAddress_block"  
+                                                         class="form-control input_text"  
+                                                         value="#{customerProfileManagedBean.address.block}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Block is required"/>
+                                          </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                            <h:outputLabel class="control-label" for="newAddress_street" value="Street"/>
+                                            <h:inputText id="newAddress_street"
+                                                         class="form-control input_text"
+                                                         value="#{customerProfileManagedBean.address.street}"
+                                                         maxlength="32"
+                                                         required="true"
+                                                         requiredMessage="Street is required"/>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-sm-8">
+                                          <div class="form-group">
                                             <h:outputLabel class="control-label" for="newAddress_country" value="Country"/>
                                             <h:inputText id="newAddress_country"
                                                          class="form-control input_text"
@@ -240,8 +255,11 @@
                                                          maxlength="32"
                                                          required="true"
                                                          requiredMessage="Address is required"/>
+                                          </div>
                                         </div>
-                                        <div class="form-group">
+
+                                        <div class="col-sm-4">
+                                          <div class="form-group">
                                             <h:outputLabel class="control-label" for="newAddress_postalCode" value="Postal Code"/>
                                             <h:inputText id="newAddress_postalCode"
                                                          class="form-control input_text"
@@ -249,26 +267,29 @@
                                                          maxlength="32"
                                                          required="true"
                                                          requiredMessage="Postal Code is required"/>
+                                          </div>
                                         </div>
-                                        <div class="form-group">
-                                            <h:commandButton type="button"
-                                                             class="btn btn-default page_button"
-                                                             style="width:120px;"
-                                                             value="Add Address"
-                                                             actionListener="#{customerProfileManagedBean.createAddress}" >
-                                                <f:ajax execute="@form" render="#{cc.clientId}:myAddressForm:currentAddress"/>
-                                            </h:commandButton>
-                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                        <h:commandButton type="button"
+                                                         class="btn btn-default page_button"
+                                                         style="width:120px;"
+                                                         value="Add Address"
+                                                         actionListener="#{customerProfileManagedBean.createAddress}" >
+                                          <f:ajax execute="@form" render="#{cc.clientId}:myAddressForm"/>
+                                        </h:commandButton>
+                                      </div>
                                     </h:form>
                                     <!--End of Create New Address-->
                                 </div>
                                 <div class="modal-footer">
-                                    <h:commandButton type="button"
-                                                     class="btn btn-default page_button"
-                                                     value="Save"
-                                                     actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
-                                        <f:ajax execute="@form"/>
-                                    </h:commandButton>
+                                  <h:commandButton type="button"
+                                                   class="btn btn-default page_button"
+                                                   value="Save"
+                                                   actionListener="#{customerProfileManagedBean.updateCustomerProfile}" >
+                                    <f:ajax execute="@form"/>
+                                  </h:commandButton>
                                 </div>
                             </h:form>
                         </div>

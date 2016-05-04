@@ -134,7 +134,7 @@ public class CustomerProfileManagedBean implements Serializable {
     }
 
     public void createAddress(ActionEvent event) {
-        address.setCustomer(customer);
+        address.setCustomer(signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer());
         if (signUpAndLoginManagedBean.getAccountManagementRemote().createAddress(address)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
