@@ -213,7 +213,7 @@ public class CheckOutManagedBean implements Serializable {
                 customerCartManagedBean.setCartLineItems(productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()));
                 customerCartManagedBean.setTotalPrice(0);
                 customerBoxManagedBean.setBoxes(signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllBoxByCustomerId(customer.getCustomerId()));
-                ec.redirect("http://localhost:8080/LaundryButler-war/home.xhtml?faces-redirect=true");
+                ec.redirect("home.xhtml?faces-redirect=true");
             }
         } else {
             System.out.println("#####  payment is false");
