@@ -95,11 +95,19 @@
 
                                             <div id="myBoxToggle#{box.boxId}" class="accordian-body collapse">    
                                                 <div class="row" style="margin: 15px; text-align:left;">
-
+                                                   
                                                     <div class="col-md-8">
+                                                     <h:form id="box_AddressDetail">
+                                                      <ui:fragment rendered="#{(box.address ne null) and (box.address.addressId ne -1)}">
                                                         <small>PICKUP/DELIVERY ADDRESS</small>
-                                                        <p style="font-size: 20px;">(Block) (Street Address), #(Floor)-(Unit)<br/>Singapore (Postal Code)</p>
-
+                                                        <p style="font-size: 20px;"><h:outputText value="#{box.address.block} #{box.address.street}, #{box.address.unit}"/></p>
+                                                        <p style="font-size: 20px;"><h:outputText value="#{box.address.country} #{box.address.postalCode}"/></p>
+                                                      </ui:fragment>
+                                                      <ui:fragment rendered="#{(box.address eq null) or (box.address.addressId eq -1)}">
+                                                        <small>PICKUP/DELIVERY ADDRESS</small>
+                                                        <p style="font-size: 20px;">Address Not Set</p>
+                                                      </ui:fragment>
+                                                    </h:form>    
                                                         <small>This box will be handled by: <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/>  (<h:outputText id="box_contact" value="#{box.employee.mobile}"/>)</small>
 
                                                         <p>
@@ -150,6 +158,7 @@
 
                                                       <div class="form-group">
                                                         <select class="form-control" id="addessSelection#{box.boxId}">
+                                                            <option value="-1">Select Pickup/Delivery Address</option>
                                                           <ui:repeat var="add" value="#{customerBoxManagedBean.customer.addresses}">
                                                             <option value="#{add.addressId}">#{add.block}, #{add.street}, ##{add.unit}-#{add.floor}, #{add.country} #{add.postalCode}</option>
                                                           </ui:repeat>
@@ -171,7 +180,7 @@
                                                             <h:inputText id="box_address_detail" class="hide" value="#{customerBoxManagedBean.addressId}"/>
                                                             <!--Update Button-->
                                                             <h:commandButton  id="box_pickupDateTimeButton" type="button" value="Set Pickup" class="btn btn-block page_button" actionListener="#{customerBoxManagedBean.updateBox(box)}">
-                                                                <f:ajax execute="pickUpTimeForm" render="#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:deliveryTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:box_status"/>
+                                                                <f:ajax execute="pickUpTimeForm" render="#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:deliveryTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:box_status #{cc.clientId}:customer_box_list:#{st.index}:box_AddressDetail"/>
                                                             </h:commandButton>
                                                         </h:form>
                                                     </div>
