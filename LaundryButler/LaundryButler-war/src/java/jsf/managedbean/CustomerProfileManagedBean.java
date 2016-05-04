@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -16,7 +16,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 
 @Named(value = "customerProfileManagedBean")
-@SessionScoped
+@RequestScoped
 public class CustomerProfileManagedBean implements Serializable {
 
     @Inject
@@ -63,7 +63,7 @@ public class CustomerProfileManagedBean implements Serializable {
         }
     }
 
-    public void updateCustomerProfile(ActionEvent event) {
+    public void updateCustomerProfile() {
 
         if (signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer)) {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -135,7 +135,8 @@ public class CustomerProfileManagedBean implements Serializable {
 
     public void createAddress(ActionEvent event) {
         address.setCustomer(signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer());
-        if (signUpAndLoginManagedBean.getAccountManagementRemote().createAddress(address)) {
+        System.out.println("id = " + address.getCustomer().getCustomerId());
+        if (signUpAndLoginManagedBean.getAccountManagementRemote().updateAddress(address)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to create", "Fail to create"));
