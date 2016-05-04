@@ -149,13 +149,22 @@
                         <div class="modal-footer">
                             
                             <div style="float:left;">
-                                <h:form>
-                                    Giving to someone? Enter the recipient ID: &nbsp;
-                                    <h:inputText id="home_buy_checkout_recipientId" style="width: 40px;" value="#{customerCartManagedBean.recipientId}"></h:inputText>
-                                    <h:commandButton class="btn btn-default page_button" value="Apply" actionListener="#{customerCartManagedBean.printRecipientId()}">
+                              Giving to someone? Enter the recipient ID: &nbsp;
+                              <input id="receipientInput_Id" type="text"></input>
+                                <h:form id="receipientInput">
+                                    
+                                    <h:inputText id="home_buy_checkout_recipientId" class="hide" style="width: 40px;" value="#{customerCartManagedBean.recipientId}"></h:inputText>
+                                    <h:commandButton id="receipientIdApplyButton" class="btn btn-default page_button hide" value="Apply" actionListener="#{customerCartManagedBean.printRecipientId()}">
                                             <f:ajax execute="@form"/>
                                         </h:commandButton>
                                 </h:form>
+                              <script>
+                                $('#receipientInput_Id').change(function (){
+                                  document.getElementById('#{cc.clientId}:cartLineItem:receipientInput:home_buy_checkout_recipientId').value = $('#receipientInput_Id').val();
+                                  document.getElementById('#{cc.clientId}:cartLineItem:receipientInput:receipientIdApplyButton').click();
+                                  document.getElementById('#{cc.clientId}:cartLineItem:receipientInput:receipientIdApplyButton').click();
+                                });
+                              </script>
                             </div> 
                             
                             <h:form id="checkOutArea">
