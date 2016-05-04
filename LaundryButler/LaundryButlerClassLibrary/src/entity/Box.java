@@ -38,7 +38,7 @@ public class Box implements Serializable {
     private Address address;
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private Employee employee;
-    private byte rating;
+    private Integer rating;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDateTime;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "box")
@@ -135,11 +135,11 @@ public class Box implements Serializable {
         this.employee = employee;
     }
 
-    public byte getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(byte rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
