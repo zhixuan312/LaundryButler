@@ -21,16 +21,16 @@ import javax.inject.Inject;
 @Named(value = "customerBoxManagedBean")
 @RequestScoped
 public class CustomerBoxManagedBean implements Serializable {
-
+    
     @Inject
     private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
-
+    
     private Box box;
     private Customer customer;
     private List<Box> boxes;
     private List<Box> boxesIsShared;
     private Long addressId;
-
+    
     public CustomerBoxManagedBean() {
         box = new Box();
         boxes = new ArrayList<>();
@@ -38,11 +38,11 @@ public class CustomerBoxManagedBean implements Serializable {
         boxesIsShared = new ArrayList<>();
         addressId = new Long(-1);
     }
-
+    
     @PostConstruct
     public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-
+        
         try {
             if (ec.getSessionMap().get("login") == null) {
                 ec.redirect("index.xhtml?faces-redirect=true");
@@ -54,13 +54,13 @@ public class CustomerBoxManagedBean implements Serializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
+        
         customer = signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer();
         if (signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllBoxByCustomerId(customer.getCustomerId()) != null) {
             boxes = signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllBoxByCustomerId(customer.getCustomerId());
         }
     }
-
+    
     public Integer getNumberOfUnscheduledBoxes() {
         Integer count = 0;
         for (Box b : boxes) {
@@ -70,7 +70,7 @@ public class CustomerBoxManagedBean implements Serializable {
         }
         return count;
     }
-
+    
     public void updateBoxIsExpress(Box box) {
         System.out.println("updateBoxIsExpress is called");
         if (customer.getExpress() >= 0) {
@@ -83,7 +83,7 @@ public class CustomerBoxManagedBean implements Serializable {
                 c.setTime(box.getPickupDateTime());
                 c.add(Calendar.DATE, 7);
                 box.setDeliveryDateTime(c.getTime());
-
+                
                 int num = customer.getExpress();
                 num++;
                 customer.setExpress(num);
@@ -99,7 +99,7 @@ public class CustomerBoxManagedBean implements Serializable {
                     c.setTime(box.getPickupDateTime());
                     c.add(Calendar.DATE, 1);
                     box.setDeliveryDateTime(c.getTime());
-
+                    
                     int num = customer.getExpress();
                     num--;
                     customer.setExpress(num);
@@ -113,7 +113,7 @@ public class CustomerBoxManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sorry, you dont have enough express cleaning!", "Sorry, you dont have enough  express cleaning!"));
         }
     }
-
+    
     public void updateBoxAllowSharing(Box box) {
         System.out.println("updateBoxIsShared is called");
         if (box.getAllowSharing()) {
@@ -135,7 +135,7 @@ public class CustomerBoxManagedBean implements Serializable {
         signUpAndLoginManagedBean.getLaundryOrderManagementRemote().updateBox(box);
         System.out.println("updateBoxIsShared status: " + box.getIsShared());
     }
-
+    
     //Status Code
     //0: reuqested, pending
     //1: accepted
@@ -159,7 +159,7 @@ public class CustomerBoxManagedBean implements Serializable {
             boxes = signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllBoxByCustomerId(customer.getCustomerId());
         }
     }
-
+    
     public Customer sharingCustomer(Box box) {
         List<SharedBoxPermission> sharedBoxPermissionList = signUpAndLoginManagedBean.getLaundryOrderManagementRemote().viewAllSharedBoxPermissionByBoxId(box.getBoxId());
         Customer returnCustomer = null;
@@ -172,17 +172,17 @@ public class CustomerBoxManagedBean implements Serializable {
         }
         return returnCustomer;
     }
-
+    
     public void acceptRequest(SharedBoxPermission sharedBoxPermission) {
         sharedBoxPermission.setStatus(1);
         signUpAndLoginManagedBean.getLaundryOrderManagementRemote().updateSharedBoxPermission(sharedBoxPermission);
     }
-
+    
     public void denyRequest(SharedBoxPermission sharedBoxPermission) {
         sharedBoxPermission.setStatus(-1);
         signUpAndLoginManagedBean.getLaundryOrderManagementRemote().updateSharedBoxPermission(sharedBoxPermission);
     }
-
+    
     public void updateBoxDryCleaning(Box box) {
         int change = box.getDryCleaning() - signUpAndLoginManagedBean.getLaundryOrderManagementRemote().retrieveBoxByBoxId(box.getBoxId()).getDryCleaning();
         System.out.println("updateBoxDryCleaning is called");
@@ -195,58 +195,60 @@ public class CustomerBoxManagedBean implements Serializable {
             System.out.println("updateBoxDryCleaning number: " + box.getDryCleaning());
         }
     }
-
+    
     public void updateBox(Box box) {
-        Address boxAddress = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveAddressByAddressId(addressId);
-        box.setAddress(boxAddress);
+        if(!addressId.equals(new Long(-1))){
+            Address boxAddress = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveAddressByAddressId(addressId);
+            box.setAddress(boxAddress);
+        }
         signUpAndLoginManagedBean.getLaundryOrderManagementRemote().updateBox(box);
     }
-
+    
     public void deleteBox(Box boxToDelete) {
-
+        
         if (signUpAndLoginManagedBean.getLaundryOrderManagementRemote().deleteBox(boxToDelete.getBoxId())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
     }
-
+    
     public Box getBox() {
         return box;
     }
-
+    
     public void setBox(Box box) {
         this.box = box;
     }
-
+    
     public Customer getCustomer() {
         return customer;
     }
-
+    
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
+    
     public List<Box> getBoxes() {
         return boxes;
     }
-
+    
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
     }
-
+    
     public List<Box> getBoxesIsShared() {
         return boxesIsShared;
     }
-
+    
     public void setBoxesIsShared(List<Box> boxesIsShared) {
         this.boxesIsShared = boxesIsShared;
     }
-
+    
     public Long getAddressId() {
         return addressId;
     }
-
+    
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
     }
