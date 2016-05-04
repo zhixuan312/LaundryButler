@@ -149,10 +149,9 @@
                                                         </script>
 
                                                       <div class="form-group">
-                                                        <label for="addessSelection#{box.boxId}">Select Address</label>
                                                         <select class="form-control" id="addessSelection#{box.boxId}">
                                                           <ui:repeat var="add" value="#{customerBoxManagedBean.customer.addresses}">
-                                                            <option value="#{add.addressId}">#{add.block}, #{add.street}, #{add.country}</option>
+                                                            <option value="#{add.addressId}">#{add.block}, #{add.street}, ##{add.unit}-#{add.floor}, #{add.country} #{add.postalCode}</option>
                                                           </ui:repeat>
                                                         </select>
                                                       </div>
@@ -171,7 +170,7 @@
                                                             <h:inputText id="box_status_detail" class="hide" value="#{box.status}"/>
                                                             <h:inputText id="box_address_detail" class="hide" value="#{customerBoxManagedBean.addressId}"/>
                                                             <!--Update Button-->
-                                                            <h:commandButton  id="box_pickupDateTimeButton" type="button" value="Set Pickup Date" class="btn btn-block page_button" actionListener="#{customerBoxManagedBean.updateBox(box)}">
+                                                            <h:commandButton  id="box_pickupDateTimeButton" type="button" value="Set Pickup" class="btn btn-block page_button" actionListener="#{customerBoxManagedBean.updateBox(box)}">
                                                                 <f:ajax execute="pickUpTimeForm" render="#{cc.clientId}:customer_box_list:#{st.index}:pickUpTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:deliveryTimeDisplayForm #{cc.clientId}:customer_box_list:#{st.index}:box_status"/>
                                                             </h:commandButton>
                                                         </h:form>
