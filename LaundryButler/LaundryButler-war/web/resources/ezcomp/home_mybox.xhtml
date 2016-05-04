@@ -113,19 +113,13 @@
                                                         <small>This box will be handled by: <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/>  (<h:outputText id="box_contact" value="#{box.employee.mobile}"/>)</small>
 
                                                         <br/>
-                                                            <h:outputLabel for="box_rating" value="Rating:" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"/>
-                                                            <p:rating value="#{box.rating}" /> 
-                                                            <h:commandButton value="Submit" actionListener="#{customerBoxManagedBean.updateBox(box)}"/>
-                                                            
-                                                       
-                                                            <!-- <h:panelGrid columns="2" cellpadding="5">
-                                                                <h:outputLabel for="box_rating" value="Rating:" rendered="#{box.status.equalsIgnoreCase('DELIVERED')}"  />
-                                                                <p:rating value="#{ratingManagedBean.rating1}" />
-                                                                
-                                                            </h:panelGrid> -->
-                                                            
-                                                       
-                                                       
+                                                        
+                                                        <h:form id="boxRatingForm">
+                                                            <ui:fragment rendered="#{box.status.equalsIgnoreCase('Delivered')}">
+                                                                <p:rating value="#{box.rating}" /> 
+                                                                <p:commandButton value="Submit" actionListener="#{customerBoxManagedBean.updateBox(box)}" />
+                                                            </ui:fragment>
+                                                        </h:form>
 
                                                     </div>
 
