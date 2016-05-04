@@ -110,16 +110,31 @@
                                                         <p style="font-size: 20px;">Address Not Set</p>
                                                       </ui:fragment>
                                                     </h:form>    
+                                                        
+
                                                         <small>This box will be handled by: <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/>  (<h:outputText id="box_contact" value="#{box.employee.mobile}"/>)</small>
 
-                                                        <br/>
+                                                        <ui:fragment rendered="#{box.status.equalsIgnoreCase('Delivered')}">
+                                                            <input id="rating#{box.boxId}" type="number" class="rating" data-min="0" data-max="5" data-step="1" data-size="xs" data-show-clear="false" data-show-caption="false"/>
+                                                                                                               
+                                                        <h:form id="box_RatingForm">
+                                                            <h:inputText id="box_RatingDetail" class="hide" value="#{box.rating}"></h:inputText>
+                                                            <h:commandButton id="box_RatingButton" value="Set" class="hide" actionListener="#{customerBoxManagedBean.updateBox(box)}">
+                                                                <f:ajax execute="box_RatingForm"/>
+                                                            </h:commandButton>
+                                                        </h:form>  
+
+                                                        <script type="text/javascript">
+                                                            $("#rating#{box.boxId}").rating();
+                                                            $("#rating#{box.boxId}").change(function (){
+                                                                document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_RatingForm:box_RatingDetail").value = $("#rating#{box.boxId}").val();
+                                                                document.getElementById("#{cc.clientId}:customer_box_list:#{st.index}:box_RatingForm:box_RatingButton").click();
+                                                            });
+                                                        </script>
+                                                        </ui:fragment>
                                                         
-                                                        <h:form id="boxRatingForm">
-                                                            <ui:fragment rendered="#{box.status.equalsIgnoreCase('Delivered')}">
-                                                                <p:rating value="#{box.rating}" /> 
-                                                                <p:commandButton value="Submit" actionListener="#{customerBoxManagedBean.updateBox(box)}" />
-                                                            </ui:fragment>
-                                                        </h:form>
+                                                       
+                                                       
 
                                                     </div>
 
