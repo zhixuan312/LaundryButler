@@ -99,7 +99,7 @@ public class Controller {
        
         String[] names = {"12 Boxes", "24 Boxes", "48 Boxes", "1 Box", "Express Laundry", "Dry Cleaning"};
         String[] descriptions = {"Weekly delivery of empty box for the next 12 weeks", "Weekly delivery of empty box for the next 24 weeks", "Weekly delivery of empty box for the next 48 weeks", "One-time pickup", "Delivery within 24 hours", "Clean with organic solvent without using water"};
-        Integer[] units = {12, 24, 48, 1, 1, 1};
+        Integer[] units = {12, 24, 48, 1, 1, 0};
         Long[] ids = {Long.valueOf(1), Long.valueOf(2), Long.valueOf(3), Long.valueOf(4), Long.valueOf(5), Long.valueOf(6)};
         Double[] prices = {383.90, 671.90, 1199.90, 34.90, 9.90, 5.90};
         
