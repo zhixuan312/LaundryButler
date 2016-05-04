@@ -33,10 +33,10 @@
                           <h:outputText value="#{st.index + 1}"></h:outputText>
                         </td>
                         <td>
-                          <h:outputText value="#{box.customer.firstName} #{box.customer.lastName}"></h:outputText>
+                            <h:outputText value="#{box.customer.firstName} #{box.customer.lastName}"/> (<h:outputText value="#{box.customer.gender}"/>, <h:outputText value="#{box.customer.mobile}"/>)<br/>
                         </td>
                         <td>
-                            <h:outputText value="#{box.address.block} #{box.address.street}, ##{box.address.unit}-#{box.address.floor}, #{box.address.country} #{box.address.postalCode} "></h:outputText>
+                            <h:outputText value="#{box.address.block} #{box.address.street}, ##{box.address.floor}-#{box.address.unit}, #{box.address.country} #{box.address.postalCode} "></h:outputText>
                         </td>
                         <td>
                           <h:form id='sharingRequestSendingForm'>
