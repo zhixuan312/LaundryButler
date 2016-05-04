@@ -48,7 +48,7 @@ public class CheckOutManagedBean implements Serializable {
     private Transaction transaction;
     private Box box;
     private List<Long> tempList;
-
+    
     
     public CheckOutManagedBean() {
         customer = new Customer();
@@ -56,7 +56,7 @@ public class CheckOutManagedBean implements Serializable {
         transaction = new Transaction();
         box = new Box();
         tempList = new ArrayList<>();
-
+        
     }
     
     @PostConstruct
@@ -107,7 +107,7 @@ public class CheckOutManagedBean implements Serializable {
         try {
             createStripeCharge();
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
     
@@ -158,7 +158,11 @@ public class CheckOutManagedBean implements Serializable {
                                         box.setCustomer(customer);
                                     } else {
                                         Customer recipient = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveCustomerByCustomerId(Long.valueOf(customerCartManagedBean.getRecipientId()).longValue());
-                                        box.setCustomer(recipient);
+                                        if (recipient == null){
+                                            box.setCustomer(customer);
+                                        } else {
+                                            box.setCustomer(recipient);
+                                        }
                                     }
                                     box.setDeliveryDateTime(null);
                                     box.setIsShared(false);
