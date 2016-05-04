@@ -138,7 +138,7 @@ public class CustomerProfileManagedBean implements Serializable {
     public void createAddress(ActionEvent event) {
         address.setCustomer(signUpAndLoginManagedBean.getAccountManagementRemote().getCustomer());
         customer.getAddresses().add(address);
-        updateCustomerProfile();
+        signUpAndLoginManagedBean.getAccountManagementRemote().updateCutomerProfile(customer);
         System.out.println("@@@@@@@@@@@@@@@3232323232 "+ customer.getAddresses().size());
     }
     
