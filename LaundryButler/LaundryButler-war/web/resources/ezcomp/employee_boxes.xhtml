@@ -43,22 +43,12 @@
                         </p:column>
 
                         <p:column headerText="Task">
-
-                            <p:cellEditor>
-                                <f:facet name="output">
-                                    <ui:fragment rendered="#{!box.status.equalsIgnoreCase('Unscheduled')}">
-                                        Pick up on: <h:outputText value="#{box.pickupDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" /></h:outputText>. Deliver on: <h:outputText value="#{box.deliveryDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" /></h:outputText>.<br/>
-                                        #{box.customer.firstName}'s Address: <h:outputText value="#{box.address.block} #{box.address.street}, ##{box.address.unit}-#{box.address.floor}, #{box.address.country} #{box.address.postalCode}" />
-
-                                    </ui:fragment>
-                                </f:facet>
-                                <f:facet name="input">
-                                    <ui:fragment rendered="#{!box.status.equalsIgnoreCase('Unscheduled')}">
-                                        Pickup on: <h:inputText style="color: black; width: 100%;" value="#{box.pickupDateTime}" /><br/>
-                                        Deliver on: <h:inputText style="color: black; width: 100%;" value="#{box.deliveryDateTime}" />
-                                    </ui:fragment>
-                                </f:facet>
-                            </p:cellEditor>
+                            <ui:fragment rendered="#{!box.status.equalsIgnoreCase('Unscheduled')}">
+                                Pick up on: <h:outputText value="#{box.pickupDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" /></h:outputText>. Deliver on: <h:outputText value="#{box.deliveryDateTime}"><f:convertDateTime type="date" timeZone="Singapore" pattern="dd MMM yyyy, HH:MM" /></h:outputText>.<br/>
+                                <small>Requester: #{box.customer.firstName} #{box.customer.lastName} (#{box.customer.email}, #{box.customer.mobile})<br/>
+                                Address: #{box.address.block} #{box.address.street}, ##{box.address.floor}-#{box.address.unit}, #{box.address.country} #{box.address.postalCode} <!--<h:outputText value="{box.address.block} {box.address.street}, {box.address.unit}-{box.address.floor}, {box.address.country} {box.address.postalCode}" />
+                                --></small>
+                            </ui:fragment>
                         </p:column>
 
                         <p:column headerText="Status" style="width: 150px;">

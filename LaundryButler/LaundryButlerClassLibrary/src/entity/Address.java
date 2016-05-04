@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Address implements Serializable {
@@ -22,8 +23,10 @@ public class Address implements Serializable {
     private String postalCode;
     private String country;
     private Boolean isAirbnbRental;
-    @ManyToOne(fetch = FetchType.EAGER, optional = false,  cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
     private Customer customer;
+    @OneToOne(fetch = FetchType.EAGER, optional = true, mappedBy = "address")
+    private Box box;
 
     public Address() {
     }
@@ -98,6 +101,14 @@ public class Address implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Box getBox() {
+        return box;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
     }
 
     @Override

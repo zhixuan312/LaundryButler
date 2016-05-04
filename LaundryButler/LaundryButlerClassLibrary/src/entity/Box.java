@@ -34,6 +34,7 @@ public class Box implements Serializable {
     private String boxPasscode;
     private Boolean allowSharing;
     private Boolean isShared;
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private Address address;
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private Employee employee;
