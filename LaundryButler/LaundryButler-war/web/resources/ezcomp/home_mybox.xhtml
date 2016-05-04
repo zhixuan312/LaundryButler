@@ -111,8 +111,10 @@
                                                       </ui:fragment>
                                                     </h:form>    
                                                         
-
+                                                    <ui:fragment rendered="#{box.employee ne null}">
                                                         <small>This box will be handled by: <h:outputText id="box_collectedBy" value="#{box.employee.firstName} #{box.employee.lastName}"/>  (<h:outputText id="box_contact" value="#{box.employee.mobile}"/>)</small>
+                                                    </ui:fragment>
+                                                        
 
                                                         <ui:fragment rendered="#{box.status.equalsIgnoreCase('Delivered')}">
                                                             <input id="rating#{box.boxId}" type="number" class="rating" value="#{box.rating}" data-min="0" data-max="5" data-step="1" data-size="xs" data-show-clear="false" data-show-caption="false"/>
@@ -176,7 +178,7 @@
                                                                             $('#datetimepicker#{box.boxId}').data("DateTimePicker").clear();
                                                                     });
                                                         </script>
-
+                                                        <br/>
                                                       <div class="form-group">
                                                         <select class="form-control" id="addessSelection#{box.boxId}">
                                                             <option value="-1">Select Pickup/Delivery Address</option>
