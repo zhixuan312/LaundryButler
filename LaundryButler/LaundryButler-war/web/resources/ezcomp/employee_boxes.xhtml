@@ -70,17 +70,15 @@
                         <p:column headerText="Assigned To" style="width: 150px;">
                             <p:cellEditor>
                                 <f:facet name="output">
-                                    <h:outputText value="#{box.employee.firstName}" />
+                                    Employee #<h:outputText value="#{box.employee.employeeId}" />
                                 </f:facet>
                                 <f:facet name="input">
                                     
-                                    <!-- BUG TO FIX -->
-                                    <!-- Could not set employee ID -->
                                     <h:selectOneMenu value="#{box.employee.employeeId}" style="width:100%">
                                         <f:selectItems value="#{adminEmployeeManagedBean.employees}"
                                                        var="emp"
                                                        itemValue="#{emp.employeeId}"
-                                                       itemLabel="#{emp.firstName} (#{emp.employeeId})" />
+                                                       itemLabel="#{emp.employeeId} (#{emp.firstName})" />
                                     </h:selectOneMenu>
                                     
                                 </f:facet>

@@ -91,7 +91,7 @@
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Name" style="width:300px;">
+                        <p:column headerText="Name" style="width:150px;">
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <h:outputText value="#{employee.firstName}" />, <h:outputText value="#{employee.lastName}" /> <small>(ID: <h:outputText value="#{employee.employeeId}" />)</small>
@@ -101,6 +101,10 @@
                                     <h:inputText style="color: black; width: 100%;" value="#{employee.lastName}" />
                                 </f:facet>
                             </p:cellEditor>
+                        </p:column>
+                        
+                        <p:column headerText="No. of Boxes" style="width:150px;">
+                            <h:outputText value="#{employee.boxes.size()}" /> 
                         </p:column>
 
                         <p:column headerText="Contact" style="width:300px;">
