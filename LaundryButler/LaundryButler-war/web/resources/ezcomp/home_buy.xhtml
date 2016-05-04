@@ -159,6 +159,8 @@
                                         </h:commandButton>
                                 </h:form>
                               <script>
+                                document.getElementById('#{cc.clientId}:cartLineItem:receipientInput:home_buy_checkout_recipientId').value = "";
+                                document.getElementById('#{cc.clientId}:cartLineItem:receipientInput:receipientIdApplyButton').click();
                                 $('#receipientInput_Id').change(function (){
                                   document.getElementById('#{cc.clientId}:cartLineItem:receipientInput:home_buy_checkout_recipientId').value = $('#receipientInput_Id').val();
                                   document.getElementById('#{cc.clientId}:cartLineItem:receipientInput:receipientIdApplyButton').click();
