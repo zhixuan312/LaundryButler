@@ -2,8 +2,10 @@ package jsf.managedbean;
 
 import AccountManagement.AccountManagementRemote;
 import LaundryOrderManagement.LaundryOrderManagementRemote;
+import com.twilio.sdk.TwilioRestException;
 import entity.Box;
 import entity.Employee;
+import extensions.TextSender;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -64,17 +66,32 @@ public class AdminBoxesManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Update fail", "Update fail"));
         }
     }
-    
+
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
-         
-        if(newValue != null && !newValue.equals(oldValue)) {
+
+        if (newValue != null && !newValue.equals(oldValue)) {
             FacesContext context = FacesContext.getCurrentInstance();
             selectedBox = context.getApplication().evaluateExpressionGet(context, "#{box}", Box.class);
             laundryOrderManagementRemote.updateBox(selectedBox);
             selectedBox = null;
         }
+
+        // Send text message about status update
+        try {
+            TextSender ts = new TextSender();
+            String message = "Box " + selectedBox.getBoxId() + " Update\n"
+                    + "Status: " + selectedBox.getStatus() + "\n"
+                    + "Handled by: " + selectedBox.getEmployee().getFirstName() + "(" + selectedBox.getEmployee().getMobile() + ")\n"
+                    + "Passcode: " + selectedBox.getBoxPasscode() + "\n";
+            ts.setBodyMessage(message);
+            ts.setRecipientPhoneNumber(selectedBox.getCustomer().getMobile());
+            ts.sendText();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     public List<Box> getBoxes() {

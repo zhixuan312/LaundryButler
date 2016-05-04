@@ -73,9 +73,16 @@
                                     <h:outputText value="#{box.employee.firstName}" />
                                 </f:facet>
                                 <f:facet name="input">
-                                    <h:selectOneMenu value="#{box.employee}" style="width:100%">
-                                        <f:selectItems itemLabel="#{employee.firstName} #{employee.lastName}" var="employee" value="#{adminEmployeeManagedBean.employees}" />
+                                    
+                                    <!-- BUG TO FIX -->
+                                    <!-- Could not set employee ID -->
+                                    <h:selectOneMenu value="#{box.employee.employeeId}" style="width:100%">
+                                        <f:selectItems value="#{adminEmployeeManagedBean.employees}"
+                                                       var="emp"
+                                                       itemValue="#{emp.employeeId}"
+                                                       itemLabel="#{emp.firstName} (#{emp.employeeId})" />
                                     </h:selectOneMenu>
+                                    
                                 </f:facet>
                             </p:cellEditor>
                         </p:column>
