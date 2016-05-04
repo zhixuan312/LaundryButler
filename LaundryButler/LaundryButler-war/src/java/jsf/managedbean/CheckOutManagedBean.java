@@ -107,7 +107,7 @@ public class CheckOutManagedBean implements Serializable {
         try {
             createStripeCharge();
         } catch (Exception e) {
-            
+           e.printStackTrace();
         }
     }
     
