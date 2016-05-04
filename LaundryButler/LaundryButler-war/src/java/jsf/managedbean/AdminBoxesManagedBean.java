@@ -75,7 +75,6 @@ public class AdminBoxesManagedBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             selectedBox = context.getApplication().evaluateExpressionGet(context, "#{box}", Box.class);
             laundryOrderManagementRemote.updateBox(selectedBox);
-            selectedBox = null;
         }
 
         // Send text message about status update
@@ -84,7 +83,8 @@ public class AdminBoxesManagedBean implements Serializable {
             String message = "Box " + selectedBox.getBoxId() + " Update\n"
                     + "Status: " + selectedBox.getStatus() + "\n"
                     + "Handled by: " + selectedBox.getEmployee().getFirstName() + "(" + selectedBox.getEmployee().getMobile() + ")\n"
-                    + "Passcode: " + selectedBox.getBoxPasscode() + "\n";
+                    + "Passcode: " + selectedBox.getBoxPasscode() + "\n"
+                    + "Expected delivery on: " + selectedBox.getDeliveryDateTime();
             ts.setBodyMessage(message);
             ts.setRecipientPhoneNumber(selectedBox.getCustomer().getMobile());
             ts.sendText();
@@ -92,6 +92,7 @@ public class AdminBoxesManagedBean implements Serializable {
             ex.printStackTrace();
         }
 
+        selectedBox = null;
     }
 
     public List<Box> getBoxes() {

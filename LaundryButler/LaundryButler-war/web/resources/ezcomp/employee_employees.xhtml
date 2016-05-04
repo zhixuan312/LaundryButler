@@ -82,7 +82,17 @@
 
                 <h:form id="existingEmployeeForm">
 
-                    <p:dataTable style="font-family: Lato, sans-serif;" id="employees" var="employee" value="#{adminEmployeeManagedBean.employees}" editable="true" editMode="cell" widgetVar="cellEmployees">
+                    <p:dataTable style="font-family: Lato, sans-serif;"
+                                 id="employees"
+                                 var="employee"
+                                 value="#{adminEmployeeManagedBean.employees}"
+                                 editable="true"
+                                 editMode="cell"
+                                 widgetVar="cellEmployees"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,25,50">
                         <p:ajax event="cellEdit" listener="#{adminEmployeeManagedBean.onCellEdit}" />
 
                         <p:column headerText="Employed On" style="width:170px">

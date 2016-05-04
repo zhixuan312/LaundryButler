@@ -64,7 +64,7 @@
                             <h:outputLabel class="control-label" value="Password"/>
                         </div>
                         <div class="col-md-10">
-                            <h:inputText class="form-control input_text" value="#{adminEmployeeManagedBean.admin.password}"></h:inputText>
+                            <h:inputSecret class="form-control input_text" value="#{adminEmployeeManagedBean.admin.password}"></h:inputSecret>
                             <br/>
                             <h:commandButton class="btn btn-block page_button" style="color:#6cb6f5!important;" value="Update" actionListener="#{adminEmployeeManagedBean.updateEmployee}">
                             </h:commandButton>
