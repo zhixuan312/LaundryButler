@@ -100,9 +100,9 @@
                             <h:form id="myAddressForm" class="form">
                                 <div class="modal-body">
                                     <h3 class="themeC">Existing Address</h3>
-                                    <ui:fragment rendered="#{(signUpAndLoginManagedBean.customer.addresses ne null) and (signUpAndLoginManagedBean.customer.addresses.size() gt 0)}">
+                                    <ui:fragment rendered="#{(customerProfileManagedBean.customer.addresses ne null) and (customerProfileManagedBean.customer.addresses.size() gt 0)}">
                                         <h:form id="currentAddress">
-                                            <h:outputText value="#{signUpAndLoginManagedBean.customer.addresses.size()}"></h:outputText>
+                                            <h:outputText value="#{customerProfileManagedBean.customer.addresses.size()}"></h:outputText>
                                             <table class="table text-center">
                                                 <tr>
                                                     <th></th>
@@ -115,7 +115,7 @@
                                                     <th class="text-right"></th>
                                                 </tr>
                                                 <h:panelGroup id="currentAddressList">
-                                                    <ui:repeat var="address" value="#{signUpAndLoginManagedBean.customer.addresses}" varStatus="st">
+                                                    <ui:repeat var="address" value="#{customerProfileManagedBean.customer.addresses}" varStatus="st">
                                                         <tr data-toggle="collapse" data-target="#myAddressToggle#{address.addressId}" class="accordion-toggle">
                                                             <td><h:outputText value="#{st.index + 1}"></h:outputText></td>
                                                             <td><h:outputText id="output_address_block" value="#{address.block}"></h:outputText></td>
@@ -190,7 +190,7 @@
                                             });
                                         </script>
                                     </ui:fragment>
-                                    <ui:fragment rendered="#{(signUpAndLoginManagedBean.customer.addresses eq null) or (signUpAndLoginManagedBean.customer.addresses.size() lt 1)}">
+                                    <ui:fragment rendered="#{(customerProfileManagedBean.customer.addresses eq null) or (customerProfileManagedBean.customer.addresses.size() lt 1)}">
                                         <p class="text-center">You don't have any address record yet.</p>
                                     </ui:fragment>
 
