@@ -22,15 +22,15 @@ import javax.inject.Inject;
 @Named(value = "customerCartManagedBean")
 @SessionScoped
 public class CustomerCartManagedBean implements Serializable {
-
+    
     @EJB
     private ProductManagementRemote productManagementRemote;
     @EJB
     private TransactionManagementRemote transactionManagementRemote;
-
+    
     @Inject
     private SignUpAndLoginManagedBean signUpAndLoginManagedBean;
-
+    
     private Customer customer;
     private List<CartLineItem> cartLineItems;
     private double totalPrice;
@@ -44,7 +44,8 @@ public class CustomerCartManagedBean implements Serializable {
     private String stripeLocale;
     private String stripeName;
     private String stripeAmount;
-
+    private String recipientId;
+    
     public CustomerCartManagedBean() {
         customer = new Customer();
         cartLineItems = new ArrayList<>();
@@ -58,12 +59,13 @@ public class CustomerCartManagedBean implements Serializable {
         stripeCurrency = "SGD";
         stripeLocale = "auto";
         stripeName = "LaundryButler";
+        recipientId = "";
     }
-
+    
     @PostConstruct
     public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-
+        
         try {
             if (ec.getSessionMap().get("login") == null) {
                 ec.redirect("index.xhtml?faces-redirect=true");
@@ -81,7 +83,7 @@ public class CustomerCartManagedBean implements Serializable {
             cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         }
     }
-
+    
     public List<CartLineItem> refreshList() {
         if (productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId()) != null) {
             cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
@@ -93,7 +95,7 @@ public class CustomerCartManagedBean implements Serializable {
         }
         return cartLineItems;
     }
-
+    
     public void addProductToCart(Product product) {
         Boolean isThere = false;
         cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
@@ -129,7 +131,7 @@ public class CustomerCartManagedBean implements Serializable {
             retrieveTotalPrice();
         }
     }
-
+    
     public void deductProductFromCart(Product product) {
         cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         if (cartLineItems != null && !cartLineItems.isEmpty()) {
@@ -157,7 +159,7 @@ public class CustomerCartManagedBean implements Serializable {
         cartLineItems = productManagementRemote.viewAllCartLineItemByCustomerId(customer.getCustomerId());
         retrieveTotalPrice();
     }
-
+    
     public boolean isCartEmpty() {
         if (cartLineItems == null || cartLineItems.size() == 0) {
             return true;
@@ -169,128 +171,140 @@ public class CustomerCartManagedBean implements Serializable {
         }
         return true;
     }
-
+    
     public void retrieveTotalPrice() {
         double tempPrice = 0;
         for (int i = 0; i < cartLineItems.size(); i++) {
             tempPrice = tempPrice + cartLineItems.get(i).getQuantity() * cartLineItems.get(i).getProduct().getPrice();
         }
         totalPrice = tempPrice;
-
+        
         stripeAmount = String.valueOf(totalPrice * 100);
         stripeAmount = stripeAmount.substring(0, stripeAmount.indexOf("."));
     }
-
+    
     public Customer getCustomer() {
         return customer;
     }
-
+    
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
+    
     public List<CartLineItem> getCartLineItems() {
         return cartLineItems;
     }
-
+    
     public void setCartLineItems(List<CartLineItem> cartLineItems) {
         this.cartLineItems = cartLineItems;
     }
-
+    
     public double getTotalPrice() {
         return totalPrice;
     }
-
+    
     public void setTotalPrice(double totalAmount) {
         this.totalPrice = totalAmount;
     }
-
+    
     public CartLineItem getNewCartLineItem() {
         return newCartLineItem;
     }
-
+    
     public void setNewCartLineItem(CartLineItem newCartLineItem) {
         this.newCartLineItem = newCartLineItem;
     }
-
+    
     public CartLineItem getCartLineItemToRemove() {
         return cartLineItemToRemove;
     }
-
+    
     public void setCartLineItemToRemove(CartLineItem cartLineItemToRemove) {
         this.cartLineItemToRemove = cartLineItemToRemove;
     }
-
+    
     public CartLineItem getCartLineItemAfterEdit() {
         return cartLineItemAfterEdit;
     }
-
+    
     public void setCartLineItemAfterEdit(CartLineItem cartLineItemAfterEdit) {
         this.cartLineItemAfterEdit = cartLineItemAfterEdit;
     }
-
+    
     public TransactionManagementRemote getTransactionManagementRemote() {
         return transactionManagementRemote;
     }
-
+    
     public void setTransactionManagementRemote(TransactionManagementRemote transactionManagementRemote) {
         this.transactionManagementRemote = transactionManagementRemote;
     }
-
+    
     public List<CartLineItem> getReadyToPayCartItems() {
         return readyToPayCartItems;
     }
-
+    
     public void setReadyToPayCartItems(List<CartLineItem> readyToPayCartItems) {
         this.readyToPayCartItems = readyToPayCartItems;
     }
-
+    
     public List<TransactionLineItem> getReadyToPayTransactionLineItems() {
         return readyToPayTransactionLineItems;
     }
-
+    
     public void setReadyToPayTransactionLineItems(List<TransactionLineItem> readyToPayTransactionLineItems) {
         this.readyToPayTransactionLineItems = readyToPayTransactionLineItems;
     }
-
+    
     public Transaction getTransaction() {
         return transaction;
     }
-
+    
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
-
+    
     public String getStripeCurrency() {
         return stripeCurrency;
     }
-
+    
     public void setStripeCurrency(String stripeCurrency) {
         this.stripeCurrency = stripeCurrency;
     }
-
+    
     public String getStripeLocale() {
         return stripeLocale;
     }
-
+    
     public void setStripeLocale(String stripeLocale) {
         this.stripeLocale = stripeLocale;
     }
-
+    
     public String getStripeName() {
         return stripeName;
     }
-
+    
     public void setStripeName(String stripeName) {
         this.stripeName = stripeName;
     }
-
+    
     public String getStripeAmount() {
         return stripeAmount;
     }
-
+    
     public void setStripeAmount(String stripeAmount) {
         this.stripeAmount = stripeAmount;
     }
-
+    
+    public String getRecipientId() {
+        return recipientId;
+    }
+    
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
+    }
+    
+    public void printRecipientId(){
+        System.out.println("##### RecipientId = " + this.recipientId);
+    }
+    
 }

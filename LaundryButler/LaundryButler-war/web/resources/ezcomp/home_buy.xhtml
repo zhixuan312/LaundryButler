@@ -151,9 +151,9 @@
                             <div style="float:left;">
                                 <h:form>
                                     Giving to someone? Enter the recipient ID: &nbsp;
-                                    <h:inputText id="home_buy_checkout_recipientId" style="width: 40px;" value="#{checkOutManagedBean.recipientId}"></h:inputText>
-                                    <h:commandButton class="btn btn-default page_button" value="Apply">
-                                            <f:ajax execute="@form"></f:ajax>
+                                    <h:inputText id="home_buy_checkout_recipientId" style="width: 40px;" value="#{customerCartManagedBean.recipientId}"></h:inputText>
+                                    <h:commandButton class="btn btn-default page_button" value="Apply" actionListener="#{customerCartManagedBean.printRecipientId()}">
+                                            <f:ajax execute="@form"/>
                                         </h:commandButton>
                                 </h:form>
                             </div> 

@@ -48,7 +48,7 @@ public class CheckOutManagedBean implements Serializable {
     private Transaction transaction;
     private Box box;
     private List<Long> tempList;
-    private String recipientId;
+
     
     public CheckOutManagedBean() {
         customer = new Customer();
@@ -56,11 +56,13 @@ public class CheckOutManagedBean implements Serializable {
         transaction = new Transaction();
         box = new Box();
         tempList = new ArrayList<>();
-        recipientId = "";
+
     }
     
     @PostConstruct
     public void init() {
+        System.out.println("Checkout MangedBean constructed.");
+        
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         
         try {
@@ -151,10 +153,11 @@ public class CheckOutManagedBean implements Serializable {
                                     box.setAllowSharing(false);
                                     box.setBoxPasscode(Integer.toString((int) (Math.random() * (1000 - 100) + 100)));
                                     box.setCreatedDateTime(new Date());
-                                    if (recipientId == null || recipientId.equals("")){
+                                    System.out.println("recipientId =" + customerCartManagedBean.getRecipientId());
+                                    if (customerCartManagedBean.getRecipientId() == null || customerCartManagedBean.getRecipientId().equals("")){
                                         box.setCustomer(customer);
                                     } else {
-                                        Customer recipient = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveCustomerByCustomerId(Long.valueOf(recipientId).longValue());
+                                        Customer recipient = signUpAndLoginManagedBean.getAccountManagementRemote().retrieveCustomerByCustomerId(Long.valueOf(customerCartManagedBean.getRecipientId()).longValue());
                                         box.setCustomer(recipient);
                                     }
                                     box.setDeliveryDateTime(null);
@@ -293,13 +296,4 @@ public class CheckOutManagedBean implements Serializable {
     public void setSignUpAndLoginManagedBean(SignUpAndLoginManagedBean signUpAndLoginManagedBean) {
         this.signUpAndLoginManagedBean = signUpAndLoginManagedBean;
     }
-    
-    public String getRecipientId() {
-        return recipientId;
-    }
-    
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
-    }
-    
 }
