@@ -23,23 +23,54 @@
             </div>
             <div class="col-md-8">
                 <h2>Account Information</h2>
+                
                 <h:form id="accountInformationForm">
-                    <h:outputLabel class="control-label" value="First Name"/>
-                    <h:inputText value="#{adminEmployeeManagedBean.admin.firstName}"></h:inputText>
-                    <h:outputLabel class="control-label" value="Last Name"/>
-                    <h:inputText value="#{adminEmployeeManagedBean.admin.lastName}"></h:inputText>
-                    <h:outputLabel class="control-label" value="Mobile"/>
-                    <h:inputText value="#{adminEmployeeManagedBean.admin.mobile}"></h:inputText>
-
-                    <h:commandButton value="Update" actionListener="#{adminEmployeeManagedBean.updateEmployee}"></h:commandButton>
+                    
+                <div class="row">
+                    <div class="col-md-2">
+                        <h:outputLabel class="control-label" value="First Name"/>
+                    </div>
+                    <div class="col-md-10">
+                        <h:inputText class="form-control input_text" value="#{adminEmployeeManagedBean.admin.firstName}"></h:inputText>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-2">
+                        <h:outputLabel class="control-label" value="Last Name"/>
+                    </div>
+                    <div class="col-md-10">
+                        <h:inputText class="form-control input_text" value="#{adminEmployeeManagedBean.admin.lastName}"></h:inputText>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-2">
+                        <h:outputLabel class="control-label" value="Mobile"/>
+                    </div>
+                    <div class="col-md-10">
+                        <h:inputText class="form-control input_text" value="#{adminEmployeeManagedBean.admin.mobile}"></h:inputText>
+                        <br/>
+                        <h:commandButton class="btn btn-block page_button" style="color:#6cb6f5!important;" value="Update" actionListener="#{adminEmployeeManagedBean.updateEmployee}"></h:commandButton>
+                    </div>
+                </div>
+                    
                 </h:form>
-
+           
                 <h2>Change Password</h2>
                 <h:form id="accountPasswordForm">
-                    <h:outputLabel class="control-label" value="New Password"/>
-                    <h:inputSecret value="#{adminEmployeeManagedBean.admin.password}"></h:inputSecret>
-                    <h:commandButton value="Update" actionListener="#{adminEmployeeManagedBean.updateEmployee}">
-                    </h:commandButton>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h:outputLabel class="control-label" value="Password"/>
+                        </div>
+                        <div class="col-md-10">
+                            <h:inputText class="form-control input_text" value="#{adminEmployeeManagedBean.admin.password}"></h:inputText>
+                            <br/>
+                            <h:commandButton class="btn btn-block page_button" style="color:#6cb6f5!important;" value="Update" actionListener="#{adminEmployeeManagedBean.updateEmployee}">
+                            </h:commandButton>
+                        </div>
+                    </div>
+                
                 </h:form>
             </div>
         </div>
