@@ -12,15 +12,15 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-     
+
         <div class="row">
             <div class="col-md-12">    
-            <h2>Customers</h2>
+                <h2>Customers</h2>
 
                 <button style="color:#6cb6f5!important;" class="btn btn-lg page_button" data-toggle="modal" data-target="#newTextModal">
                     Send Text Announcement
                 </button> 
-                
+
                 <div class="modal fade" id="newTextModal" role="dialog" style="padding-top:100px;">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -30,25 +30,26 @@
                             </div>
                             <h:form id="newTextForm" class="form">
                                 <div class="modal-body">
-                                     <div class="row">
+                                    <div class="row">
                                         <div class="col-md-12 form-group">
-                                            <h:inputText id="textMessage" class="form-control input_text" value="#{adminCustomerManagedBean.textMessage}" required="true" requiredMessage="Message is required"/>
+                                            <h:outputLabel class="control-label" for="text_message_input" value="Text Message"/>
+                                            <h:inputText id="text_message_input" class="form-control input_text" value="#{adminCustomerManagedBean.textMessage}" required="true" requiredMessage="Message is required"/>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="modal-footer">
                                     <h:commandButton type="button" class="btn btn-default btn-block btn-lg page_button" style="color:#6cb6f5!important;" value="Send to All Customers" actionListener="#{adminCustomerManagedBean.sendTextAnnouncement}">
+                                        <f:ajax execute="@form" />
                                     </h:commandButton>
-                                  
                                 </div>
                             </h:form>
                         </div>
                     </div>
                 </div>
-            
-             <hr/>
-             
+
+                <hr/>
+
                 <h:form id="form1">
 
                     <p:dataTable style="font-family: Lato, sans-serif;"  id="customers" var="customer" value="#{adminCustomerManagedBean.customers}" editable="true" editMode="cell" widgetVar="cellCustomers">
@@ -88,7 +89,7 @@
                                 </f:facet>  
                             </p:cellEditor>
                         </p:column>
-                        
+
                         <p:column headerText="Balance" style="width:230px">
                             Dry Cleaning: <h:outputText value="#{customer.dryCleaning} " /> pieces<br/>
                             Express Service: <h:outputText value="#{customer.express} " /> times<br/>
@@ -96,10 +97,10 @@
 
                     </p:dataTable>
                 </h:form>
-                
-               
+
+
             </div>
         </div>
-        
+
     </cc:implementation>
 </html>

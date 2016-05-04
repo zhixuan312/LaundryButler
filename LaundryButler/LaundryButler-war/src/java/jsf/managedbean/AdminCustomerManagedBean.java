@@ -84,6 +84,8 @@ public class AdminCustomerManagedBean implements Serializable {
     
     public void sendTextAnnouncement(ActionEvent event) {
         
+        System.out.println(textMessage);
+        
         TextSender ts = new TextSender();       
         ts.setBodyMessage(textMessage);
         
@@ -95,6 +97,13 @@ public class AdminCustomerManagedBean implements Serializable {
                 // phone no. is not valid
             }
         }
+        
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("employee.xhtml?faces-redirect=true");
+        } catch (IOException ex) {
+            Logger.getLogger(AdminCustomerManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     public Employee getAdmin() {
