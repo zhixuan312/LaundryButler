@@ -12,9 +12,43 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+     
         <div class="row">
-            <div class="col-md-12">
-                <h2>Customers</h2>
+            <div class="col-md-12">    
+            <h2>Customers</h2>
+
+                <button style="color:#6cb6f5!important;" class="btn btn-lg page_button" data-toggle="modal" data-target="#newTextModal">
+                    Send Text Announcement
+                </button> 
+                
+                <div class="modal fade" id="newTextModal" role="dialog" style="padding-top:100px;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header themeBg">
+                                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title text-center">Send Text Announcement</h4>
+                            </div>
+                            <h:form id="newTextForm" class="form">
+                                <div class="modal-body">
+                                     <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <h:inputText id="textMessage" class="form-control input_text" value="#{adminCustomerManagedBean.textMessage}" required="true" requiredMessage="Message is required"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <h:commandButton type="button" class="btn btn-default btn-block btn-lg page_button" style="color:#6cb6f5!important;" value="Send to All Customers" actionListener="#{adminCustomerManagedBean.sendTextAnnouncement}">
+                                    </h:commandButton>
+                                  
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            
+             <hr/>
+             
                 <h:form id="form1">
 
                     <p:dataTable style="font-family: Lato, sans-serif;"  id="customers" var="customer" value="#{adminCustomerManagedBean.customers}" editable="true" editMode="cell" widgetVar="cellCustomers">
@@ -62,7 +96,10 @@
 
                     </p:dataTable>
                 </h:form>
+                
+               
             </div>
         </div>
+        
     </cc:implementation>
 </html>
