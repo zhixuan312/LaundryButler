@@ -1,9 +1,9 @@
 package jsf.managedbean;
 
-import AccountManagement.AccountManagementRemote;
 import LaundryOrderManagement.LaundryOrderManagementRemote;
 import entity.Box;
 import entity.Employee;
+import extensions.TextSender;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -62,32 +62,50 @@ public class AdminEmployeeManagedBean implements Serializable {
         boxes = laundryOrderManagementRemote.viewAllBoxByEmployeeId(admin.getEmployeeId());
     }
 
-    public List<Employee> getEmployeeList(){
+    public List<Employee> getEmployeeList() {
         List<Employee> tempList = signUpAndLoginManagedBean.getAccountManagementRemote().viewAllRecordedEmployee();
-        for (int i =0; i < tempList.size(); i ++) {
-            if (tempList.get(i).getEmployeeId().equals(admin.getEmployeeId())){
+        for (int i = 0; i < tempList.size(); i++) {
+            if (tempList.get(i).getEmployeeId().equals(admin.getEmployeeId())) {
                 tempList.remove(i);
             }
         }
         return tempList;
     }
+
     public void updateEmployee(ActionEvent event) {
-        if (admin.getIsAdmin()) {
-            if (signUpAndLoginManagedBean.getAccountManagementRemote().updateEmployeeProfile(selectedEmployee)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
+        if (signUpAndLoginManagedBean.getAccountManagementRemote().updateEmployeeProfile(admin)) {
+
+            // Text the updated information to the employee
+            try {
+                String firstName = admin.getFirstName();
+                String lastName = admin.getLastName();
+                String email = admin.getEmail();
+                String mobile = admin.getMobile();
+                String password = admin.getPassword();
+                String message = "Your LaundryButler employee account is updated.\n"
+                        + "First name: " + firstName + "\n"
+                        + "Last name: " + lastName + "\n"
+                        + "Email: " + email + "\n"
+                        + "Mobile: " + mobile + "\n"
+                        + "Password: " + password + "\n";
+                TextSender ts = new TextSender();
+                ts.setBodyMessage(message);
+                ts.setRecipientPhoneNumber(mobile);
+                ts.sendText();
+            } catch (Exception ex) {
             }
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Success!"));
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Please login with admin account!", "Please login with admin account!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fail to update", "Fail to update"));
         }
     }
-    
+
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
-         
-        if(newValue != null && !newValue.equals(oldValue)) {
+
+        if (newValue != null && !newValue.equals(oldValue)) {
             FacesContext context = FacesContext.getCurrentInstance();
             selectedEmployee = context.getApplication().evaluateExpressionGet(context, "#{employee}", Employee.class);
             signUpAndLoginManagedBean.getAccountManagementRemote().updateEmployeeProfile(selectedEmployee);

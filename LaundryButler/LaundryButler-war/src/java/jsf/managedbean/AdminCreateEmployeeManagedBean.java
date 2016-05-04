@@ -55,7 +55,7 @@ public class AdminCreateEmployeeManagedBean implements Serializable {
         Long checkNumber = signUpAndLoginManagedBean.getAccountManagementRemote().createNewEmployee(employee);
 
         if (!checkNumber.equals(new Long("-1"))) {
-            String message = employee.getFirstName() + ", welcome to the LaundryButler team. Your new account has been created. Your email is " + employee.getEmail() + " and your password is " + employee.getPassword() + ". You are also advised to change your password. We look forward to see you, " + employee.getFirstName() + ".";
+            String message = employee.getFirstName() + ", welcome to the LaundryButler team. Your new account has been created. Your email is " + employee.getEmail() + " and your password is " + employee.getPassword() + ". You are advised to change your password. We look forward to see you, " + employee.getFirstName() + ".";
 
             // Send a text message to the new employee
             try {

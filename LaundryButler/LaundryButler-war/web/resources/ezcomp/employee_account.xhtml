@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -12,10 +13,34 @@
     <cc:implementation>
         <div class="row">
             <div class="col-md-4">
-                <h2><h:outputText value="#{adminEmployeeManagedBean.admin.firstName}"/> <h:outputText value="#{adminEmployeeManagedBean.admin.lastName}"/> &nbsp;&nbsp;&nbsp;&nbsp; <small><h:outputText value="#{adminEmployeeManagedBean.admin.email}"/></small> </h2>
+                <h2>
+                    <h:outputText value="#{adminEmployeeManagedBean.admin.firstName}"/>&nbsp;<h:outputText value="#{adminEmployeeManagedBean.admin.lastName}"/>
+                    <br/><small><h:outputText value="#{adminEmployeeManagedBean.admin.email}"/></small>
+                </h2>
+                <small>
+                    Employed on <h:outputText value="#{adminEmployeeManagedBean.admin.dateEmployed}" />
+                </small>
             </div>
             <div class="col-md-8">
+                <h2>Account Information</h2>
+                <h:form id="accountInformationForm">
+                    <h:outputLabel class="control-label" value="First Name"/>
+                    <h:inputText value="#{adminEmployeeManagedBean.admin.firstName}"></h:inputText>
+                    <h:outputLabel class="control-label" value="Last Name"/>
+                    <h:inputText value="#{adminEmployeeManagedBean.admin.lastName}"></h:inputText>
+                    <h:outputLabel class="control-label" value="Mobile"/>
+                    <h:inputText value="#{adminEmployeeManagedBean.admin.mobile}"></h:inputText>
 
+                    <h:commandButton value="Update" actionListener="#{adminEmployeeManagedBean.updateEmployee}"></h:commandButton>
+                </h:form>
+
+                <h2>Change Password</h2>
+                <h:form id="accountPasswordForm">
+                    <h:outputLabel class="control-label" value="New Password"/>
+                    <h:inputSecret value="#{adminEmployeeManagedBean.admin.password}"></h:inputSecret>
+                    <h:commandButton value="Update" actionListener="#{adminEmployeeManagedBean.updateEmployee}">
+                    </h:commandButton>
+                </h:form>
             </div>
         </div>
     </cc:implementation>
