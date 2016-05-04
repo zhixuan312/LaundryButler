@@ -61,7 +61,7 @@ public class Controller {
 
 
             projectTestingRemote.createCustomer(customer);
-            projectTestingRemote.createAddress(address);
+            projectTestingRemote.updateAddress(address);
             
             
             //projectTestingRemote.updateAddress(address);
@@ -71,8 +71,10 @@ public class Controller {
  
     void runCreateEmployee() {
        
-        String[] emfirstNames = {"Alice", "Bob", "Charlie", "Daniel", "Emily", "Frank", "Gary", "Helen", "Ivy", "James"};
-        String[] emlastNames = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+        String[] emFirstNames = {"Alice", "Bob", "Charlie", "Daniel", "Emily", "Frank", "Gary", "Helen", "Ivy", "James"};
+        String[] emLastNames = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+        String[] emEmails = {"a@gmail.com", "b@gmail.com", "c@gmail.com", "d@gmail.com", "e@gmail.com", "f@gmail.com", "g@gmail.com", "h@gmail.com", "i@gmail.com", "j@gmail.com"};
+        String[] emPasswords = {"1111", "2222", "3333", "4444", "5555", "6666", "7777", "8888", "9999", "0000"};
         Boolean[] booleanArray = {true, false};
         
         for (int i = 0; i < 10; i++) {
@@ -82,10 +84,13 @@ public class Controller {
 
             employee.setEmployeeId(random.nextLong());
             employee.setEmployeeId(random.nextLong());
-            String emFirstName = emfirstNames[random.nextInt(emfirstNames.length)];
+            String emFirstName = emFirstNames[random.nextInt(emFirstNames.length)];
             employee.setFirstName(emFirstName);
-            String emLastName = emlastNames[random.nextInt(emlastNames.length)];
+            String emLastName = emLastNames[random.nextInt(emLastNames.length)];
             employee.setLastName(emLastName);
+            employee.setEmail(emEmails[random.nextInt(emEmails.length)]);
+            employee.setPassword(emPasswords[random.nextInt(emPasswords.length)]);
+            employee.setMobile("+6591091201");
             employee.setIsAdmin(booleanArray[random.nextInt(booleanArray.length)]);
 
 
